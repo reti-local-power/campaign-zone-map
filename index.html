@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Suitable Sites for Community Solar</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <!-- Title content -->
+    <div class="header">
+        <div class="header-text">
+            Campaign Zones for Siting Community Solar in Brooklyn Neighborhoods
+        </div>
+    </div>
+
+    <div class="credit">
+        Image credit: Urban Energy
+    </div>
+
+    <p>
+    </p>
+
+
+    <!-- Content of the buttons starts here -->
+    <div class="sidepanel" id="my-sidepanel">
+        <!-- Invitation to action -->
+        <button type="button" class="container-button" onclick="closeNav()">
+            ×
+        </button>
+        <div id="instructions">
+            Click on an agency to learn more.
+        </div>
+
+        <button type="button" class="collapsible">
+            NYSERDA
+        </button>
+        <div id="b1" class="content">
+            <p>Hub of this work in New York. Provides subsidies and resources to support private entities in
+                developing
+                community solar.</p>
+            <img class="logo"
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/NYSERDA_wordmark.svg/634px-NYSERDA_wordmark.svg.png">
+            <p></p>
+        </div>
+        <button type="button" class="collapsible">
+            NYCHA
+        </button>
+        <div id="b2" class="content">
+            <p>Installing community solar across its portfolio as part of its 30 MW by 2026 solar goal.</p>
+            <img class="logo"
+                src="https://upload.wikimedia.org/wikipedia/en/thumb/6/64/New_York_City_Housing_Authority_%28logo%29.svg/1280px-New_York_City_Housing_Authority_%28logo%29.svg.png">
+            <p></p>
+        </div>
+
+        <button type="button" class="collapsible">
+            HPD
+        </button>
+        <div id="b3" class="content">
+            <p>Installing solar as part of its housing development through its Solar Where Feasible program.</p>
+            <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/a/a4/NYC-HPD.jpg">
+            <p></p>
+        </div>
+
+    </div>
+
+    <button type="button" class="reopen-container-button" onclick="openNav()">
+        >
+    </button>
+
+    <!-- Map will eventually go here -->
+    <div class="map-container" id="my-map-container">
+        <!DOCTYPE html>
+        <html>
+
+        <head>
+            <meta charset="utf-8">
+            <title>Display a map on a webpage</title>
+            <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+            <link href="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css" rel="stylesheet">
+            <script src="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js"></script>
+            <style>
+                body {
+                    margin: 0;
+                    padding: 0;
+                }
+
+                #map {
+                    position: absolute;
+                    top: 15%;
+                    bottom: 0;
+                    width: 68%;
+                }
+            </style>
+        </head>
+
+        <body>
+            <div id="map"></div>
+            <script>
+                // TO MAKE THE MAP APPEAR YOU MUST
+                // ADD YOUR ACCESS TOKEN FROM
+                // https://account.mapbox.com
+                mapboxgl.accessToken = 'pk.eyJ1IjoiaGVucnkta2FuZW5naXNlciIsImEiOiJjbHVsdTU1Z20waG84MnFwbzQybmozMjdrIn0.tqmZ-jfP2M6xcOz09ckRPA';
+                const map = new mapboxgl.Map({
+                    container: 'map', // container ID
+                    center: [-73.92650, 40.65425], // starting position [lng, lat]
+                    zoom: 11.5 // starting zoom
+                });
+            </script>
+
+        </body>
+
+        </html>
+        <!-- <div class="map-placeholder">
+            Later, an interactive map will go here.
+        </div> -->
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous">
+        </script>
+    <script src="js/scripts.js"></script>
+</body>
+
+</html>

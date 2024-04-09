@@ -1,0 +1,174 @@
+* {
+  font-family: Arial, sans-serif;
+}
+
+
+.header {
+  background-image: url("https://img.canarymedia.com/content/uploads/resized-yonkes-community-solar.jpg?auto=compress%2Cformat&crop=focalpoint&fit=crop&fp-x=0.5&fp-y=0.5&h=677&q=80&w=1168&s=a404cca8bb07bc120bcc86d3aeccaa15");
+  background-color: #255425;
+  width: 100%;
+  display: flex;
+  box-shadow: inset 0 0 0 1000px rgba(37, 84, 37, 0.5);
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  font-size: 24px;
+  overflow: hidden;
+  height: 80px;
+  background-size: cover;
+  background-position: center 26%;
+  position: relative;
+}
+
+.header-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.credit {
+  text-align: left;
+  font-size: 10px;
+  font-weight: lighter;
+  font-style: italic;
+}
+
+.map-container {
+  width: 68%;
+  /* display: flex; */
+  float: right;
+  text-align: center;
+  padding: 0 0 0 6px;
+  background-color: #acbdf0;
+  transition: 0.5s;   /* 0.5 second transition effect to slide in the sidepanel */
+}
+
+.map-placeholder {
+  text-align: center;
+  /* position: absolute; */
+  top: 50%;
+  left: 50%;
+  height: 500px;
+  line-height: 500px;
+}
+
+/* Left side column with FAQ text and narrative. 
+    Eventually this will be collapsible to create more space for the interactive map */
+
+.sidepanel {
+  /* Code from https://www.w3schools.com/howto/howto_js_collapse_sidepanel.asp */
+  height: 85%;        /* Specify a height */
+  width: 30%;         /* 30% width - change this with JavaScript */
+  position: fixed;    /* Stay in place */
+  z-index: 1;         /* Stay on top */
+  top: 175;           /* Align on the page below the header */
+  left: 0;            /* Align flush to the left side of the page */
+  background-color: #e6e6e6; /* grey*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 10px;  /* Place content 10px from the top */
+  transition: 0.5s;   /* 0.5 second transition effect to slide in the sidepanel */
+}
+
+/* style for button that will collapse the flex container */
+.container-button {
+  position: absolute; 
+  top: 5px;
+  right: 5px; 
+  background-color: #ccc;
+  width: 25px;
+  height: 20px;
+  border-radius: 6px;
+}
+
+/* style for button that will reopen the flex container */
+.reopen-container-button {
+  position: absolute; 
+  top: 120px;
+  left: 5px; 
+  background-color: #ccc;
+  width: 25px;
+  height: 20px;
+  border-radius: 6px;
+}
+
+/* style for buttons when not selected */
+.collapsible {
+  background-color: #ccc;
+  color: #000000;
+  cursor: pointer;
+  padding: 10px;
+  width: 93%;
+  border: 1px solid #000000;
+  border-radius: 6px;
+  margin: 6px 0 0 0;
+  text-align: left;
+  outline: none;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 15px;
+}
+
+/* style for button when hovering & when active using JSquery */
+.active, .collapsible:hover {
+  background-color: #8bb58b;
+  cursor: pointer;
+}
+
+/* Create icon that sits on the buttons and tells the user what to do */
+.collapsible:after {
+  content: '\02795';
+  /* Unicode character for "plus" sign (+) */
+  color: black;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+/* Create icon that sits on the button when expanded and tells the user to close it */
+.active:after {
+  content: "\2796";
+  /* Unicode character for "minus" sign (-) */
+}
+
+
+.content {
+  padding: 0 5px 0 15px;
+  width: 88%;
+  display: none;
+  overflow: hidden;
+  background-color: #ddebdd;
+  border: 1px solid #000000;
+  border-radius: 6px;
+  margin-top: -100%;
+  margin: 0 0 6px 0;
+  transition: all 1s;
+}
+
+.agency {
+  border: 1px solid #000000;
+  background-color: #ccc;
+  padding: 10px;
+  border-radius: 6px;
+  margin: 0 0 6px 0;
+}
+
+.agency:hover {
+  background-color: #8bb58b;
+  cursor: pointer;
+}
+
+.logo {
+  height: 50px;
+}
+
+
+#instructions {
+  /* background-color: #255425; */
+  background-size: cover;
+  text-align: center;
+  color: #255425;
+  font-size: 12px;
+  padding-top: 15px;
+  padding-bottom: 5px;
+}
