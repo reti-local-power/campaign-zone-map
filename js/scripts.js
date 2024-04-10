@@ -11,6 +11,9 @@ var mapOptions = {
 // Construct the map
 const map = new mapboxgl.Map(mapOptions);
 
+// add a navitation control
+const nav = new mapboxgl.NavigationControl();
+map.addControl(nav, 'top-right');
 
 // Create collapsible set of buttons within the sidepanel
 var coll = document.getElementsByClassName("collapsible");
