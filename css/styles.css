@@ -37,25 +37,18 @@
 
 /* styling for map */
 .map-container {
-  width: 100%;
+  width: 98.5%;
   /* height: 85%; */
   position: absolute;
   top: 100px;
-  right: 0;
+  /* right: 0; */
   bottom: 0;
-  left: 0;
+  /* left: 0; */
   float: right;
   text-align: center;
   padding: 0 0 0 6px;
   transition: 0.5s;   /* 0.5 second transition effect to slide in the sidepanel */
 }
-
-/* .map {
-  position: absolute;
-  top: 15%;
-  bottom: 0;
-  width: 100%;
-} */
 
 
 /* Left side column with FAQ text and narrative. */
