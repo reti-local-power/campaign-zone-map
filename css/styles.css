@@ -27,6 +27,7 @@
   transform: translate(-50%, -50%);
 }
 
+/* style for header image credit */
 .credit {
   text-align: left;
   font-size: 10px;
@@ -34,6 +35,7 @@
   font-style: italic;
 }
 
+/* styling for map */
 .map-container {
   width: 100%;
   /* position: absolute; */
@@ -54,11 +56,12 @@
 /* Left side column with FAQ text and narrative. */
 .sidepanel {
   /* Code from https://www.w3schools.com/howto/howto_js_collapse_sidepanel.asp */
-  height: 85%;        /* Specify a height */
+  height: 80%;        /* Specify a height */
   width: 30%;         /* 30% width - change this with JavaScript */
   position: fixed;    /* Stay in place */
   z-index: 2;         /* Stay on top */
   top: 175;           /* Align on the page below the header */
+  bottom: 50;
   left: 0;            /* Align flush to the left side of the page */
   background-color: #e6e6e6; /* grey*/
   overflow-x: hidden; /* Disable horizontal scroll */
@@ -129,7 +132,7 @@
   /* Unicode character for "minus" sign (-) */
 }
 
-
+/* Style the content triggered by clicking the collapsible buttons */
 .content {
   padding: 0 5px 0 15px;
   width: 88%;
@@ -144,29 +147,13 @@
   transition: all 1s;
 }
 
-.agency {
-  border: 1px solid #000000;
-  background-color: #ccc;
-  padding: 10px;
-  border-radius: 6px;
-  margin: 0 0 6px 0;
-}
-
-.agency:hover {
-  background-color: #8bb58b;
-  cursor: pointer;
-}
-
-.logo {
-  height: 50px;
-}
 
 
 #instructions {
   /* background-color: #255425; */
   background-size: cover;
   text-align: left;
-  color: #255425;
+  color: #000000;
   font-size: 12px;
   padding-top: 15px;
   padding-left: 12px; 
