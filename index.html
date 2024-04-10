@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Suitable Sites for Community Solar</title>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
@@ -31,7 +32,8 @@
             ×
         </button>
         <div id="instructions">
-            <p>This map is a tool for outreah to property owners and potential subscribers in community solar projects in Brooklyn,
+            <p>This map is a tool for outreah to property owners and potential subscribers in community solar projects
+                in Brooklyn,
                 NY.</p>
             <p>Click the buttons below to learn more about this map.</p>
         </div>
@@ -41,11 +43,14 @@
         </button>
         <div id="b1" class="content">
             <p></p>
-            <p>This map shows <b>buildings</b> that are suitable for installing rooftop community solar. Buildings are scored based on a
+            <p>This map shows <b>buildings</b> that are suitable for installing rooftop community solar. Buildings are
+                scored based on a
                 variety of factors (roof height, local laws, and potential solar energy generation).</p>
-            <p>The map also shows <b>campaign zones</b>, clusters of highly suitable buildings that can be targeted for outreach as part of
+            <p>The map also shows <b>campaign zones</b>, clusters of highly suitable buildings that can be targeted for
+                outreach as part of
                 a campaign.</p>
-            <p>Finally, this map also provides information about communities of concentrated need that should be prioritized for
+            <p>Finally, this map also provides information about communities of concentrated need that should be
+                prioritized for
                 community solar <b>subscriber outreach</b>.</p>
             <p></p>
         </div>
@@ -62,12 +67,12 @@
             Where does the data come from?
         </button>
         <div id="b3" class="content">
-            <p>For a full list of data sources, see HERE LINK TO APPENDIX?</p>
-            <p>This map is the culmination of research conducted as part of the Fund for the City of New York's Community Planning
+            <p>For a full list of data sources, see HERE (LINK TO APPENDIX?).</p>
+            <p>This map is the culmination of research conducted as part of the Fund for the City of New York's
+                Community Planning
                 Fellowship (2023-24). You can learn more about the project <a
                     href="https://docs.google.com/document/d/1p8KHb42GYJB7AQWe59qKt4wDBq_-9EH7pqfoifi0AA8/edit"
                     target="_blank">here</a>.</p>
-            <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/a/a4/NYC-HPD.jpg">
             <p></p>
         </div>
 
@@ -79,33 +84,8 @@
 
     <!-- Map will eventually go here -->
     <div class="map-container" id="my-map-container">
-        <!DOCTYPE html>
-        <html>
-
-        <head>
-            <meta charset="utf-8">
-            <title>Display a map on a webpage</title>
-            <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-            <link href="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css" rel="stylesheet">
-            <script src="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js"></script>
-            <style>
-                body {
-                    margin: 0;
-                    padding: 0;
-                }
-
-                #map {
-                    position: absolute;
-                    top: 15%;
-                    bottom: 0;
-                    width: 100%;
-                }
-            </style>
-        </head>
-
-        <body>
-            <div id="map"></div>
-            <script>
+        <div id="map"></div>
+        <!-- <script>
                 mapboxgl.accessToken = 'pk.eyJ1IjoiaGVucnkta2FuZW5naXNlciIsImEiOiJjbHVsdTU1Z20waG84MnFwbzQybmozMjdrIn0.tqmZ-jfP2M6xcOz09ckRPA';
                 const map = new mapboxgl.Map({
                     container: 'map', // container ID
@@ -113,19 +93,13 @@
                     center: [-73.97488, 40.65479], // starting position [lng, lat]
                     zoom: 10.87 // starting zoom
                 });
-            </script>
-
-        </body>
-
-        </html>
-        <!-- <div class="map-placeholder">
-            Later, an interactive map will go here.
-        </div> -->
+            </script> -->
     </div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous">
         </script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js"></script>
     <script src="js/scripts.js"></script>
 </body>
 

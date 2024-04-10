@@ -1,3 +1,18 @@
+// Setting up MapBox
+mapboxgl.accessToken = 'pk.eyJ1IjoiaGVucnkta2FuZW5naXNlciIsImEiOiJjbHVsdTU1Z20waG84MnFwbzQybmozMjdrIn0.tqmZ-jfP2M6xcOz09ckRPA';
+
+var mapOptions = {
+  container: 'map', // container ID
+  style: 'mapbox://styles/mapbox/light-v11', // light basemap
+  center: [-73.97488, 40.65479], // starting position [lng, lat]
+  zoom: 10.87, // starting zoom,
+}
+
+// Construct the map
+const map = new mapboxgl.Map(mapOptions);
+
+
+// Create collapsible set of buttons within the sidepanel
 var coll = document.getElementsByClassName("collapsible");
 var i;
 
