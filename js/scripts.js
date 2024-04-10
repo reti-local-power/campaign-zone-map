@@ -32,15 +32,13 @@ for (i = 0; i < coll.length; i++) {
 /* Set the width of the sidebar to 30% (show it) */
 function openNav() {
   document.getElementById("my-sidepanel").style.width = "30%";
-  // Commented out because this is no longer relevant, once the map is working again delete this
-  // document.getElementbyId("my-map-container").style.width = "68%"; // Return to original width
+  
 }
 
 /* Set the width of the sidebar to 0 (hide it) */
 function closeNav() {
   document.getElementById("my-sidepanel").style.width = "0";
-  // Commented out because this is no longer relevant, once the map is working again delete this
-  // document.getElementbyId("my-map-container").style.width = "100%"; // Expand to full page
+  
 } 
 
 
