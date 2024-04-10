@@ -53,9 +53,8 @@
             How do I use this map?
         </button>
         <div id="b2" class="content">
-            <p>Installing community solar across its portfolio as part of its 30 MW by 2026 solar goal.</p>
-            <img class="logo"
-                src="https://upload.wikimedia.org/wikipedia/en/thumb/6/64/New_York_City_Housing_Authority_%28logo%29.svg/1280px-New_York_City_Housing_Authority_%28logo%29.svg.png">
+            <p>Click on individual buildings to learn more about what makes them suitable sites for community solar.</p>
+            <p>Click on campaign zones to learn more about that group of buildings.</p>
             <p></p>
         </div>
 
@@ -64,7 +63,7 @@
         </button>
         <div id="b3" class="content">
             <p>For a full list of data sources, see HERE LINK TO APPENDIX?</p>
-            <p>This map is the culmination of research conducted as part of the Fund for the City of New York's Community Planning Fellowship (2023-24). You can learn more about the project here INSERT LINK.</p>
+            <p>This map is the culmination of research conducted as part of the Fund for the City of New York's Community Planning Fellowship (2023-24). You can learn more about the project <a href="https://docs.google.com/document/d/1p8KHb42GYJB7AQWe59qKt4wDBq_-9EH7pqfoifi0AA8/edit">here</a>.</p>
             <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/a/a4/NYC-HPD.jpg">
             <p></p>
         </div>
@@ -96,7 +95,7 @@
                     position: absolute;
                     top: 15%;
                     bottom: 0;
-                    width: 68%;
+                    width: 100%;
                 }
             </style>
         </head>
@@ -104,14 +103,12 @@
         <body>
             <div id="map"></div>
             <script>
-                // TO MAKE THE MAP APPEAR YOU MUST
-                // ADD YOUR ACCESS TOKEN FROM
-                // https://account.mapbox.com
                 mapboxgl.accessToken = 'pk.eyJ1IjoiaGVucnkta2FuZW5naXNlciIsImEiOiJjbHVsdTU1Z20waG84MnFwbzQybmozMjdrIn0.tqmZ-jfP2M6xcOz09ckRPA';
                 const map = new mapboxgl.Map({
                     container: 'map', // container ID
-                    center: [-73.92650, 40.65425], // starting position [lng, lat]
-                    zoom: 11.5 // starting zoom
+                    style: 'mapbox://styles/mapbox/light-v11',
+                    center: [-73.97488, 40.65479], // starting position [lng, lat]
+                    zoom: 10.87 // starting zoom
                 });
             </script>
 
