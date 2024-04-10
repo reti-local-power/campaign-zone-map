@@ -376,6 +376,6 @@ joined2 %>%
 write_csv(cz_sum, "cz summary statistics.csv")
 
 # .json file with campaign zone mapping data
-write(toJSON(cz_sum_map),"js/cz-info.json")
+write_csv(cz_sum_map, "js/cz-info.csv")
 
 
