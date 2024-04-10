@@ -15,6 +15,7 @@ library(janitor)
 library(clipr)
 library(sf)
 library(tidygeocoder)
+library(rjson)
 
 
 # 1. Read in data -------------------------------------------------------------
@@ -47,6 +48,14 @@ cd <- st_read("https://data.cityofnewyork.us/resource/jp9i-3b7y.geojson") %>%
   filter(str_sub(boro_cd, 1, 1) == "3") #restrict to just Brooklyn CDs
 
 
+# - CZ centroids for early mapping project (may delete this later)
+cz_points <- st_read("dat/boro_Heatmap/cz_centroids.shp") %>%
+  st_transform(st_crs(4326)) %>%
+  select(cz_num = fid,
+         geometry) %>%
+  mutate(cz_num = as.character(cz_num))
+
+
 # 2. Join data together -------------------------------------------------------
 
 # identify duplicated variables to remove before joining
@@ -60,6 +69,7 @@ bf_shp2 <- bf_shp %>%
   select(bin, cz_num, in_cz)
 
 joined <- bf %>%
+  mutate(bin = as.character(bin)) %>%
   left_join(bf_shp2, by = "bin") %>%
   mutate(ratio_residfar = ifelse(is.infinite(ratio_residfar), NA, ratio_residfar)) %>%
   st_as_sf()
@@ -287,7 +297,6 @@ joined2 %>% st_drop_geometry() %>%
 joined2 %>% st_drop_geometry() %>%
   count(cz_top, campzone, cz_num)
 
-
 joined2 %>% 
   st_drop_geometry() %>%
   filter(cz_num == 5) %>%
@@ -296,7 +305,40 @@ joined2 %>%
   adorn_totals()
 
 
-# 5. Save final files --------------------------------------------------------
+# 5. Create dataset that can be read into the interactive web map ------------
+
+# File that summarizes the key informatcdion about each campaign zone
+cz_sum_map <- cz_points %>%
+  full_join(cz_sum, by = "cz_num") %>%
+  filter(!cz_num %in% c("All", "Not in a CZ")) %>%
+  mutate(
+    # create long and lat for ease of use in mapbox
+    lon = st_coordinates(.)[,1],
+    lat = st_coordinates(.)[,2],
+    cz_top = ifelse(cz_num %in% c(3, 5, 8, 9), 1, 0), #flag priority cz'sfg
+    campzone = case_when(
+      cz_num == "1"  ~ "Greenpoint IBZ",
+      cz_num == "2"  ~ "North Brooklyn Waterfront",
+      cz_num == "3"  ~ "Flushing Ave/North Brooklyn IBZ",
+      cz_num == "4"  ~ "Fort Greene/BK Navy Yard",
+      cz_num == "5"  ~ "Red Hook",
+      cz_num == "6"  ~ "East New York IBZ",
+      cz_num == "7"  ~ "Crown Heights - Utica Ave",
+      cz_num == "8"  ~ "East New York - Flatlands IBZ",
+      cz_num == "9"  ~ "Canarsie - Flatlands IBZ",
+      cz_num == "10" ~ "Sunset Park",
+      cz_num == "11" ~ "Prospect Park South",
+      cz_num == "12" ~ "Sheepshead Bay - Nostrand Houses",),
+    avg_suitability_round = round(avg_suitability, digits = 1),
+    avg_energy_MWh_round = paste0(round(avg_energy_MWh), " MWh per year"),
+    total_energyMWh_round = paste0(round(total_energy_MWh), " MWh per year")
+    ) %>%
+  # now, drop geometry to create a table that's easier to work with
+  st_drop_geometry()
+
+
+
+# 6. Save final files --------------------------------------------------------
 
 # shorten variable names
 joined3 <- joined2 %>%
@@ -333,5 +375,7 @@ joined2 %>%
 # Excel file with campaign zone summary stats for me
 write_csv(cz_sum, "cz summary statistics.csv")
 
+# .json file with campaign zone mapping data
+write(toJSON(cz_sum_map),"js/cz-info.json")
 
 
