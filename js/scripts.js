@@ -15,6 +15,38 @@ const map = new mapboxgl.Map(mapOptions);
 const nav = new mapboxgl.NavigationControl();
 map.addControl(nav, 'top-right');
 
+// loop over the cz-info array to make a marker for each record
+czdata.forEach(function (czrecord) {
+
+  var color
+
+  // use if statements to assign colors based on pizzaData.program
+  if (czrecord.cz_top === 1) {
+    color = '#54278f'
+  }
+  if (czrecord.cz_top === 0) {
+    color = '#ac8fd5'
+  }
+
+  // create a popup to attach to the marker
+  const popup = new mapboxgl.Popup({
+    offset: 24,
+    anchor: 'bottom'
+  }).setText(
+    `This is the ${czrecord.campzone} campaign zone. There are ${czrecord.n} suitable buildings within the zone. The average suitability score is ${czrecord.avg_suitability_round} out of 14, and the average building has the potential to generate ${czrecord.avg_energy_MWh_round}`
+  );
+
+  // create a marker, set the coordinates, add the popup, add it to the map
+  new mapboxgl.Marker({
+    scale: 0.65,
+    color: color
+  })
+    .setLngLat([czrecord.lon, czrecord.lat])
+    .setPopup(popup)
+    .addTo(map);
+})
+
+
 // Create collapsible set of buttons within the sidepanel
 var coll = document.getElementsByClassName("collapsible");
 var i;
@@ -35,14 +67,14 @@ for (i = 0; i < coll.length; i++) {
 /* Set the width of the sidebar to 30% (show it) */
 function openNav() {
   document.getElementById("my-sidepanel").style.width = "30%";
-  
+
 }
 
 /* Set the width of the sidebar to 0 (hide it) */
 function closeNav() {
   document.getElementById("my-sidepanel").style.width = "0";
-  
-} 
+
+}
 
 
 // $(".collapsible").click(function () {
