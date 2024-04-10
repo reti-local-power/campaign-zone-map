@@ -17,6 +17,7 @@
         </div>
     </div>
 
+    <!-- Image credit for header banner image -->
     <div class="credit">
         Image credit: Urban Energy
     </div>
@@ -25,12 +26,25 @@
     </p>
 
 
-    <!-- Content of the buttons starts here -->
+    <!-- Button to reopen the side panel container (this always appears) -->
+    <!-- NOTE: this must sit outside the sidepanel div so it stays open -->
+    <button type="button" class="reopen-container-button" onclick="openNav()">
+        >
+    </button>
+
+    <!-- Map goes here -->
+    <div class="map-container" id="my-map-container"></div>
+
+
+    <!-- Content of the sidepanel starts here -->
     <div class="sidepanel" id="my-sidepanel">
-        <!-- Invitation to action -->
+
+        <!-- Button to close the sidepanel -->
         <button type="button" class="container-button" onclick="closeNav()">
             ×
         </button>
+
+        <!-- Invitation to action -->
         <div id="instructions">
             <p>This map is a tool for outreah to property owners and potential subscribers in community solar projects
                 in Brooklyn,
@@ -38,6 +52,8 @@
             <p>Click the buttons below to learn more about this map.</p>
         </div>
 
+        <!-- This is the FAQ content that sits within the side panel. -->
+        <!-- Clicking on a collapsible opens up the content below. -->
         <button type="button" class="collapsible">
             What is this map?
         </button>
@@ -54,6 +70,7 @@
                 community solar <b>subscriber outreach</b>.</p>
             <p></p>
         </div>
+
         <button type="button" class="collapsible">
             How do I use this map?
         </button>
@@ -78,24 +95,7 @@
 
     </div>
 
-    <button type="button" class="reopen-container-button" onclick="openNav()">
-        >
-    </button>
-
-    <!-- Map will eventually go here -->
-    <div class="map-container" id="my-map-container">
-        <!-- <div id="map"></div> -->
-        <!-- <script>
-                mapboxgl.accessToken = 'pk.eyJ1IjoiaGVucnkta2FuZW5naXNlciIsImEiOiJjbHVsdTU1Z20waG84MnFwbzQybmozMjdrIn0.tqmZ-jfP2M6xcOz09ckRPA';
-                const map = new mapboxgl.Map({
-                    container: 'map', // container ID
-                    style: 'mapbox://styles/mapbox/light-v11',
-                    center: [-73.97488, 40.65479], // starting position [lng, lat]
-                    zoom: 10.87 // starting zoom
-                });
-            </script> -->
-    </div>
-
+    <!-- Java script calls -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous">
         </script>
