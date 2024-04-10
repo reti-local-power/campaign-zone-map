@@ -154,8 +154,7 @@
   transition: all 1s;
 }
 
-
-
+/* Style the instructions that sit within the side panel */
 #instructions {
   /* background-color: #255425; */
   background-size: cover;
