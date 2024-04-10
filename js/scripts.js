@@ -2,7 +2,7 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiaGVucnkta2FuZW5naXNlciIsImEiOiJjbHVsdTU1Z20waG84MnFwbzQybmozMjdrIn0.tqmZ-jfP2M6xcOz09ckRPA';
 
 var mapOptions = {
-  container: 'map', // container ID
+  container: 'my-map-container', // container ID
   style: 'mapbox://styles/mapbox/light-v11', // light basemap
   center: [-73.97488, 40.65479], // starting position [lng, lat]
   zoom: 10.87, // starting zoom,
@@ -32,13 +32,15 @@ for (i = 0; i < coll.length; i++) {
 /* Set the width of the sidebar to 30% (show it) */
 function openNav() {
   document.getElementById("my-sidepanel").style.width = "30%";
-  document.getElementbyId("my-map-container").style.width = "68%"; // Return to original width
+  // Commented out because this is no longer relevant, once the map is working again delete this
+  // document.getElementbyId("my-map-container").style.width = "68%"; // Return to original width
 }
 
 /* Set the width of the sidebar to 0 (hide it) */
 function closeNav() {
   document.getElementById("my-sidepanel").style.width = "0";
-  document.getElementbyId("my-map-container").style.width = "100%"; // Expand to full page
+  // Commented out because this is no longer relevant, once the map is working again delete this
+  // document.getElementbyId("my-map-container").style.width = "100%"; // Expand to full page
 } 
 
 
