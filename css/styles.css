@@ -3,6 +3,14 @@
 }
 
 
+.parent {
+  display: flex;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* flex-direction: column; */
+}
+
 .header {
   background-image: url("https://img.canarymedia.com/content/uploads/resized-yonkes-community-solar.jpg?auto=compress%2Cformat&crop=focalpoint&fit=crop&fp-x=0.5&fp-y=0.5&h=677&q=80&w=1168&s=a404cca8bb07bc120bcc86d3aeccaa15");
   background-color: #255425;
@@ -58,10 +66,11 @@
   width: 30%;         /* 30% width - change this with JavaScript */
   position: fixed;    /* Stay in place */
   z-index: 2;         /* Stay on top */
-  top: 175;           /* Align on the page below the header */
-  bottom: 50;
+  /* top: 175;           Align on the page below the header */
+  /* bottom: 250; */
   left: 0;            /* Align flush to the left side of the page */
   background-color: #e6e6e6; /* grey*/
+  border:1px solid #4b4b4b;
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 10px;  /* Place content 10px from the top */
   /* padding-left: 10px; */
