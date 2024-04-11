@@ -33,8 +33,13 @@ czdata.forEach(function (czrecord) {
     offset: 24,
     anchor: 'bottom',
     className: "cz-popup"
-  }).setText(
-    `This is the ${czrecord.campzone} campaign zone. There are ${czrecord.n} suitable buildings within the zone. The average suitability score is ${czrecord.avg_suitability_round} out of 14, and the average building has the potential to generate ${czrecord.avg_energy_MWh_round}`
+  }).setHTML(
+    `This is the <b>${czrecord.campzone} campaign zone</b>. 
+    <ul>
+    <li>There are <b>${czrecord.n}</b> suitable buildings within the zone. </li> 
+    <li>The average suitability score is <b>${czrecord.avg_suitability_round}</b> out of 14, 
+        and the average building has the potential to generate <b>${czrecord.avg_energy_MWh_round}</b>.</li>
+    </ul>`
   );
 
   // create a marker, set the coordinates, add the popup, add it to the map
