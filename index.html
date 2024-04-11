@@ -32,11 +32,24 @@
 
     </div>
 
-        <!-- Button to reopen the side panel container (this always appears) -->
-        <!-- NOTE: this must sit outside the sidepanel div so it stays open -->
-        <button type="button" class="reopen-container-button" onclick="openNav()">
-            >
-        </button>
+    <!-- Button to reopen the side panel container (this always appears) -->
+    <!-- NOTE: this must sit outside the sidepanel div so it stays open -->
+    <button type="button" class="reopen-container-button" onclick="openNav()">
+        >
+    </button>
+
+    <!-- Create legend that floats over the map in the bottom right corner -->
+    <div class="legend">
+        <b>Legend</b>
+        <div>
+            <span class="legend-key" style="background-color: #54278f;"></span>
+            <span>Top Campaign Zones</span>
+        </div>
+        <div>
+            <span class="legend-key" style="background-color: #ac8fd5;"></span>
+            <span>Other Campaign Zones</span>
+        </div>
+    </div>
 
     <!-- Content of the sidepanel starts here -->
     <div class="sidepanel" id="my-sidepanel">
