@@ -8,4 +8,5 @@ This repository also hosts the HTML, CSS, Java code, and **[website with an inte
 
 There is one raster file of suitable rooftop areas across the borough of Brooklyn. that was too large to upload to GitHub. That file can be found [here](https://drive.google.com/drive/folders/1yWBVyHt93tSxdTWlPd1XPLiuqe-dmvC-?usp=sharing).
 
+The final report from this project can be found [here](https://docs.google.com/document/d/1p8KHb42GYJB7AQWe59qKt4wDBq_-9EH7pqfoifi0AA8/edit?usp=sharing).
 
