@@ -31,7 +31,8 @@ czdata.forEach(function (czrecord) {
   // create a popup to attach to the marker
   const popup = new mapboxgl.Popup({
     offset: 24,
-    anchor: 'bottom'
+    anchor: 'bottom',
+    className: "cz-popup"
   }).setText(
     `This is the ${czrecord.campzone} campaign zone. There are ${czrecord.n} suitable buildings within the zone. The average suitability score is ${czrecord.avg_suitability_round} out of 14, and the average building has the potential to generate ${czrecord.avg_energy_MWh_round}`
   );

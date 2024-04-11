@@ -154,6 +154,10 @@
   transition: all 1s;
 }
 
+/* Create style for popup content */
+.cz-popup {
+  text-align: left;
+}
 
 /* legend styles from https://docs.mapbox.com/help/tutorials/choropleth-studio-gl-pt-1/ */
 .legend {
