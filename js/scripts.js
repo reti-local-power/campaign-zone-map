@@ -17,7 +17,26 @@ map.addControl(nav, 'top-right');
 
 // add geojson layer for building information to the map
 map.on('load', () => {
-  // Add a data source containing GeoJSON data.
+
+  // Add a data source containing GeoJSON data (campaign zone).
+  map.addSource('cz', {
+    'type': 'geojson',
+    'data': 'dat/for-web-map/cz.geojson'
+  });
+
+  // Add a new layer to visualize campaign zone areas (fill)
+  map.addLayer({
+    'id': 'cz-fill',
+    'type': 'fill',
+    'source': 'cz', // reference the data source read in above
+    'layout': {},
+    'paint': {
+      'fill-color': '#54278f',
+      'fill-opacity': 0.8
+    }
+  });
+
+  // Add a data source containing GeoJSON data (building info).
   map.addSource('bldg', {
     'type': 'geojson',
     'data': 'dat/for-web-map/bldg.geojson'
@@ -51,17 +70,6 @@ map.on('load', () => {
       'fill-opacity': 0.5
     }
   });
-  // Add a black outline around the polygon.
-  //   map.addLayer({
-  //       'id': 'outline',
-  //       'type': 'line',
-  //       'source': 'maine',
-  //       'layout': {},
-  //       'paint': {
-  //           'line-color': '#000',
-  //           'line-width': 3
-  //       }
-  //   });
 });
 
 
