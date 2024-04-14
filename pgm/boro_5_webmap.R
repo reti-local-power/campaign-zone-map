@@ -8,3 +8,35 @@
 # mapping layers as .geojson, including IBZ and BID borders.
 
 # 0. Packages -----------------------------------------------------------------
+
+library(tidyverse)
+library(janitor)
+library(sf)
+
+
+# 1. Read in files ------------------------------------------------------------
+
+# final building information files
+bldg <- st_read("dat/suitability index/boro_analysis.shp")
+
+
+
+
+
+# 2. Simplify and clean up datasets -------------------------------------------
+
+# bldg file does not need all the flag variables (f_*), nor does it need the hpd 
+#  owner contact info (*_name and *_add)
+
+bldg2 <- bldg %>%
+  select(-starts_with("f_"), #remove flag vars (only need the final index score)
+         -ends_with("_name"), -ends_with("_add"), #remove hpd owner contact info
+         -zonedist1, resfarrat)
+
+
+
+# 3. Save in geojson format for web mapping -----------------------------------
+
+# building information file
+st_write(bldg2, "dat/for-web-map/bldg.geojson")
+

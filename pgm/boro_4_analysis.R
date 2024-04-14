@@ -359,7 +359,7 @@ names(joined3) %>%
   arrange(desc(nchar))
 
 # Shapefile for mapping
-st_write(joined3, "dat/demonstration analysis/boro_analysis.shp", delete_dsn = T)
+st_write(joined3, "dat/suitability index/boro_analysis.shp", delete_dsn = T)
 
 # Excel file to be shared with site staff
 joined2 %>% 
