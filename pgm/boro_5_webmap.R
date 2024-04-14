@@ -12,6 +12,9 @@
 library(tidyverse)
 library(janitor)
 library(sf)
+library(tmap)
+
+tmap_mode("view")
 
 
 # 1. Read in files ------------------------------------------------------------
@@ -19,6 +22,13 @@ library(sf)
 # final building information files
 bldg <- st_read("dat/suitability index/boro_analysis.shp")
 
+# campaign zone files
+cz <- st_read("dat/boro_Heatmap/campaignzones_halfmile_simple.shp")
+
+cz_data <- read_csv("cz summary statistics.csv") %>%
+  filter(!cz_num %in% c("All", "Not in a CZ")) %>%
+  mutate(cz_num = as.numeric(cz_num)) %>%
+  arrange(cz_num)
 
 
 
@@ -34,10 +44,33 @@ bldg2 <- bldg %>%
          -zonedist1, resfarrat) %>%
   st_transform(st_crs(4326))
 
+cz2 <- cz %>%
+  mutate(campzone = case_when(
+    fid == "1"  ~ "Greenpoint IBZ",
+    fid == "2"  ~ "North Brooklyn Waterfront",
+    fid == "3"  ~ "Flushing Ave/North Brooklyn IBZ",
+    fid == "4"  ~ "Fort Greene/BK Navy Yard",
+    fid == "5"  ~ "Red Hook",
+    fid == "6"  ~ "East New York IBZ",
+    fid == "7"  ~ "Crown Heights - Utica Ave",
+    fid == "8"  ~ "East New York - Flatlands IBZ",
+    fid == "9"  ~ "Canarsie - Flatlands IBZ",
+    fid == "10" ~ "Sunset Park",
+    fid == "11" ~ "Prospect Park South",
+    fid == "12" ~ "Sheepshead Bay - Nostrand Houses",)) %>%
+  select(cz_num = fid, campzone, geometry) %>%
+  left_join(cz_data, by = "cz_num")
+
+# check that numbering matches
+tm_shape(cz2) + 
+  tm_fill("purple")
 
 
 # 3. Save in geojson format for web mapping -----------------------------------
 
 # building information file
 st_write(bldg2, "dat/for-web-map/bldg.geojson", delete_dsn = T)
+
+# campaign zone information file
+st_write(cz2, "dat/for-web-map/cz.geojson", delete_dsn = T)
 
