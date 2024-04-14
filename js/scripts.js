@@ -15,42 +15,92 @@ const map = new mapboxgl.Map(mapOptions);
 const nav = new mapboxgl.NavigationControl();
 map.addControl(nav, 'top-right');
 
-// loop over the cz-info array to make a marker for each record
-czdata.forEach(function (czrecord) {
+// add geojson layer for building information to the map
+map.on('load', () => {
+  // Add a data source containing GeoJSON data.
+  map.addSource('bldg', {
+    'type': 'geojson',
+    'data': 'dat/for-web-map/bldg.geojson'
+  });
 
-  var color
+  // Add a new layer to visualize building information
+  map.addLayer({
+    'id': 'bldg-fill',
+    'type': 'fill',
+    'source': 'bldg', // reference the data source read in above
+    'layout': {},
+    'paint': {
+      'fill-color': [
+        // create fill colors based on site suitability scores (var: index)
+        'interpolate',
+        ['linear'],
+        ['get', 'index'],
+        // colors mirror the static maps created for the report
+        0,
+        '#f7fbff',
+        2.1,
+        '#c8dcf0',
+        5.1,
+        '#73b2d8',
+        8.1,
+        '#2979b9',
+        11.1,
+        '#08306b',
 
-  // use if statements to assign colors based on pizzaData.program
-  if (czrecord.cz_top === 1) {
-    color = '#54278f'
-  }
-  if (czrecord.cz_top === 0) {
-    color = '#ac8fd5'
-  }
+      ],
+      'fill-opacity': 0.5
+    }
+  });
+  // Add a black outline around the polygon.
+  //   map.addLayer({
+  //       'id': 'outline',
+  //       'type': 'line',
+  //       'source': 'maine',
+  //       'layout': {},
+  //       'paint': {
+  //           'line-color': '#000',
+  //           'line-width': 3
+  //       }
+  //   });
+});
 
-  // create a popup to attach to the marker
-  const popup = new mapboxgl.Popup({
-    offset: 24,
-    anchor: 'bottom',
-    className: "cz-popup"
-  }).setHTML(
-    `This is the <b>${czrecord.campzone} campaign zone</b>. 
-    <ul>
-    <li>There are <b>${czrecord.n}</b> suitable buildings within the zone. </li> 
-    <li>The average suitability score is <b>${czrecord.avg_suitability_round}</b> out of 14, 
-        and the average building has the potential to generate <b>${czrecord.avg_energy_MWh_round}</b>.</li>
-    </ul>`
-  );
 
-  // create a marker, set the coordinates, add the popup, add it to the map
-  new mapboxgl.Marker({
-    scale: 0.65,
-    color: color
-  })
-    .setLngLat([czrecord.lon, czrecord.lat])
-    .setPopup(popup)
-    .addTo(map);
-})
+// // loop over the cz-info array to make a marker for each record
+// czdata.forEach(function (czrecord) {
+
+//   var color
+
+//   // use if statements to assign colors based on pizzaData.program
+//   if (czrecord.cz_top === 1) {
+//     color = '#54278f'
+//   }
+//   if (czrecord.cz_top === 0) {
+//     color = '#ac8fd5'
+//   }
+
+//   // create a popup to attach to the marker
+//   const popup = new mapboxgl.Popup({
+//     offset: 24,
+//     anchor: 'bottom',
+//     className: "cz-popup"
+//   }).setHTML(
+//     `This is the <b>${czrecord.campzone} campaign zone</b>. 
+//     <ul>
+//     <li>There are <b>${czrecord.n}</b> suitable buildings within the zone. </li> 
+//     <li>The average suitability score is <b>${czrecord.avg_suitability_round}</b> out of 14, 
+//         and the average building has the potential to generate <b>${czrecord.avg_energy_MWh_round}</b>.</li>
+//     </ul>`
+//   );
+
+//   // create a marker, set the coordinates, add the popup, add it to the map
+//   new mapboxgl.Marker({
+//     scale: 0.65,
+//     color: color
+//   })
+//     .setLngLat([czrecord.lon, czrecord.lat])
+//     .setPopup(popup)
+//     .addTo(map);
+// })
 
 
 // Create collapsible set of buttons within the sidepanel
