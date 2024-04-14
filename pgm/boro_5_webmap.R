@@ -31,12 +31,13 @@ bldg <- st_read("dat/suitability index/boro_analysis.shp")
 bldg2 <- bldg %>%
   select(-starts_with("f_"), #remove flag vars (only need the final index score)
          -ends_with("_name"), -ends_with("_add"), #remove hpd owner contact info
-         -zonedist1, resfarrat)
+         -zonedist1, resfarrat) %>%
+  st_transform(st_crs(4326))
 
 
 
 # 3. Save in geojson format for web mapping -----------------------------------
 
 # building information file
-st_write(bldg2, "dat/for-web-map/bldg.geojson")
+st_write(bldg2, "dat/for-web-map/bldg.geojson", delete_dsn = T)
 
