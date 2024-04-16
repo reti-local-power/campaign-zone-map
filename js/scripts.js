@@ -72,7 +72,7 @@ map.on('load', () => {
         '#08306b',
 
       ],
-      'fill-opacity': 0.7
+      'fill-opacity': 1
     }
   }, 'waterway-label');
 
