@@ -15,6 +15,7 @@ library(sf)
 library(tmap)
 
 tmap_mode("view")
+tmap_options(check.and.fix = TRUE)
 
 
 # 1. Read in files ------------------------------------------------------------
@@ -30,6 +31,15 @@ cz_data <- read_csv("cz summary statistics.csv") %>%
   mutate(cz_num = as.numeric(cz_num)) %>%
   arrange(cz_num)
 
+# ibz layers
+ibz_temp <- tempfile()
+ibz_temp2 <- tempfile()
+
+download.file("https://edc.nyc/sites/default/files/2020-10/IBZ%20Shapefiles.zip", ibz_temp)
+
+unzip(ibz_temp, exdir = ibz_temp2)
+
+ibz <- st_read(ibz_temp2)
 
 
 
@@ -63,10 +73,20 @@ cz2 <- cz %>%
   #transform to WSG 84 lat/lon information
   st_transform(st_crs(4326))
 
-# check that numbering matches
-tm_shape(cz2) + 
-  tm_fill("purple")
+# # check that numbering matches
+# tm_shape(cz2) + 
+#   tm_fill("purple")
 
+
+ibz2 <- ibz %>%
+  clean_names() %>%
+  filter(boroname == "Brooklyn") %>%
+  mutate(ibz_name = paste0(name, " IBZ")) %>%
+  select(ibz_name, geometry)
+
+# # check that the list is comprehensive 
+# tm_shape(ibz2) + 
+#   tm_fill("grey30")
 
 # 3. Save in geojson format for web mapping -----------------------------------
 
@@ -75,4 +95,7 @@ st_write(bldg2, "dat/for-web-map/bldg.geojson", delete_dsn = T)
 
 # campaign zone information file
 st_write(cz2, "dat/for-web-map/cz.geojson", delete_dsn = T)
+
+# ibz file
+st_write(ibz2, "dat/for-web-map/ibz.geojson", delete_dsn = T)
 
