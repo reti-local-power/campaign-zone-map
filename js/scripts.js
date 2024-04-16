@@ -4,8 +4,8 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiaGVucnkta2FuZW5naXNlciIsImEiOiJjbHVsdTU1Z20wa
 var mapOptions = {
   container: 'my-map-container', // container ID
   style: 'mapbox://styles/mapbox/light-v11', // light basemap
-  center: [-73.97488, 40.65479], // starting position [lng, lat]
-  zoom: 10.87, // starting zoom,
+  center: [-73.89988, 40.66606], // starting position [lng, lat]
+  zoom: 13, // starting zoom,
 }
 
 // Construct the map
@@ -17,6 +17,11 @@ map.addControl(nav, 'top-right');
 
 // add geojson layer for building information to the map
 map.on('load', () => {
+
+  // Get list of all layers on the map, so we know where to insert the new layers
+  console.log(
+    map.getStyle().layers
+  )
 
   // Add a data source containing GeoJSON data (campaign zone).
   map.addSource('cz', {
@@ -32,9 +37,9 @@ map.on('load', () => {
     'layout': {},
     'paint': {
       'fill-color': '#54278f',
-      'fill-opacity': 0.8
+      'fill-opacity': 0.4
     }
-  });
+  }, 'waterway-label');
 
   // Add a data source containing GeoJSON data (building info).
   map.addSource('bldg', {
@@ -69,7 +74,21 @@ map.on('load', () => {
       ],
       'fill-opacity': 0.5
     }
-  });
+  }, 'waterway-label');
+
+  // Add a new layer to visualize campaign zone areas borders (line)
+  map.addLayer({
+    'id': 'cz-line',
+    'type': 'line',
+    'source': 'cz', // reference the data source read in above
+    'layout': {},
+    'paint': {
+      'line-color': '#54278f',
+      'line-width': 2,
+      'line-dasharray': [2, 2]
+    }
+  }, 'waterway-label');
+
 });
 
 
