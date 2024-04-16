@@ -59,7 +59,9 @@ cz2 <- cz %>%
     fid == "11" ~ "Prospect Park South",
     fid == "12" ~ "Sheepshead Bay - Nostrand Houses",)) %>%
   select(cz_num = fid, campzone, geometry) %>%
-  left_join(cz_data, by = "cz_num")
+  left_join(cz_data, by = "cz_num") %>%
+  #transform to WSG 84 lat/lon information
+  st_transform(st_crs(4326))
 
 # check that numbering matches
 tm_shape(cz2) + 
