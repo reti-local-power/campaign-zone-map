@@ -1,3 +1,10 @@
+// TO-DO LIST
+// - Make cz fill disappear at a high zoom level (start at a smaller zoom than that)
+// - Toggle ibz, bid, and subscriber maps on and off
+// - Add subscriber maps to legend
+// - Clickable information for buildings and cz
+// - Hover button name for ibz & bid
+
 // Setting up MapBox
 mapboxgl.accessToken = 'pk.eyJ1IjoiaGVucnkta2FuZW5naXNlciIsImEiOiJjbHVsdTU1Z20waG84MnFwbzQybmozMjdrIn0.tqmZ-jfP2M6xcOz09ckRPA';
 
@@ -36,8 +43,8 @@ map.on('load', () => {
     'source': 'subscriber', // reference the data source read in above
     'layout': {},
     'paint': {
-      'fill-color': '#54278f',
-      'fill-opacity': 0.4
+      'fill-color': ['get', 'color'],
+      'fill-opacity': 0.6
     }
   }, 'waterway-label');
 
