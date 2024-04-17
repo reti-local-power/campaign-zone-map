@@ -1,0 +1,45 @@
+### Subscriber Analysis
+
+### 2. Output files for web-mapping
+
+# The PURPOSE of this .R script is to save permanent subscriber file in a format 
+# that is suitable for web mapping using javascript. Most mapping files need to be
+# saved in .geojson formats.
+
+# 0. Packages -----------------------------------------------------------------
+
+library(tidyverse)
+library(janitor)
+library(sf)
+library(tmap)
+
+tmap_mode("view")
+tmap_options(check.and.fix = TRUE)
+
+
+# 1. Read in files ------------------------------------------------------------
+
+subscriber <- st_read("dat/subscriber areas/subscriber_attributes.shp")
+
+
+# 2. Clean file ---------------------------------------------------------------
+
+subscriber2 <- subscriber %>%
+  filter(dac_cat != "None") %>%
+  # rename dac category names
+  mutate(dac_cat = case_when(
+    dac_cat == "Both DAC" ~ "State & Federal DAC",
+    dac_cat == "CEJST DAC" ~ "Federal DAC only",
+    dac_cat == "NYSERDA DAC" ~ "State DAC only"
+  )) %>%
+  select(dac_cat, geometry)
+
+# # visual check - how does this look (commented out to avoid re-running every time)
+# tm_shape(subscriber2) + 
+#   tm_fill("dac_cat", palette = c("#fff400", "#80d366", "#00b2cb"))
+
+
+# 3. Save permanent file ------------------------------------------------------
+
+st_write(subscriber2, "dat/for-web-map/subscriber.geojson", delete_dsn = T)
+
