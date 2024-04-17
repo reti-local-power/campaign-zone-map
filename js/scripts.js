@@ -232,7 +232,7 @@ $('#ibz-button').on('click', function () {
 $('#dac-button').on('click', function () {
 
   $(this).toggleClass("active");
-  
+
   const currentvisibility = map.getLayoutProperty(
     'dac-fill',
     'visibility'
@@ -244,100 +244,6 @@ $('#dac-button').on('click', function () {
     map.setLayoutProperty('dac-fill', 'visibility', 'none');    
   }
 })
-
-
-
-// Create clickable menu of layers (source: https://docs.mapbox.com/mapbox-gl-js/example/toggle-layers/)
-// After the last frame rendered before the map enters an "idle" state.
-map.on('idle', () => {
-  // If these three layers were not added to the map, abort
-  if (!map.getLayer('BID') || !map.getLayer('IBZ') || !map.getLayer('IBZ')) {
-    return;
-  }
-
-  // Enumerate ids of the layers (must be the id listed in map.addLayer() above).
-  const toggleableLayerIds = ['BID', 'IBZ', 'DACs'];
-
-  // Set up the corresponding toggle button for each layer.
-  for (const id of toggleableLayerIds) {
-    // Skip layers that already have a button set up.
-    if (document.getElementById(id)) {
-      continue;
-    }
-
-    // Create a link.
-    const link = document.createElement('a');
-    link.id = id;
-    link.href = '#';
-    link.textContent = id;
-    link.className = 'inactive';
-
-    // Show or hide layer when the toggle is clicked.
-    link.onclick = function (e) {
-      const clickedLayer = this.textContent;
-      e.preventDefault();
-      e.stopPropagation();
-
-      const visibility = map.getLayoutProperty(
-        clickedLayer,
-        'visibility'
-      );
-
-      // Toggle layer visibility by changing the layout object's visibility property.
-      if (visibility === 'visible') {
-        map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-        this.className = '';
-      } else {
-        this.className = 'active';
-        map.setLayoutProperty(
-          clickedLayer,
-          'visibility',
-          'visible'
-        );
-      }
-    };
-
-    const layers = document.getElementById('layer-menu');
-    layers.appendChild(link);
-  }
-});
-
-// // loop over the cz-info array to make a marker for each record
-// czdata.forEach(function (czrecord) {
-
-//   var color
-
-//   // use if statements to assign colors based on pizzaData.program
-//   if (czrecord.cz_top === 1) {
-//     color = '#54278f'
-//   }
-//   if (czrecord.cz_top === 0) {
-//     color = '#ac8fd5'
-//   }
-
-//   // create a popup to attach to the marker
-//   const popup = new mapboxgl.Popup({
-//     offset: 24,
-//     anchor: 'bottom',
-//     className: "cz-popup"
-//   }).setHTML(
-//     `This is the <b>${czrecord.campzone} campaign zone</b>. 
-//     <ul>
-//     <li>There are <b>${czrecord.n}</b> suitable buildings within the zone. </li> 
-//     <li>The average suitability score is <b>${czrecord.avg_suitability_round}</b> out of 14, 
-//         and the average building has the potential to generate <b>${czrecord.avg_energy_MWh_round}</b>.</li>
-//     </ul>`
-//   );
-
-//   // create a marker, set the coordinates, add the popup, add it to the map
-//   new mapboxgl.Marker({
-//     scale: 0.65,
-//     color: color
-//   })
-//     .setLngLat([czrecord.lon, czrecord.lat])
-//     .setPopup(popup)
-//     .addTo(map);
-// })
 
 
 // Create collapsible set of buttons within the sidepanel
@@ -369,26 +275,3 @@ function closeNav() {
 
 }
 
-
-// $(".collapsible").click(function () {
-//   $(".collapsible").css('background', '#679a67');
-// });
-
-// function expandContract() {
-//   const el = document.getElementById("expand-contract")
-//   el.classList.toggle('expanded')
-//   el.classList.toggle('collapsed')
-// }
-
-// Add active class (highlight button) to the button that is currently clicked
-// var header = document.getElementById("column-left");
-// var btns = header.getElementsByClassName("collapsible");
-// for (var i = 0; i < btns.length; i++) {
-//   btns[i].addEventListener("click", function () {
-//     var current = document.getElementsByClassName("active");
-//     if (current.length > 0) {
-//       current[0].className = current[0].className.replace(" active", "");
-//     }
-//     this.className += " active";
-//   });
-// }

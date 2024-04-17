@@ -173,7 +173,7 @@
   line-height: 18px;
   margin-bottom: 12px;
   border: 1px solid #000000;
-  background: #e6e6e6;
+  background: #ffffff;
   border-radius: 5px;
   font-size: 12px;
 }
@@ -227,22 +227,24 @@
   color: #404040;
   display: block;
   margin: 0;
+  width: 100%;
   padding: 0;
   padding: 10px;
   text-decoration: none;
+  border: none;
   /* border-top: 1px solid rgba(0, 0, 0, 0.25); */
-  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  /* border-bottom: 1px solid rgba(0, 0, 0, 0.25); */
   text-align: left;
 }
 
 /* Trying to add top border line to first button (not working) */
-.layer-menu-button:first-child {
+/* .layer-menu-button:first-child {
   border-top: 1px solid rgba(0, 0, 0, 0.25);
 }
 
 .layer-menu-button:last-child {
   border: none;
-}
+} */
 
 .layer-menu-button:hover {
   background-color: #8bb58b;
