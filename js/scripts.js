@@ -38,7 +38,7 @@ map.on('load', () => {
 
   // Add a new layer to visualize campaign zone areas (fill)
   map.addLayer({
-    'id': 'subscriber-fill',
+    'id': 'DACs',
     'type': 'fill',
     'source': 'subscriber', // reference the data source read in above
     'layout': {},
@@ -134,7 +134,7 @@ map.on('load', () => {
 
   // Add a new layer to visualize ibz borders (line)
   map.addLayer({
-    'id': 'ibz-line',
+    'id': 'IBZ',
     'type': 'line',
     'source': 'ibz', // reference the data source read in above
     'layout': {},
@@ -164,7 +164,7 @@ map.on('load', () => {
 
   // Add a new layer to visualize bid borders (line)
   map.addLayer({
-    'id': 'bid-line',
+    'id': 'BID',
     'type': 'line',
     'source': 'bid', // reference the data source read in above
     'layout': {},
@@ -176,6 +176,60 @@ map.on('load', () => {
 
 });
 
+// Create clickable menu of layers (source: https://docs.mapbox.com/mapbox-gl-js/example/toggle-layers/)
+// After the last frame rendered before the map enters an "idle" state.
+map.on('idle', () => {
+  // If these two layers were not added to the map, abort
+  if (!map.getLayer('BID') || !map.getLayer('IBZ') || !map.getLayer('IBZ')) {
+      return;
+  }
+
+  // Enumerate ids of the layers.
+  const toggleableLayerIds = ['BID', 'IBZ', 'DACs'];
+
+  // Set up the corresponding toggle button for each layer.
+  for (const id of toggleableLayerIds) {
+      // Skip layers that already have a button set up.
+      if (document.getElementById(id)) {
+          continue;
+      }
+
+      // Create a link.
+      const link = document.createElement('a');
+      link.id = id;
+      link.href = '#';
+      link.textContent = id;
+      link.className = 'active';
+
+      // Show or hide layer when the toggle is clicked.
+      link.onclick = function (e) {
+          const clickedLayer = this.textContent;
+          e.preventDefault();
+          e.stopPropagation();
+
+          const visibility = map.getLayoutProperty(
+              clickedLayer,
+              'visibility'
+          );
+
+          // Toggle layer visibility by changing the layout object's visibility property.
+          if (visibility === 'visible') {
+              map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+              this.className = '';
+          } else {
+              this.className = 'active';
+              map.setLayoutProperty(
+                  clickedLayer,
+                  'visibility',
+                  'visible'
+              );
+          }
+      };
+
+      const layers = document.getElementById('layer-menu');
+      layers.appendChild(link);
+  }
+});
 
 // // loop over the cz-info array to make a marker for each record
 // czdata.forEach(function (czrecord) {
