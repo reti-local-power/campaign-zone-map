@@ -31,13 +31,21 @@ subscriber2 <- subscriber %>%
     dac_cat == "Both DAC" ~ "State & Federal DAC",
     dac_cat == "CEJST DAC" ~ "Federal DAC only",
     dac_cat == "NYSERDA DAC" ~ "State DAC only"
-  )) %>%
-  select(dac_cat, geometry)
+  ),
+         color = case_when(
+    dac_cat == "State & Federal DAC" ~ "#80d366",
+    dac_cat == "Federal DAC only" ~ "#fff400",
+    dac_cat == "State DAC only" ~ "#00b2cb"
+         )) %>%
+  select(dac_cat, color, geometry) %>%
+  st_transform(st_crs(4326))
 
 # # visual check - how does this look (commented out to avoid re-running every time)
 # tm_shape(subscriber2) + 
-#   tm_fill("dac_cat", palette = c("#fff400", "#80d366", "#00b2cb"))
+  # tm_fill("dac_cat", palette = c("#fff400", "#80d366", "#00b2cb"))
 
+# check the CRS
+st_crs(subscriber2) == st_crs(4326)
 
 # 3. Save permanent file ------------------------------------------------------
 
