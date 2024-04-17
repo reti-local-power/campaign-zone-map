@@ -167,7 +167,7 @@
   padding: 10px;
   bottom: 20 px;
   right: 15px; 
-  width: 160px;
+  width: 180px;
   box-shadow: 0 1px 2px rgb(0 0 0 / 10%);
   z-index: 1;
   line-height: 18px;
@@ -200,15 +200,15 @@
 }
 
 /* Style the toggleable layers menu */
-#layer-menu {
+#my-layer-menu {
   background: #e6e6e6;
   position: absolute;
   float: right;
   z-index: 1;
-  top: 30%;
+  top: 29%;
   right: 15px; 
   border-radius: 3px;
-  width: 180px;
+  width: 200px;
   border: 1px solid #000000; 
   font-family: 'Open Sans', sans-serif;
 }
@@ -222,7 +222,7 @@
   text-align: left;
 }
 
-#layer-menu a {
+.layer-menu-button {
   font-size: 12px;
   color: #404040;
   display: block;

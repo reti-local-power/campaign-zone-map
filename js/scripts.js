@@ -183,6 +183,17 @@ map.on('load', () => {
 
 });
 
+// Create clickable menu of layers
+// After the last frame rendered before the map enters an "idle" state.
+map.on('idle', () => {
+  // If these three layers were not added to the map, abort
+  if (!map.getLayer('BID') || !map.getLayer('IBZ') || !map.getLayer('IBZ')) {
+    return;
+  }
+
+});
+
+
 // Create clickable menu of layers (source: https://docs.mapbox.com/mapbox-gl-js/example/toggle-layers/)
 // After the last frame rendered before the map enters an "idle" state.
 map.on('idle', () => {
