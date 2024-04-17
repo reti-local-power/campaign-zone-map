@@ -103,7 +103,7 @@ map.on('load', () => {
     'layout': {},
     'paint': {
       'fill-color': '#f5be71',
-      'fill-opacity': 0.2
+      'fill-opacity': 0.1
     }
   }, 'waterway-label');
 
@@ -115,6 +115,36 @@ map.on('load', () => {
     'layout': {},
     'paint': {
       'line-color': '#f5be71',
+      'line-width': 2
+    }
+  }, 'waterway-label');
+
+  // Add a data source containing GeoJSON data (business improvement districts).
+  map.addSource('bid', {
+    'type': 'geojson',
+    'data': 'dat/for-web-map/bid.geojson'
+  });
+
+  // Add a new layer to visualize bid borders (fill)
+  map.addLayer({
+    'id': 'bid-fill',
+    'type': 'fill',
+    'source': 'bid', // reference the data source read in above
+    'layout': {},
+    'paint': {
+      'fill-color': '#98f511',
+      'fill-opacity': 0.1
+    }
+  }, 'waterway-label');
+
+  // Add a new layer to visualize bid borders (line)
+  map.addLayer({
+    'id': 'bid-line',
+    'type': 'line',
+    'source': 'bid', // reference the data source read in above
+    'layout': {},
+    'paint': {
+      'line-color': '#98f511',
       'line-width': 2
     }
   }, 'waterway-label');

@@ -31,7 +31,7 @@ cz_data <- read_csv("cz summary statistics.csv") %>%
   mutate(cz_num = as.numeric(cz_num)) %>%
   arrange(cz_num)
 
-# ibz layers
+# ibz
 ibz_temp <- tempfile()
 ibz_temp2 <- tempfile()
 
@@ -40,6 +40,9 @@ download.file("https://edc.nyc/sites/default/files/2020-10/IBZ%20Shapefiles.zip"
 unzip(ibz_temp, exdir = ibz_temp2)
 
 ibz <- st_read(ibz_temp2)
+
+# bid
+bid <- st_read("https://data.cityofnewyork.us/resource/7jdm-inj8.geojson")
 
 
 
@@ -82,11 +85,20 @@ ibz2 <- ibz %>%
   clean_names() %>%
   filter(boroname == "Brooklyn") %>%
   mutate(ibz_name = paste0(name, " IBZ")) %>%
-  select(ibz_name, geometry)
+  select(ibz_name, geometry) %>%
+  #transform to WSG 84 lat/lon information
+  st_transform(st_crs(4326))
 
 # # check that the list is comprehensive 
 # tm_shape(ibz2) + 
 #   tm_fill("grey30")
+
+
+bid2 <- bid %>%
+  filter(borough == "3") %>%
+  select(bid_name = bid, geometry)
+# note that this layer is already in the right CRS so no need to transform
+
 
 # 3. Save in geojson format for web mapping -----------------------------------
 
@@ -98,4 +110,7 @@ st_write(cz2, "dat/for-web-map/cz.geojson", delete_dsn = T)
 
 # ibz file
 st_write(ibz2, "dat/for-web-map/ibz.geojson", delete_dsn = T)
+
+# bid file
+st_write(bid2, "dat/for-web-map/bid.geojson", delete_dsn = T)
 
