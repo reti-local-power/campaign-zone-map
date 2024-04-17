@@ -168,7 +168,7 @@ map.on('load', () => {
 
   // Add a new layer to visualize bid borders (line)
   map.addLayer({
-    'id': 'BID',
+    'id': 'bid-line',
     'type': 'line',
     'source': 'bid', // reference the data source read in above
     'layout': {},
@@ -179,19 +179,36 @@ map.on('load', () => {
   }, 'waterway-label');
 
   // Set this layer to not be visible initially so it can be turned on using the botton
-  map.setLayoutProperty('BID', 'visibility', 'none')
+  map.setLayoutProperty('bid-line', 'visibility', 'none');
+  map.setLayoutProperty('bid-fill', 'visibility', 'none');
+
 
 });
 
-// Create clickable menu of layers
-// After the last frame rendered before the map enters an "idle" state.
-map.on('idle', () => {
-  // If these three layers were not added to the map, abort
-  if (!map.getLayer('BID') || !map.getLayer('IBZ') || !map.getLayer('IBZ')) {
-    return;
+//// Create clickable menu of layers
+
+// 1. assign actions to clicking one button (onClick())
+// 2. actions should be to change multiple layers' visibility simultaneously (set.LayoutProperty)
+
+$('#bid-button').on('click', function () {
+  console.log('click happened!');
+
+  const currentvisibility = map.getLayoutProperty(
+    'bid-line',
+    'visibility'
+  );
+
+  console.log(currentvisibility);
+
+  if (currentvisibility === 'none') {
+    map.setLayoutProperty('bid-line', 'visibility', 'visible');
+    map.setLayoutProperty('bid-fill', 'visibility', 'visible');
+  } else {
+    map.setLayoutProperty('bid-line', 'visibility', 'none');
+    map.setLayoutProperty('bid-fill', 'visibility', 'none');    
   }
+})
 
-});
 
 
 // Create clickable menu of layers (source: https://docs.mapbox.com/mapbox-gl-js/example/toggle-layers/)
