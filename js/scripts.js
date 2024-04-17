@@ -23,6 +23,24 @@ map.on('load', () => {
     map.getStyle().layers
   )
 
+  // Add a data source containing GeoJSON data (subscriber DAC maps).
+  map.addSource('subscriber', {
+    'type': 'geojson',
+    'data': 'dat/for-web-map/subscriber.geojson'
+  });
+
+  // Add a new layer to visualize campaign zone areas (fill)
+  map.addLayer({
+    'id': 'subscriber-fill',
+    'type': 'fill',
+    'source': 'subscriber', // reference the data source read in above
+    'layout': {},
+    'paint': {
+      'fill-color': '#54278f',
+      'fill-opacity': 0.4
+    }
+  }, 'waterway-label');
+
   // Add a data source containing GeoJSON data (campaign zone).
   map.addSource('cz', {
     'type': 'geojson',
