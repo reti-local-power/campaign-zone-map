@@ -1,7 +1,5 @@
 // TO-DO LIST
 // - Make cz fill disappear at a high zoom level (start at a smaller zoom than that)
-// - Toggle ibz, bid, and subscriber maps on and off
-// - Add subscriber maps to legend
 // - Clickable information for buildings and cz
 // - Hover button name for ibz & bid
 
