@@ -134,7 +134,7 @@
 }
 
 /* Create icon that sits on the button when expanded and tells the user to close it */
-.active:after {
+.collapsible:active:after {
   content: "\2796";
   /* Unicode character for "minus" sign (-) */
 }
@@ -245,7 +245,7 @@
 }
 
 .layer-menu-button:hover {
-  background-color: #f8f8f8;
+  background-color: #8bb58b;
   color: #404040;
 }
 
@@ -255,5 +255,5 @@
 }
 
 .layer-menu-button:active:hover {
-  background: #ddebdd;
+  background: #8bb58b;
 }
