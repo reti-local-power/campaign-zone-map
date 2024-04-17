@@ -134,7 +134,7 @@
 }
 
 /* Create icon that sits on the button when expanded and tells the user to close it */
-.collapsible:active:after {
+.collapsible.active:after {
   content: "\2796";
   /* Unicode character for "minus" sign (-) */
 }
