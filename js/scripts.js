@@ -48,6 +48,9 @@ map.on('load', () => {
     }
   }, 'waterway-label');
 
+  // Set this layer to not be visible initially so it can be turned on using the botton
+  map.setLayoutProperty('DACs', 'visibility', 'none')
+
   // Add a data source containing GeoJSON data (campaign zone).
   map.addSource('cz', {
     'type': 'geojson',
@@ -144,6 +147,9 @@ map.on('load', () => {
     }
   }, 'waterway-label');
 
+  // Set this layer to not be visible initially so it can be turned on using the botton
+  map.setLayoutProperty('IBZ', 'visibility', 'none')
+
   // Add a data source containing GeoJSON data (business improvement districts).
   map.addSource('bid', {
     'type': 'geojson',
@@ -174,60 +180,63 @@ map.on('load', () => {
     }
   }, 'waterway-label');
 
+  // Set this layer to not be visible initially so it can be turned on using the botton
+  map.setLayoutProperty('BID', 'visibility', 'none')
+
 });
 
 // Create clickable menu of layers (source: https://docs.mapbox.com/mapbox-gl-js/example/toggle-layers/)
 // After the last frame rendered before the map enters an "idle" state.
 map.on('idle', () => {
-  // If these two layers were not added to the map, abort
+  // If these three layers were not added to the map, abort
   if (!map.getLayer('BID') || !map.getLayer('IBZ') || !map.getLayer('IBZ')) {
-      return;
+    return;
   }
 
-  // Enumerate ids of the layers.
+  // Enumerate ids of the layers (must be the id listed in map.addLayer() above).
   const toggleableLayerIds = ['BID', 'IBZ', 'DACs'];
 
   // Set up the corresponding toggle button for each layer.
   for (const id of toggleableLayerIds) {
-      // Skip layers that already have a button set up.
-      if (document.getElementById(id)) {
-          continue;
+    // Skip layers that already have a button set up.
+    if (document.getElementById(id)) {
+      continue;
+    }
+
+    // Create a link.
+    const link = document.createElement('a');
+    link.id = id;
+    link.href = '#';
+    link.textContent = id;
+    link.className = 'inactive';
+
+    // Show or hide layer when the toggle is clicked.
+    link.onclick = function (e) {
+      const clickedLayer = this.textContent;
+      e.preventDefault();
+      e.stopPropagation();
+
+      const visibility = map.getLayoutProperty(
+        clickedLayer,
+        'visibility'
+      );
+
+      // Toggle layer visibility by changing the layout object's visibility property.
+      if (visibility === 'visible') {
+        map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+        this.className = '';
+      } else {
+        this.className = 'active';
+        map.setLayoutProperty(
+          clickedLayer,
+          'visibility',
+          'visible'
+        );
       }
+    };
 
-      // Create a link.
-      const link = document.createElement('a');
-      link.id = id;
-      link.href = '#';
-      link.textContent = id;
-      link.className = 'active';
-
-      // Show or hide layer when the toggle is clicked.
-      link.onclick = function (e) {
-          const clickedLayer = this.textContent;
-          e.preventDefault();
-          e.stopPropagation();
-
-          const visibility = map.getLayoutProperty(
-              clickedLayer,
-              'visibility'
-          );
-
-          // Toggle layer visibility by changing the layout object's visibility property.
-          if (visibility === 'visible') {
-              map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-              this.className = '';
-          } else {
-              this.className = 'active';
-              map.setLayoutProperty(
-                  clickedLayer,
-                  'visibility',
-                  'visible'
-              );
-          }
-      };
-
-      const layers = document.getElementById('layer-menu');
-      layers.appendChild(link);
+    const layers = document.getElementById('layer-menu');
+    layers.appendChild(link);
   }
 });
 
