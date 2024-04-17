@@ -36,7 +36,7 @@ map.on('load', () => {
 
   // Add a new layer to visualize campaign zone areas (fill)
   map.addLayer({
-    'id': 'DACs',
+    'id': 'dac-fill',
     'type': 'fill',
     'source': 'subscriber', // reference the data source read in above
     'layout': {},
@@ -47,7 +47,7 @@ map.on('load', () => {
   }, 'waterway-label');
 
   // Set this layer to not be visible initially so it can be turned on using the botton
-  map.setLayoutProperty('DACs', 'visibility', 'none')
+  map.setLayoutProperty('dac-fill', 'visibility', 'none');
 
   // Add a data source containing GeoJSON data (campaign zone).
   map.addSource('cz', {
@@ -135,7 +135,7 @@ map.on('load', () => {
 
   // Add a new layer to visualize ibz borders (line)
   map.addLayer({
-    'id': 'IBZ',
+    'id': 'ibz-line',
     'type': 'line',
     'source': 'ibz', // reference the data source read in above
     'layout': {},
@@ -146,7 +146,8 @@ map.on('load', () => {
   }, 'waterway-label');
 
   // Set this layer to not be visible initially so it can be turned on using the botton
-  map.setLayoutProperty('IBZ', 'visibility', 'none')
+  map.setLayoutProperty('ibz-fill', 'visibility', 'none');
+  map.setLayoutProperty('ibz-line', 'visibility', 'none');
 
   // Add a data source containing GeoJSON data (business improvement districts).
   map.addSource('bid', {
@@ -191,14 +192,13 @@ map.on('load', () => {
 // 2. actions should be to change multiple layers' visibility simultaneously (set.LayoutProperty)
 
 $('#bid-button').on('click', function () {
-  console.log('click happened!');
+
+  $(this).toggleClass("active");
 
   const currentvisibility = map.getLayoutProperty(
     'bid-line',
     'visibility'
   );
-
-  console.log(currentvisibility);
 
   if (currentvisibility === 'none') {
     map.setLayoutProperty('bid-line', 'visibility', 'visible');
@@ -206,6 +206,42 @@ $('#bid-button').on('click', function () {
   } else {
     map.setLayoutProperty('bid-line', 'visibility', 'none');
     map.setLayoutProperty('bid-fill', 'visibility', 'none');    
+  }
+
+  
+})
+
+$('#ibz-button').on('click', function () {
+
+  $(this).toggleClass("active");
+
+  const currentvisibility = map.getLayoutProperty(
+    'ibz-line',
+    'visibility'
+  );
+
+  if (currentvisibility === 'none') {
+    map.setLayoutProperty('ibz-line', 'visibility', 'visible');
+    map.setLayoutProperty('ibz-fill', 'visibility', 'visible');
+  } else {
+    map.setLayoutProperty('ibz-line', 'visibility', 'none');
+    map.setLayoutProperty('ibz-fill', 'visibility', 'none');    
+  }
+})
+
+$('#dac-button').on('click', function () {
+
+  $(this).toggleClass("active");
+  
+  const currentvisibility = map.getLayoutProperty(
+    'dac-fill',
+    'visibility'
+  );
+
+  if (currentvisibility === 'none') {
+    map.setLayoutProperty('dac-fill', 'visibility', 'visible');
+  } else {
+    map.setLayoutProperty('dac-fill', 'visibility', 'none');    
   }
 })
 

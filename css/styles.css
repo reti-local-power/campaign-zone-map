@@ -236,24 +236,24 @@
 }
 
 /* Trying to add top border line to first button (not working) */
-#layer-menu a:first-child {
+.layer-menu-button:first-child {
   border-top: 1px solid rgba(0, 0, 0, 0.25);
 }
 
-#layer-menu a:last-child {
+.layer-menu-button:last-child {
   border: none;
 }
 
-#layer-menu a:hover {
+.layer-menu-button:hover {
   background-color: #f8f8f8;
   color: #404040;
 }
 
-#layer-menu a.active {
+.layer-menu-button:active {
   background-color: #8bb58b;
   color: #000000;
 }
 
-#layer-menu a.active:hover {
+.layer-menu-button:active:hover {
   background: #ddebdd;
 }
