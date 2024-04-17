@@ -84,8 +84,38 @@ map.on('load', () => {
     'layout': {},
     'paint': {
       'line-color': '#54278f',
-      'line-width': 2,
-      'line-dasharray': [2, 2]
+      'line-width': 4,
+      'line-dasharray': [2, 1]
+    }
+  }, 'waterway-label');
+
+  // Add a data source containing GeoJSON data (industrial business zones).
+  map.addSource('ibz', {
+    'type': 'geojson',
+    'data': 'dat/for-web-map/ibz.geojson'
+  });
+
+  // Add a new layer to visualize ibz borders (fill)
+  map.addLayer({
+    'id': 'ibz-fill',
+    'type': 'fill',
+    'source': 'ibz', // reference the data source read in above
+    'layout': {},
+    'paint': {
+      'fill-color': '#f5be71',
+      'fill-opacity': 0.2
+    }
+  }, 'waterway-label');
+
+  // Add a new layer to visualize ibz borders (line)
+  map.addLayer({
+    'id': 'ibz-line',
+    'type': 'line',
+    'source': 'ibz', // reference the data source read in above
+    'layout': {},
+    'paint': {
+      'line-color': '#f5be71',
+      'line-width': 2
     }
   }, 'waterway-label');
 
