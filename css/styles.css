@@ -1,3 +1,10 @@
+/* To do:
+- Change header to solid green bacgkround
+- Make clickable buttons for sidepanel larger
+- Make sidepanel call to action larger
+
+*/
+
 * {
   font-family: Arial, sans-serif;
 }
@@ -80,23 +87,26 @@
 /* style for button that will collapse the flex container */
 .container-button {
   position: absolute; 
+  font-size: large;
   top: 5px;
   right: 5px; 
   background-color: #ccc;
-  width: 25px;
-  height: 20px;
+  width: 30px;
+  height: 28px;
   border-radius: 6px;
+  ;
 }
 
 /* style for button that will reopen the flex container */
 .reopen-container-button {
   position: absolute; 
+  font-size: larger;
   z-index: 1;
   top: 120px;
   left: 5px; 
   background-color: #ccc;
-  width: 25px;
-  height: 20px;
+  width: 30px;
+  height: 28px;
   border-radius: 6px;
 }
 
@@ -221,6 +231,13 @@
   color: #404040;
   text-align: left;
 }
+
+/* Style the DAC layer legend (move everything a bit to the right to visually nest it */
+#dac-button-legend {
+  padding-left: 20px;
+
+}
+
 
 .layer-menu-button {
   font-size: 12px;
