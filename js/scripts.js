@@ -191,7 +191,7 @@ map.on('load', () => {
   map.setLayoutProperty('bid-fill', 'visibility', 'none');
 
   // this is a variable to store the id of the feature that is currently being hovered.
-  let hoveredPolygonId = null
+  let hoveredPolygonId = null;
 
 
   // whenever the mouse moves on the 'cz-fill' layer, we check the id of the feature it is on 
