@@ -27,8 +27,7 @@
   font-size: 24px;
   overflow: hidden;
   height: 40px;
-  background-size: cover;
-  background-position: center 26%;
+  /* background-size: cover; */
   position: relative;
 }
 
@@ -53,24 +52,20 @@
 
 /* styling for map */
 .map-container {
-  width: 98.5%;
+  width: 99%;
   /* height: 85%; */
   position: absolute;
-  top: 100px;
-  /* right: 0; */
+  top: 50px;
   bottom: 0;
-  /* left: 0; */
   float: right;
-  text-align: center;
-  padding: 0 0 0 6px;
-  transition: 0.5s;   /* 0.5 second transition effect to slide in the sidepanel */
+  text-align: center;  
 }
 
 
 /* Left side column with FAQ text and narrative. */
 .sidepanel {
   /* Code from https://www.w3schools.com/howto/howto_js_collapse_sidepanel.asp */
-  height: 80%;        /* Specify a height */
+  height: 60%;        /* Specify a height */
   width: 30%;         /* 30% width - change this with JavaScript */
   position: fixed;    /* Stay in place */
   z-index: 2;         /* Stay on top */
@@ -80,6 +75,7 @@
   background-color: #e6e6e6; /* grey*/
   border:1px solid #4b4b4b;
   overflow-x: hidden; /* Disable horizontal scroll */
+  margin-top: 12%;
   padding-top: 10px;  /* Place content 10px from the top */
   /* padding-left: 10px; */
   transition: 0.5s;   /* 0.5 second transition effect to slide in the sidepanel */
@@ -103,7 +99,8 @@
   position: absolute; 
   font-size: larger;
   z-index: 1;
-  top: 120px;
+  /* top: 250px; */
+  margin-top: 12.1%;
   left: 5px; 
   background-color: #ccc;
   width: 30px;
@@ -203,7 +200,7 @@
   background-size: cover;
   text-align: left;
   color: #000000;
-  font-size: 12px;
+  font-size: 15px;
   padding-top: 15px;
   padding-left: 12px; 
   padding-right: 12px;
