@@ -65,7 +65,7 @@
 /* Left side column with FAQ text and narrative. */
 .sidepanel {
   /* Code from https://www.w3schools.com/howto/howto_js_collapse_sidepanel.asp */
-  height: 60%;        /* Specify a height */
+  height: 45%;        /* Specify a height */
   width: 30%;         /* 30% width - change this with JavaScript */
   position: fixed;    /* Stay in place */
   z-index: 2;         /* Stay on top */
@@ -75,10 +75,43 @@
   background-color: #e6e6e6; /* grey*/
   border:1px solid #4b4b4b;
   overflow-x: hidden; /* Disable horizontal scroll */
-  margin-top: 12%;
   padding-top: 10px;  /* Place content 10px from the top */
   /* padding-left: 10px; */
   transition: 0.5s;   /* 0.5 second transition effect to slide in the sidepanel */
+}
+
+/* style for info panel that will hold information about clicked items */
+.info-panel {
+  position: absolute;
+  float: left;
+  background-color: #ffffff;
+  top: 57%;
+  padding: 10px;
+  height: 35%;
+  left: 15px; 
+  width: 27.5%;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 10%);
+  border: 1px solid #000000;
+  border-radius: 5px;
+  z-index: 0;
+  font-size: 14px;
+
+  /* position: absolute;
+  float: right;
+  top: 70%;
+  padding: 10px;
+  bottom: 20 px;
+  right: 15px; 
+  width: 200px;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 10%);
+  z-index: 1;
+  line-height: 18px;
+  margin-bottom: 12px;
+  border: 1px solid #000000;
+  background: #ffffff;
+  border-radius: 5px;
+  font-size: 12px; */
+
 }
 
 /* style for button that will collapse the flex container */
@@ -100,7 +133,7 @@
   font-size: larger;
   z-index: 1;
   /* top: 250px; */
-  margin-top: 12.1%;
+  /* margin-top: 12.1%; */
   left: 5px; 
   background-color: #ccc;
   width: 30px;
