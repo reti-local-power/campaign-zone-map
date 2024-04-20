@@ -81,7 +81,7 @@
 }
 
 /* style for info panel that will hold information about clicked items */
-.info-panel {
+#info-panel {
   position: absolute;
   float: left;
   background-color: #ffffff;
@@ -94,24 +94,7 @@
   border: 1px solid #000000;
   border-radius: 5px;
   z-index: 0;
-  font-size: 14px;
-
-  /* position: absolute;
-  float: right;
-  top: 70%;
-  padding: 10px;
-  bottom: 20 px;
-  right: 15px; 
-  width: 200px;
-  box-shadow: 0 1px 2px rgb(0 0 0 / 10%);
-  z-index: 1;
-  line-height: 18px;
-  margin-bottom: 12px;
-  border: 1px solid #000000;
-  background: #ffffff;
-  border-radius: 5px;
-  font-size: 12px; */
-
+  font-size: 12px;
 }
 
 /* style for button that will collapse the flex container */

@@ -1,7 +1,7 @@
 // TO-DO LIST
-// - Make cz fill disappear at a high zoom level (start at a smaller zoom than that)
-// - Clickable information for buildings and cz
+// - Clickable information for cz
 // - Hover button name for ibz & bid
+// - Active state & cursor change for buildings when clicked (maybe give it a border?)
 
 // Setting up MapBox
 mapboxgl.accessToken = 'pk.eyJ1IjoiaGVucnkta2FuZW5naXNlciIsImEiOiJjbHVsdTU1Z20waG84MnFwbzQybmozMjdrIn0.tqmZ-jfP2M6xcOz09ckRPA';
@@ -237,6 +237,26 @@ map.on('load', () => {
       });
 
     }
+  });
+
+  // if the user clicks the 'bldg-fill' layer, extract properties from the clicked feature, using jQuery to write them to another part of the page.
+  map.on('click', 'bldg-fill', (e) => {
+    // get the boro_name from the first item in the array e.features
+    var address = e.features[0].properties.address
+    var score = parseInt(e.features[0].properties.index)
+    var owner = e.features[0].properties.ownername
+    var campzone = e.features[0].properties.campzone
+    var elcprd = parseInt(e.features[0].properties.ElcPrdMwh)
+
+    // insert the borough name into the sidebar using jQuery
+    $('#info-panel').text(
+      `Building: ${address}
+      Suitability score: ${score} out of 14
+      Owned by: ${owner}
+      Annual solar energy potential: ${elcprd} MWh/year
+      Campaign zone: ${campzone}`
+
+    )
   });
 
 
