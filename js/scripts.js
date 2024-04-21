@@ -1,5 +1,6 @@
 // TO-DO LIST
 // - Hover button name for ibz & bid
+// - Change state of building and CZ on click (active state?)
 // - Figure out how to format text that is sent to info-panel on click
 
 // Setting up MapBox
@@ -272,7 +273,19 @@ map.on('load', () => {
   map.on('click', 'cz-fill', (e) => {
     var curzoom = map.getZoom(); // define curzoom as the current zoom when the click occurs
 
+    let hoveredPolygonId = null
+
     if (curzoom < zoomswitch) {
+      hoveredPolygonId = e.features[0].id;
+
+      // console.log(hoveredPolygonId);
+
+      // set the featureState of this feature to hover:true
+      map.setFeatureState(
+        { source: 'cz', id: hoveredPolygonId },
+        { hover: true }
+      )
+
       // get feature information from the items in the array e.features
       var campzone = e.features[0].properties.campzone
       var n = e.features[0].properties.n
