@@ -270,18 +270,42 @@ map.on('load', () => {
     }
   });
 
+  // if the user clicks the 'cz-fill' layer, extract properties from the clicked feature, using jQuery to write them to another part of the page.
+  // NOTE: if statement makes this only happen when the zoom is smaller than the threshold level where the cz-fill disappears
+  // map.on('click', 'cz-fill', (e) => {
+  //   if (curzoom < zoomswitch) {
+  //     // get feature information from the items in the array e.features
+  //     var campzone = e.features[0].properties.campzone
+  //     var n = e.features[0].properties.n
+  //     var elcprd = parseInt(e.features[0].properties.avg_energy_MWh)
+  //     var score = parseInt(e.features[0].properties.avg_suitability)
+  //     var owner = e.features[0].properties.ownername
+
+  //     // insert the information into the sidebar using jQuery
+  //     $('#info-panel').text(
+  //       `Campaign Zone: ${campzone}
+  //     Number of buildings: ${n}
+  //     Average solar energy potential: ${elcprd} MWh/year
+  //     Average suitability score: ${owner}`
+
+  //     )
+  //   }
+  // });
+
   // if the user clicks the 'bldg-fill' layer, extract properties from the clicked feature, using jQuery to write them to another part of the page.
   // NOTE: if statement makes this only happen when the zoom is larger than the threshold level where the cz-fill disappears
   map.on('click', 'bldg-fill', (e) => {
+    var curzoom = map.getZoom(); // define curzoom as the current zoom when the click occurs
+
     if (curzoom >= zoomswitch) {
-      // get the boro_name from the first item in the array e.features
+      // get feature information from the items in the array e.features
       var address = e.features[0].properties.address
       var score = parseInt(e.features[0].properties.index)
       var owner = e.features[0].properties.ownername
       var campzone = e.features[0].properties.campzone
       var elcprd = parseInt(e.features[0].properties.ElcPrdMwh)
 
-      // insert the borough name into the sidebar using jQuery
+      // insert the information into the sidebar using jQuery
       $('#info-panel').text(
         `Building: ${address}
       Suitability score: ${score} out of 14
