@@ -270,6 +270,7 @@ map.on('load', () => {
     }
   });
 
+  //// Set up click to add information to the info-panel about campaign zones and buildings
   // if the user clicks the 'cz-fill' layer, extract properties from the clicked feature, using jQuery to write them to another part of the page.
   // NOTE: if statement makes this only happen when the zoom is smaller than the threshold level where the cz-fill disappears
   map.on('click', 'cz-fill', (e) => {
@@ -330,6 +331,80 @@ map.on('load', () => {
     }
   });
 
+
+  //// Create gentle hover state for IBZ and BID to encourage clicks
+
+// Follow the cz-fill example, but use a much gentler change in fill because these are not the most important part of the map
+
+  //// Create pop-up name for IBZ and BIDs on mouse click
+
+// Code to reference: https://docs.mapbox.com/mapbox-gl-js/example/polygon-popup-on-click/?size=n_10_n
+//  consider styling the popups slightly if possible
+
+// Also helpful: https://docs.mapbox.com/mapbox-gl-js/example/popup-on-hover/
+//  but not this only works for point geometry, polygons don't work because it doesn't know where to place the popup unless 
+//   you provide coordinates
+
+
+
+
+
+
+  // // this is a variable to store the id of the feature that is currently being hovered.
+  // let namedPolygonId = null;
+
+  // // whenever the mouse moves on the 'cz-fill' layer, we check the id of the feature it is on 
+  // //  top of, and set featureState for that feature.  The featureState we set is hover:true or hover:false
+  // map.on('mousemove', 'ibz-fill', (e) => {
+  //   // don't do anything if there are no features from this layer under the mouse pointer
+  //   if (e.features.length > 0) {
+  //     // if namedPolygonId already has an id in it, set the featureState for that id to hover: false
+  //     if (namedPolygonId !== null) {
+  //       map.setFeatureState(
+  //         { source: 'ibz', id: namedPolygonId },
+  //         { hover: false }
+  //       );
+  //     }
+
+  //     // set namedPolygonId to the id of the feature currently being hovered
+  //     namedPolygonId = e.features[0].id;
+
+  //     // When the mouse movesover a feature in the ibz-fill layer,
+  //     // open a popup at the location of the click, with description
+  //     // HTML from the click event's properties.
+  //     new mapboxgl.Popup()
+  //       .setLngLat(e.lngLat)
+  //       .setHTML(e.features[0].properties.ibz_name)
+  //       .addTo(map);
+
+  //     // set the featureState of this feature to hover:true
+  //     map.setFeatureState(
+  //       { source: 'ibz', id: namedPolygonId },
+  //       { hover: true }
+  //     );
+
+  //     // make the cursor a pointer to let the user know it is clickable
+  //     map.getCanvas().style.cursor = 'pointer'
+
+  //     // resets the feature state to the default (nothing is hovered) when the mouse leaves the 'borough-boundaries-fill' layer
+  //     map.on('mouseleave', 'ibz-fill', () => {
+  //       // set the featureState of the previous hovered feature to hover:false
+  //       if (namedPolygonId !== null) {
+  //         map.setFeatureState(
+  //           { source: 'ibz', id: namedPolygonId },
+  //           { hover: false }
+  //         );
+  //       }
+
+  //       // clear hoveredPolygonId
+  //       namedPolygonId = null;
+
+  //       // set the cursor back to default
+  //       map.getCanvas().style.cursor = ''
+  //     });
+
+  //   }
+  // });
 
 });
 
