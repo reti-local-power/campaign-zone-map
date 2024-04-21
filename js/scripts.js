@@ -1,9 +1,6 @@
 // TO-DO LIST
-// - Clickable information for cz
 // - Hover button name for ibz & bid
-// - Active state & cursor change for buildings when clicked (maybe give it a white or black border?)
 // - Figure out how to format text that is sent to info-panel on click
-// - Add click for campaign zones (maybe allow one when zoom is above 14 and another when it's below 14?)
 
 // Setting up MapBox
 mapboxgl.accessToken = 'pk.eyJ1IjoiaGVucnkta2FuZW5naXNlciIsImEiOiJjbHVsdTU1Z20waG84MnFwbzQybmozMjdrIn0.tqmZ-jfP2M6xcOz09ckRPA';
