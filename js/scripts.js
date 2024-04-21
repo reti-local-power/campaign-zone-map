@@ -22,6 +22,9 @@ const map = new mapboxgl.Map(mapOptions);
 const nav = new mapboxgl.NavigationControl();
 map.addControl(nav, 'top-right');
 
+// create zoom var where campaign zone fills disappear and the user can interact with buildings
+var zoomswitch = 14;
+
 // add geojson layer for building information to the map
 map.on('load', () => {
 
@@ -51,32 +54,6 @@ map.on('load', () => {
 
   // Set this layer to not be visible initially so it can be turned on using the botton
   map.setLayoutProperty('dac-fill', 'visibility', 'none');
-
-  // Add a data source containing GeoJSON data (campaign zone).
-  map.addSource('cz', {
-    'type': 'geojson',
-    'data': 'dat/for-web-map/cz.geojson',
-    'generateId': true // this will add an id to each feature, this is necessary if we want to use featureState (see below)
-  });
-
-  // Add a new layer to visualize campaign zone areas (fill)
-  map.addLayer({
-    'id': 'cz-fill',
-    'type': 'fill',
-    'source': 'cz', // reference the data source read in above
-    'maxzoom': 14, // hide fill once the user zooms in enough
-    'layout': {},
-    'paint': {
-      'fill-color': '#54278f',
-      // use a case expression to set the opacity of a polygon based on featureState
-      'fill-opacity': [
-        'case',
-        ['boolean', ['feature-state', 'hover'], false],
-        0.8,  // opacity when hover is false
-        0.4 // opacity when hover is true
-      ]
-    }
-  }, 'waterway-label');
 
   // Add a data source containing GeoJSON data (building info).
   map.addSource('bldg', {
@@ -110,6 +87,32 @@ map.on('load', () => {
 
       ],
       'fill-opacity': 1
+    }
+  }, 'waterway-label');
+
+  // Add a data source containing GeoJSON data (campaign zone).
+  map.addSource('cz', {
+    'type': 'geojson',
+    'data': 'dat/for-web-map/cz.geojson',
+    'generateId': true // this will add an id to each feature, this is necessary if we want to use featureState (see below)
+  });
+
+  // Add a new layer to visualize campaign zone areas (fill)
+  map.addLayer({
+    'id': 'cz-fill',
+    'type': 'fill',
+    'source': 'cz', // reference the data source read in above
+    'maxzoom': zoomswitch, // hide fill once the user zooms in enough (set by var earlier on)
+    'layout': {},
+    'paint': {
+      'fill-color': '#54278f',
+      // use a case expression to set the opacity of a polygon based on featureState
+      'fill-opacity': [
+        'case',
+        ['boolean', ['feature-state', 'hover'], false],
+        0.8,  // opacity when hover is false
+        0.4 // opacity when hover is true
+      ]
     }
   }, 'waterway-label');
 
@@ -244,11 +247,15 @@ map.on('load', () => {
     }
   });
 
-  // Change mouse to pointer when on individual buildings (no hover state)
+  // On zoom above value for cz fill to disappear Change mouse to pointer when on individual buildings (no hover state)
 
   map.on('mousemove', 'bldg-fill', (e) => {
-    // don't do anything if there are no features from this layer under the mouse pointer
-    if (e.features.length > 0) {
+
+    // get the current zoom
+    var curzoom = map.getZoom();
+
+    // don't do anything if there are no features from this layer under the mouse pointer OR if zoom is too small
+    if (e.features.length > 0 & curzoom >= zoomswitch) {
 
       // make the cursor a pointer to let the user know it is clickable
       map.getCanvas().style.cursor = 'pointer'
@@ -264,23 +271,26 @@ map.on('load', () => {
   });
 
   // if the user clicks the 'bldg-fill' layer, extract properties from the clicked feature, using jQuery to write them to another part of the page.
+  // NOTE: if statement makes this only happen when the zoom is larger than the threshold level where the cz-fill disappears
   map.on('click', 'bldg-fill', (e) => {
-    // get the boro_name from the first item in the array e.features
-    var address = e.features[0].properties.address
-    var score = parseInt(e.features[0].properties.index)
-    var owner = e.features[0].properties.ownername
-    var campzone = e.features[0].properties.campzone
-    var elcprd = parseInt(e.features[0].properties.ElcPrdMwh)
+    if (curzoom >= zoomswitch) {
+      // get the boro_name from the first item in the array e.features
+      var address = e.features[0].properties.address
+      var score = parseInt(e.features[0].properties.index)
+      var owner = e.features[0].properties.ownername
+      var campzone = e.features[0].properties.campzone
+      var elcprd = parseInt(e.features[0].properties.ElcPrdMwh)
 
-    // insert the borough name into the sidebar using jQuery
-    $('#info-panel').text(
-      `Building: ${address}
+      // insert the borough name into the sidebar using jQuery
+      $('#info-panel').text(
+        `Building: ${address}
       Suitability score: ${score} out of 14
       Owned by: ${owner}
       Annual solar energy potential: ${elcprd} MWh/year
       Campaign zone: ${campzone}`
 
-    )
+      )
+    }
   });
 
 
