@@ -138,6 +138,7 @@ map.on('load', () => {
     'id': 'ibz-fill',
     'type': 'fill',
     'source': 'ibz', // reference the data source read in above
+    'maxzoom': zoomswitch + 1.5, // hide fill once the user zooms in enough (set by var earlier on)
     'layout': {},
     'paint': {
       'fill-color': '#f5be71',
@@ -172,6 +173,7 @@ map.on('load', () => {
     'id': 'bid-fill',
     'type': 'fill',
     'source': 'bid', // reference the data source read in above
+    'maxzoom': zoomswitch + 1.5, // hide fill once the user zooms in enough (set by var earlier on)
     'layout': {},
     'paint': {
       'fill-color': '#98f511',
