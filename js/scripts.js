@@ -25,11 +25,12 @@ map.addControl(nav, 'top-right');
 // add geojson layer for building information to the map
 map.on('load', () => {
 
-  // Get list of all layers on the map, so we know where to insert the new layers
-  console.log(
-    map.getStyle().layers
-  )
+  // // Get list of all layers on the map, so we know where to insert the new layers
+  // console.log(
+  //   map.getStyle().layers
+  // )
 
+  //// Add geojson layers to the map ------------------------------------------
   // Add a data source containing GeoJSON data (subscriber DAC maps).
   map.addSource('subscriber', {
     'type': 'geojson',
@@ -54,7 +55,8 @@ map.on('load', () => {
   // Add a data source containing GeoJSON data (campaign zone).
   map.addSource('cz', {
     'type': 'geojson',
-    'data': 'dat/for-web-map/cz.geojson'
+    'data': 'dat/for-web-map/cz.geojson',
+    'generateId': true // this will add an id to each feature, this is necessary if we want to use featureState (see below)
   });
 
   // Add a new layer to visualize campaign zone areas (fill)
@@ -70,7 +72,7 @@ map.on('load', () => {
       'fill-opacity': [
         'case',
         ['boolean', ['feature-state', 'hover'], false],
-        1,  // opacity when hover is false
+        0.8,  // opacity when hover is false
         0.4 // opacity when hover is true
       ]
     }
@@ -192,9 +194,10 @@ map.on('load', () => {
   map.setLayoutProperty('bid-line', 'visibility', 'none');
   map.setLayoutProperty('bid-fill', 'visibility', 'none');
 
+
+  //// Set up hover state for campaign zones ----------------------------------
   // this is a variable to store the id of the feature that is currently being hovered.
   let hoveredPolygonId = null;
-
 
   // whenever the mouse moves on the 'cz-fill' layer, we check the id of the feature it is on 
   //  top of, and set featureState for that feature.  The featureState we set is hover:true or hover:false
@@ -241,6 +244,25 @@ map.on('load', () => {
     }
   });
 
+  // Change mouse to pointer when on individual buildings (no hover state)
+
+  map.on('mousemove', 'bldg-fill', (e) => {
+    // don't do anything if there are no features from this layer under the mouse pointer
+    if (e.features.length > 0) {
+
+      // make the cursor a pointer to let the user know it is clickable
+      map.getCanvas().style.cursor = 'pointer'
+
+      // resets the feature state to the default (nothing is hovered) when the mouse leaves the 'bldg-fill' layer
+      map.on('mouseleave', 'bldg-fill', () => {
+
+        // set the cursor back to default
+        map.getCanvas().style.cursor = ''
+      });
+
+    }
+  });
+
   // if the user clicks the 'bldg-fill' layer, extract properties from the clicked feature, using jQuery to write them to another part of the page.
   map.on('click', 'bldg-fill', (e) => {
     // get the boro_name from the first item in the array e.features
@@ -263,8 +285,6 @@ map.on('load', () => {
 
 
 });
-
-//// Set hover state for campaign zones to signal they can be clicked
 
 
 
