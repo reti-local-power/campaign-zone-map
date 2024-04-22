@@ -309,8 +309,9 @@ map.on('load', () => {
       Number of buildings: ${n}
       Average solar energy potential: ${elcprd} MWh/year
       Average suitability score: ${score}`
-
       )
+
+      $('#info-panel').css('background-color', '#c4aae6');
     }
   });
 
@@ -334,8 +335,8 @@ map.on('load', () => {
       Owned by: ${owner}
       Annual solar energy potential: ${elcprd} MWh/year
       Campaign zone: ${campzone}`
-
       )
+      $('#info-panel').css('background-color', '#c8dcf0');
     }
   });
 
