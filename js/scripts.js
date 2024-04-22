@@ -107,8 +107,10 @@ map.on('load', () => {
       // use a case expression to set the opacity of a polygon based on featureState
       'fill-opacity': [
         'case',
+        ['boolean', ['feature-state', 'clicked'], false],
+        0.8,  // opacity when clicked is true
         ['boolean', ['feature-state', 'hover'], false],
-        0.8,  // opacity when hover is false
+        0.6, // opacity when hover is false
         0.4 // opacity when hover is true
       ]
     }
@@ -273,20 +275,26 @@ map.on('load', () => {
   //// Set up click to add information to the info-panel about campaign zones and buildings
   // if the user clicks the 'cz-fill' layer, extract properties from the clicked feature, using jQuery to write them to another part of the page.
   // NOTE: if statement makes this only happen when the zoom is smaller than the threshold level where the cz-fill disappears
+  let clickedPolygonId = null
+
   map.on('click', 'cz-fill', (e) => {
     var curzoom = map.getZoom(); // define curzoom as the current zoom when the click occurs
 
-    let hoveredPolygonId = null
+    // remove clicked featurestate if it is already set on another feature
+    if (clickedPolygonId !== null) {
+      map.setFeatureState(
+        {source: 'cz', id: clickedPolygonId},
+        {clicked: false}
+      )
+    }
 
     if (curzoom < zoomswitch) {
-      hoveredPolygonId = e.features[0].id;
-
-      // console.log(hoveredPolygonId);
+      clickedPolygonId = e.features[0].id;
 
       // set the featureState of this feature to hover:true
       map.setFeatureState(
-        { source: 'cz', id: hoveredPolygonId },
-        { hover: true }
+        { source: 'cz', id: clickedPolygonId },
+        { clicked: true }
       )
 
       // get feature information from the items in the array e.features
