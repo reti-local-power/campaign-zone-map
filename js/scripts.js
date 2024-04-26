@@ -148,7 +148,7 @@ map.on('load', () => {
       'fill-opacity': [
         'case',
         ['boolean', ['feature-state', 'hover'], false],
-        0.2, // opacity when hover is false
+        0.3, // opacity when hover is false
         0.1 // opacity when hover is true
       ]
     }
@@ -189,7 +189,7 @@ map.on('load', () => {
       'fill-opacity': [
         'case',
         ['boolean', ['feature-state', 'hover'], false],
-        0.2, // opacity when hover is false
+        0.3, // opacity when hover is false
         0.1 // opacity when hover is true
       ]
     }
