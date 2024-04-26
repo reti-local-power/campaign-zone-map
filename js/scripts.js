@@ -132,7 +132,8 @@ map.on('load', () => {
   // Add a data source containing GeoJSON data (industrial business zones).
   map.addSource('ibz', {
     'type': 'geojson',
-    'data': 'dat/for-web-map/ibz.geojson'
+    'data': 'dat/for-web-map/ibz.geojson',
+    'generateId': true // this will add an id to each feature, this is necessary if we want to use featureState (see below)
   });
 
   // Add a new layer to visualize ibz borders (fill)
@@ -144,7 +145,12 @@ map.on('load', () => {
     'layout': {},
     'paint': {
       'fill-color': '#f5be71',
-      'fill-opacity': 0.1
+      'fill-opacity': [
+        'case',
+        ['boolean', ['feature-state', 'hover'], false],
+        0.2, // opacity when hover is false
+        0.1 // opacity when hover is true
+      ]
     }
   }, 'waterway-label');
 
@@ -167,7 +173,8 @@ map.on('load', () => {
   // Add a data source containing GeoJSON data (business improvement districts).
   map.addSource('bid', {
     'type': 'geojson',
-    'data': 'dat/for-web-map/bid.geojson'
+    'data': 'dat/for-web-map/bid.geojson',
+    'generateId': true // this will add an id to each feature, this is necessary if we want to use featureState (see below)
   });
 
   // Add a new layer to visualize bid borders (fill)
@@ -179,7 +186,12 @@ map.on('load', () => {
     'layout': {},
     'paint': {
       'fill-color': '#98f511',
-      'fill-opacity': 0.1
+      'fill-opacity': [
+        'case',
+        ['boolean', ['feature-state', 'hover'], false],
+        0.2, // opacity when hover is false
+        0.1 // opacity when hover is true
+      ]
     }
   }, 'waterway-label');
 
@@ -283,8 +295,8 @@ map.on('load', () => {
     // remove clicked featurestate if it is already set on another feature
     if (clickedPolygonId !== null) {
       map.setFeatureState(
-        {source: 'cz', id: clickedPolygonId},
-        {clicked: false}
+        { source: 'cz', id: clickedPolygonId },
+        { clicked: false }
       )
     }
 
@@ -341,18 +353,143 @@ map.on('load', () => {
   });
 
 
-  //// Create gentle hover state for IBZ and BID to encourage clicks
+  //// Create gentle hover state for IBZ to encourage clicks
 
-// Follow the cz-fill example, but use a much gentler change in fill because these are not the most important part of the map
+  let hoveredPolygonId2 = null; // need to create a new ID var for each layer in question
+
+  map.on('mousemove', 'ibz-fill', (e) => {
+
+    if (e.features.length > 0) {
+      if (hoveredPolygonId2 !== null) {
+        map.setFeatureState(
+          { source: 'ibz', id: hoveredPolygonId2 },
+          { hover: false }
+        );
+      }
+      hoveredPolygonId2 = e.features[0].id;
+      map.setFeatureState(
+        { source: 'ibz', id: hoveredPolygonId2 },
+        { hover: true }
+      );
+    }
+  });
+
+  // When the mouse leaves the state-fill layer, update the feature state of the
+  // previously hovered feature.
+  map.on('mouseleave', 'ibz-fill', () => {
+    if (hoveredPolygonId2 !== null) {
+      map.setFeatureState(
+        { source: 'ibz', id: hoveredPolygonId2 },
+        { hover: false }
+      );
+    }
+    hoveredPolygonId2 = null;
+  });
+
+  //// Create gentle hover state for BID to encourage clicks
+
+  let hoveredPolygonId3 = null; // need to create a new ID var for each layer in question
+
+  map.on('mousemove', 'bid-fill', (e) => {
+
+    if (e.features.length > 0) {
+      if (hoveredPolygonId3 !== null) {
+        map.setFeatureState(
+          { source: 'bid', id: hoveredPolygonId3 },
+          { hover: false }
+        );
+      }
+      hoveredPolygonId3 = e.features[0].id;
+      map.setFeatureState(
+        { source: 'bid', id: hoveredPolygonId3 },
+        { hover: true }
+      );
+    }
+  });
+
+  // When the mouse leaves the state-fill layer, update the feature state of the
+  // previously hovered feature.
+  map.on('mouseleave', 'bid-fill', () => {
+    if (hoveredPolygonId3 !== null) {
+      map.setFeatureState(
+        { source: 'bid', id: hoveredPolygonId3 },
+        { hover: false }
+      );
+    }
+    hoveredPolygonId3 = null;
+  });
+
 
   //// Create pop-up name for IBZ and BIDs on mouse click
+  map.on('click', 'ibz-fill', (e) => {
+    new mapboxgl.Popup()
+      .setLngLat(e.lngLat)
+      .setHTML(e.features[0].properties.ibz_name)
+      .addTo(map);
+  });
 
-// Code to reference: https://docs.mapbox.com/mapbox-gl-js/example/polygon-popup-on-click/?size=n_10_n
-//  consider styling the popups slightly if possible
+  // Change the cursor to a pointer when
+  // the mouse is over the states layer.
+  map.on('mouseenter', 'ibz-fill', () => {
+    map.getCanvas().style.cursor = 'pointer';
+  });
 
-// Also helpful: https://docs.mapbox.com/mapbox-gl-js/example/popup-on-hover/
-//  but not this only works for point geometry, polygons don't work because it doesn't know where to place the popup unless 
-//   you provide coordinates
+  // Change the cursor back to a pointer
+  // when it leaves the states layer.
+  map.on('mouseleave', 'ibz-fill', () => {
+    map.getCanvas().style.cursor = '';
+  });
+
+  map.on('click', 'bid-fill', (e) => {
+    new mapboxgl.Popup()
+      .setLngLat(e.lngLat)
+      .setHTML(e.features[0].properties.bid_name)
+      .addTo(map);
+  });
+
+  // Change the cursor to a pointer when
+  // the mouse is over the states layer.
+  map.on('mouseenter', 'bid-fill', () => {
+    map.getCanvas().style.cursor = 'pointer';
+  });
+
+  // Change the cursor back to a pointer
+  // when it leaves the states layer.
+  map.on('mouseleave', 'bid-fill', () => {
+    map.getCanvas().style.cursor = '';
+  });
+
+  /// reference code (delete below)
+  // map.on('click', 'bldg-fill', (e) => {
+  //   var curzoom = map.getZoom(); // define curzoom as the current zoom when the click occurs
+
+  //   if (curzoom >= zoomswitch) {
+  //     // get feature information from the items in the array e.features
+  //     var address = e.features[0].properties.address
+  //     var score = parseInt(e.features[0].properties.index)
+  //     var owner = e.features[0].properties.ownername
+  //     var campzone = e.features[0].properties.campzone
+  //     var elcprd = parseInt(e.features[0].properties.ElcPrdMwh)
+
+  //     // insert the information into the sidebar using jQuery
+  //     $('#info-panel').text(
+  //       `Building: ${address}
+  //     Suitability score: ${score} out of 14
+  //     Owned by: ${owner}
+  //     Annual solar energy potential: ${elcprd} MWh/year
+  //     Campaign zone: ${campzone}`
+  //     )
+  //     $('#info-panel').css('background-color', '#c8dcf0');
+  //   }
+  // });
+
+
+  // Code to reference: https://docs.mapbox.com/mapbox-gl-js/example/polygon-popup-on-click/?size=n_10_n
+  //  consider styling the popups slightly if possible
+
+  // Also helpful: https://docs.mapbox.com/mapbox-gl-js/example/popup-on-hover/
+  //  but not this only works for point geometry, polygons don't work because it doesn't know where to place the popup unless 
+  //   you provide coordinates
 
 
 
