@@ -319,6 +319,14 @@ map.on('load', () => {
     if (curzoom < zoomswitch) {
       clickedPolygonId = e.features[0].id;
 
+    // remove bldg clicked featurestate if it is already set on another feature
+    if (clickedPolygonId2 !== null) {
+      map.setFeatureState(
+        { source: 'bldg', id: clickedPolygonId2 },
+        { clicked: false }
+      )
+    }
+
       // set the featureState of this feature to hover:true
       map.setFeatureState(
         { source: 'cz', id: clickedPolygonId },
@@ -340,6 +348,10 @@ map.on('load', () => {
       )
 
       $('#info-panel').css('background-color', '#c4aae6');
+      $('#info-panel').css('border-color', '#54278f');
+      $('#info-panel').css('border-width', '3');
+      $('#info-panel').css('border-style', 'dashed');
+      // border-color: #54278f; border-style: dashed
     }
   });
 
@@ -350,6 +362,14 @@ map.on('load', () => {
 
   map.on('click', 'bldg-fill', (e) => {
     var curzoom = map.getZoom(); // define curzoom as the current zoom when the click occurs
+
+    // remove clicked featurestate if it is already set on another feature
+    if (clickedPolygonId2 !== null) {
+      map.setFeatureState(
+        { source: 'bldg', id: clickedPolygonId2 },
+        { clicked: false }
+      )
+    }
 
     if (curzoom >= zoomswitch) {
 
@@ -385,6 +405,9 @@ map.on('load', () => {
       Campaign zone: ${campzone}`
       )
       $('#info-panel').css('background-color', '#c8dcf0');
+      $('#info-panel').css('border-color', '#f0410c');
+      $('#info-panel').css('border-width', '2');
+      $('#info-panel').css('border-style', 'solid');
     }
   });
 
