@@ -277,7 +277,7 @@ map.on('load', () => {
       map.getCanvas().style.cursor = 'pointer'
     }
   });
-  
+
   // resets the feature state to the default (nothing is hovered) when the mouse leaves the 'bldg-fill' layer
   map.on('mouseleave', 'bldg-fill', () => {
 
@@ -334,6 +334,15 @@ map.on('load', () => {
     var curzoom = map.getZoom(); // define curzoom as the current zoom when the click occurs
 
     if (curzoom >= zoomswitch) {
+
+      // remove clicked featurestate from cz if it is already set on another feature
+      if (clickedPolygonId !== null) {
+        map.setFeatureState(
+          { source: 'cz', id: clickedPolygonId },
+          { clicked: false }
+        )
+      }
+      
       // get feature information from the items in the array e.features
       var address = e.features[0].properties.address
       var score = parseInt(e.features[0].properties.index)
