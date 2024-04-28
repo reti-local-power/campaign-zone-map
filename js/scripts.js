@@ -56,7 +56,8 @@ map.on('load', () => {
   // Add a data source containing GeoJSON data (building info).
   map.addSource('bldg', {
     'type': 'geojson',
-    'data': 'dat/for-web-map/bldg.geojson'
+    'data': 'dat/for-web-map/bldg.geojson',
+    'generateId': true // this will add an id to each feature, this is necessary if we want to use featureState (see below)
   });
 
   // Add a new layer to visualize building information
@@ -67,9 +68,6 @@ map.on('load', () => {
     'layout': {},
     'paint': {
       'fill-color': [
-        // 'case',
-        // ['boolean', ['feature-state', 'clicked'], false],
-        // #f0410c,  // fill when clicked is true
         // // create fill colors based on site suitability scores (var: index)
         'interpolate',
         ['linear'],
@@ -88,6 +86,23 @@ map.on('load', () => {
 
       ],
       'fill-opacity': 1
+    }
+  }, 'waterway-label');
+
+  // Add a new layer to visualize active building information (line)
+  map.addLayer({
+    'id': 'bldg-line',
+    'type': 'line',
+    'source': 'bldg', // reference the data source read in above
+    'layout': {},
+    'paint': {
+      'line-color': '#f0410c',
+      'line-width': [
+        'case',
+        ['boolean', ['feature-state', 'clicked'], false],
+        2.5,  // opacity when clicked is true
+        0 // opacity when hover is true
+      ]
     }
   }, 'waterway-label');
 
@@ -330,10 +345,15 @@ map.on('load', () => {
 
   // if the user clicks the 'bldg-fill' layer, extract properties from the clicked feature, using jQuery to write them to another part of the page.
   // NOTE: if statement makes this only happen when the zoom is larger than the threshold level where the cz-fill disappears
+
+  let clickedPolygonId2 = null
+
   map.on('click', 'bldg-fill', (e) => {
     var curzoom = map.getZoom(); // define curzoom as the current zoom when the click occurs
 
     if (curzoom >= zoomswitch) {
+
+      clickedPolygonId2 = e.features[0].id;
 
       // remove clicked featurestate from cz if it is already set on another feature
       if (clickedPolygonId !== null) {
@@ -342,7 +362,13 @@ map.on('load', () => {
           { clicked: false }
         )
       }
-      
+
+      // set the featureState of this feature to clicked:true
+      map.setFeatureState(
+        { source: 'bldg', id: clickedPolygonId2},
+        { clicked: true }
+      )      
+
       // get feature information from the items in the array e.features
       var address = e.features[0].properties.address
       var score = parseInt(e.features[0].properties.index)
