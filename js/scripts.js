@@ -1,7 +1,7 @@
 // TO-DO LIST
-// - Hover button name for ibz & bid
 // - Change state of building and CZ on click (active state?)
 // - Figure out how to format text that is sent to info-panel on click
+// - Turn active state off for CZ when bldg is clicked (and vice versa)
 
 // Setting up MapBox
 mapboxgl.accessToken = 'pk.eyJ1IjoiaGVucnkta2FuZW5naXNlciIsImEiOiJjbHVsdTU1Z20waG84MnFwbzQybmozMjdrIn0.tqmZ-jfP2M6xcOz09ckRPA';
@@ -67,22 +67,25 @@ map.on('load', () => {
     'layout': {},
     'paint': {
       'fill-color': [
-        // create fill colors based on site suitability scores (var: index)
-        'interpolate',
-        ['linear'],
-        ['get', 'index'],
-        // colors mirror the static maps created for the report
-        0,
-        '#f7fbff',
-        2.1,
-        '#c8dcf0',
-        5.1,
-        '#73b2d8',
-        8.1,
-        '#2979b9',
-        11.1,
-        '#08306b',
-
+        'case',
+        ['boolean', ['feature-state', 'clicked'], false],
+        #f0410c,  // fill when clicked is true
+        // // create fill colors based on site suitability scores (var: index)
+        ['interpolate',
+          ['linear'],
+          ['get', 'index'],
+          // colors mirror the static maps created for the report
+          0,
+          '#f7fbff',
+          2.1,
+          '#c8dcf0',
+          5.1,
+          '#73b2d8',
+          8.1,
+          '#2979b9',
+          11.1,
+          '#08306b'
+        ]
       ],
       'fill-opacity': 1
     }
@@ -459,14 +462,6 @@ map.on('load', () => {
     map.getCanvas().style.cursor = '';
   });
 
-
-
-  // Code to reference: https://docs.mapbox.com/mapbox-gl-js/example/polygon-popup-on-click/?size=n_10_n
-  //  consider styling the popups slightly if possible
-
-  // Also helpful: https://docs.mapbox.com/mapbox-gl-js/example/popup-on-hover/
-  //  but not this only works for point geometry, polygons don't work because it doesn't know where to place the popup unless 
-  //   you provide coordinates
 
 
 
