@@ -67,25 +67,25 @@ map.on('load', () => {
     'layout': {},
     'paint': {
       'fill-color': [
-        'case',
-        ['boolean', ['feature-state', 'clicked'], false],
-        #f0410c,  // fill when clicked is true
+        // 'case',
+        // ['boolean', ['feature-state', 'clicked'], false],
+        // #f0410c,  // fill when clicked is true
         // // create fill colors based on site suitability scores (var: index)
-        ['interpolate',
-          ['linear'],
-          ['get', 'index'],
-          // colors mirror the static maps created for the report
-          0,
-          '#f7fbff',
-          2.1,
-          '#c8dcf0',
-          5.1,
-          '#73b2d8',
-          8.1,
-          '#2979b9',
-          11.1,
-          '#08306b'
-        ]
+        'interpolate',
+        ['linear'],
+        ['get', 'index'],
+        // colors mirror the static maps created for the report
+        0,
+        '#f7fbff',
+        2.1,
+        '#c8dcf0',
+        5.1,
+        '#73b2d8',
+        8.1,
+        '#2979b9',
+        11.1,
+        '#08306b'
+
       ],
       'fill-opacity': 1
     }
@@ -267,7 +267,6 @@ map.on('load', () => {
   // On zoom above value for cz fill to disappear Change mouse to pointer when on individual buildings (no hover state)
 
   map.on('mousemove', 'bldg-fill', (e) => {
-
     // get the current zoom
     var curzoom = map.getZoom();
 
@@ -276,15 +275,14 @@ map.on('load', () => {
 
       // make the cursor a pointer to let the user know it is clickable
       map.getCanvas().style.cursor = 'pointer'
-
-      // resets the feature state to the default (nothing is hovered) when the mouse leaves the 'bldg-fill' layer
-      map.on('mouseleave', 'bldg-fill', () => {
-
-        // set the cursor back to default
-        map.getCanvas().style.cursor = ''
-      });
-
     }
+  });
+  
+  // resets the feature state to the default (nothing is hovered) when the mouse leaves the 'bldg-fill' layer
+  map.on('mouseleave', 'bldg-fill', () => {
+
+    // set the cursor back to default
+    map.getCanvas().style.cursor = ''
   });
 
   //// Set up click to add information to the info-panel about campaign zones and buildings
