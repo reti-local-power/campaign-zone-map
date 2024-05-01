@@ -52,6 +52,7 @@ bid <- st_read("https://data.cityofnewyork.us/resource/7jdm-inj8.geojson")
 #  owner contact info (*_name and *_add)
 
 bldg2 <- bldg %>%
+  mutate(campzone = replace_na(campzone, "Not in a campaign zone")) %>%
   select(-starts_with("f_"), #remove flag vars (only need the final index score)
          -ends_with("_name"), -ends_with("_add"), #remove hpd owner contact info
          -zonedist1, resfarrat) %>%
@@ -95,8 +96,8 @@ ibz2 <- ibz %>%
 
 
 bid2 <- bid %>%
-  filter(borough == "3") %>%
-  select(bid_name = bid, geometry)
+  filter(f_all_bi_1 == "Brooklyn") %>%
+  select(bid_name = f_all_bi_2, geometry)
 # note that this layer is already in the right CRS so no need to transform
 
 

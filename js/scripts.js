@@ -1,7 +1,5 @@
 // TO-DO LIST
-// - Change state of building and CZ on click (active state?)
 // - Figure out how to format text that is sent to info-panel on click
-// - Turn active state off for CZ when bldg is clicked (and vice versa)
 
 // Setting up MapBox
 mapboxgl.accessToken = 'pk.eyJ1IjoiaGVucnkta2FuZW5naXNlciIsImEiOiJjbHVsdTU1Z20waG84MnFwbzQybmozMjdrIn0.tqmZ-jfP2M6xcOz09ckRPA';
