@@ -334,7 +334,7 @@ map.on('load', () => {
       // get feature information from the items in the array e.features
       var campzone = e.features[0].properties.campzone
       var n = e.features[0].properties.n
-      var elcprd = parseInt(e.features[0].properties.avg_energy_MWh)
+      var elcprd = parseInt(e.features[0].properties.avg_energy_m_wh)
       var score = parseInt(e.features[0].properties.avg_suitability)
 
       // insert the information into the sidebar using jQuery
