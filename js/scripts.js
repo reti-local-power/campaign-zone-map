@@ -352,10 +352,6 @@ map.on('load', () => {
         `
       )
 
-      // Click <a
-      //           href="https://github.com/henry-kanengiser/fcny-community-solar/"
-      //           target="_blank">here</a> for the GitHub
-
       $('#info-panel').css('background-color', '#c4aae6');
       $('#info-panel').css('border-color', '#54278f');
       $('#info-panel').css('border-width', '3');
@@ -406,13 +402,21 @@ map.on('load', () => {
       var elcprd = parseInt(e.features[0].properties.ElcPrdMwh)
 
       // insert the information into the sidebar using jQuery
-      $('#info-panel').text(
-        `Building: ${address}
-      Suitability score: ${score} out of 14
-      Owned by: ${owner}
-      Annual solar energy potential: ${elcprd} MWh/year
-      Campaign zone: ${campzone}`
+      $('#info-panel').html(
+        `<h3><b>Building:<i> ${address} </i></b></h3>
+        <ul>
+          <li><b>Suitability score:</b> ${score} out of 14 </li>
+          <li><b>Owned by:</b> ${owner} </li>
+          <li><b>Annual solar energy potential:</b> ${elcprd} MWh/year </li>
+          <li><b>Campaign zone:</b> ${campzone} </li>
+          <li><a
+          href="https://docs.google.com/spreadsheets/d/1wD67WVOKtmZulJ7w5CywJQeDXi5Z23Xx/edit?usp=drive_link&ouid=104432637836919768734&rtpof=true&sd=true"
+          target="_blank">More info about suitable community solar buildings</a></li>
+        </ul>
+        <br>
+        `
       )
+
       $('#info-panel').css('background-color', '#c8dcf0');
       $('#info-panel').css('border-color', '#f0410c');
       $('#info-panel').css('border-width', '2');
