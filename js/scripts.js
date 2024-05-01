@@ -317,13 +317,13 @@ map.on('load', () => {
     if (curzoom < zoomswitch) {
       clickedPolygonId = e.features[0].id;
 
-    // remove bldg clicked featurestate if it is already set on another feature
-    if (clickedPolygonId2 !== null) {
-      map.setFeatureState(
-        { source: 'bldg', id: clickedPolygonId2 },
-        { clicked: false }
-      )
-    }
+      // remove bldg clicked featurestate if it is already set on another feature
+      if (clickedPolygonId2 !== null) {
+        map.setFeatureState(
+          { source: 'bldg', id: clickedPolygonId2 },
+          { clicked: false }
+        )
+      }
 
       // set the featureState of this feature to hover:true
       map.setFeatureState(
@@ -338,12 +338,23 @@ map.on('load', () => {
       var score = parseInt(e.features[0].properties.avg_suitability)
 
       // insert the information into the sidebar using jQuery
-      $('#info-panel').text(
-        `Campaign Zone: ${campzone}
-      Number of buildings: ${n}
-      Average solar energy potential: ${elcprd} MWh/year
-      Average suitability score: ${score}`
+      $('#info-panel').html(
+        `<h3><b>Campaign Zone:<i> ${campzone} </i></b></h3>
+        <ul>
+          <li><b>Number of buildings:</b> ${n} </li>
+          <li><b>Average solar energy potential:</b> ${elcprd} MWh/year </li>
+          <li><b>Average suitability score:</b> ${score} </li>
+          <li><a
+          href="https://docs.google.com/spreadsheets/d/1h-6Lx9N9IONiM7AdUayUQ-GIFTxjEbyI/edit?usp=sharing&ouid=104432637836919768734&rtpof=true&sd=true"
+          target="_blank">More info about campaign zones</a></li>
+        </ul>
+        <br>
+        `
       )
+
+      // Click <a
+      //           href="https://github.com/henry-kanengiser/fcny-community-solar/"
+      //           target="_blank">here</a> for the GitHub
 
       $('#info-panel').css('background-color', '#c4aae6');
       $('#info-panel').css('border-color', '#54278f');
@@ -383,9 +394,9 @@ map.on('load', () => {
 
       // set the featureState of this feature to clicked:true
       map.setFeatureState(
-        { source: 'bldg', id: clickedPolygonId2},
+        { source: 'bldg', id: clickedPolygonId2 },
         { clicked: true }
-      )      
+      )
 
       // get feature information from the items in the array e.features
       var address = e.features[0].properties.address
