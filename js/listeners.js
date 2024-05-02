@@ -80,14 +80,13 @@ $('#bid-button').on('click', function () {
   // Script to collapse/open the side panel
   /* Set the width of the sidebar to 30% (show it) */
   function openNav() {
-    document.getElementById("my-sidepanel").style.width = "30%";
-  
+    $('#my-sidepanel').css('transform', 'translate(0px)');  
   }
   
   /* Set the width of the sidebar to 0 (hide it) */
   function closeNav() {
-    document.getElementById("my-sidepanel").style.width = "0";
-  
+    $('#my-sidepanel').css('transform', 'translate(-100%)');
   }
+
   
   

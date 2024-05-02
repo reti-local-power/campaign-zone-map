@@ -63,11 +63,11 @@
 
 
 /* Left side column with FAQ text and narrative. */
-.sidepanel {
+#my-sidepanel {
   /* Code from https://www.w3schools.com/howto/howto_js_collapse_sidepanel.asp */
   height: 45%;        /* Specify a height */
   width: 30%;         /* 30% width - change this with JavaScript */
-  position: fixed;    /* Stay in place */
+  position: absolute;    /* Stay in place */
   z-index: 2;         /* Stay on top */
   /* top: 175;           Align on the page below the header */
   /* bottom: 250; */
