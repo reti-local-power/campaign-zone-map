@@ -1,5 +1,6 @@
 // TO-DO LIST
-// - Figure out how to format text that is sent to info-panel on click
+// - Look into simplifying the building shapefiles in R using rmapshaper::ms_simplify() (50% seems to maintain most of the shape)
+//    example: https://www.r-bloggers.com/2021/03/simplifying-geospatial-features-in-r-with-sf-and-rmapshaper/
 
 // Setting up MapBox
 mapboxgl.accessToken = 'pk.eyJ1IjoiaGVucnkta2FuZW5naXNlciIsImEiOiJjbHVsdTU1Z20waG84MnFwbzQybmozMjdrIn0.tqmZ-jfP2M6xcOz09ckRPA';
