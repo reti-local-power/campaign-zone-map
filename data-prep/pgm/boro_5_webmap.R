@@ -75,7 +75,9 @@ cz2 <- cz %>%
   select(cz_num = fid, campzone, geometry) %>%
   left_join(cz_data, by = "cz_num") %>%
   #transform to WSG 84 lat/lon information
-  st_transform(st_crs(4326))
+  st_transform(st_crs(4326)) %>%
+  clean_names()
+  
 
 # # check that numbering matches
 # tm_shape(cz2) + 
