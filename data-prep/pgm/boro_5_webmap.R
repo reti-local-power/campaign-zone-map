@@ -13,6 +13,7 @@ library(tidyverse)
 library(janitor)
 library(sf)
 library(tmap)
+library(rmapshaper)
 
 tmap_mode("view")
 tmap_options(check.and.fix = TRUE)
@@ -58,6 +59,17 @@ bldg2 <- bldg %>%
          -zonedist1, resfarrat) %>%
   st_transform(st_crs(4326))
 
+# test out the simplifying algorithm
+bldg3 <- bldg2 %>%
+  ms_simplify(keep = 0.5, keep_shapes = FALSE)
+
+## compare shapes, they should look mostly the same
+# tm_shape(bldg2) + 
+#   tm_borders('red') + 
+#   tm_shape(bldg3) + 
+#   tm_fill('lightblue') + 
+#   tm_borders('blue')
+
 cz2 <- cz %>%
   mutate(campzone = case_when(
     fid == "1"  ~ "Greenpoint IBZ",
@@ -77,6 +89,7 @@ cz2 <- cz %>%
   #transform to WSG 84 lat/lon information
   st_transform(st_crs(4326)) %>%
   clean_names()
+
   
 
 # # check that numbering matches
@@ -106,7 +119,7 @@ bid2 <- bid %>%
 # 3. Save in geojson format for web mapping -----------------------------------
 
 # building information file
-st_write(bldg2, "dat/for-web-map/bldg.geojson", delete_dsn = T)
+st_write(bldg3, "dat/for-web-map/bldg.geojson", delete_dsn = T)
 
 # campaign zone information file
 st_write(cz2, "dat/for-web-map/cz.geojson", delete_dsn = T)
