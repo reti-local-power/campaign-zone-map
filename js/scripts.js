@@ -34,7 +34,7 @@ map.on('load', () => {
   // Add a data source containing GeoJSON data (subscriber DAC maps).
   map.addSource('subscriber', {
     'type': 'geojson',
-    'data': 'dat/for-web-map/subscriber.geojson'
+    'data': 'data-prep/dat/for-web-map/subscriber.geojson'
   });
 
   // Add a new layer to visualize campaign zone areas (fill)
@@ -55,7 +55,7 @@ map.on('load', () => {
   // Add a data source containing GeoJSON data (building info).
   map.addSource('bldg', {
     'type': 'geojson',
-    'data': 'dat/for-web-map/bldg.geojson',
+    'data': 'data-prep/dat/for-web-map/bldg.geojson',
     'generateId': true // this will add an id to each feature, this is necessary if we want to use featureState (see below)
   });
 
@@ -108,7 +108,7 @@ map.on('load', () => {
   // Add a data source containing GeoJSON data (campaign zone).
   map.addSource('cz', {
     'type': 'geojson',
-    'data': 'dat/for-web-map/cz.geojson',
+    'data': 'data-prep/dat/for-web-map/cz.geojson',
     'generateId': true // this will add an id to each feature, this is necessary if we want to use featureState (see below)
   });
 
@@ -149,7 +149,7 @@ map.on('load', () => {
   // Add a data source containing GeoJSON data (industrial business zones).
   map.addSource('ibz', {
     'type': 'geojson',
-    'data': 'dat/for-web-map/ibz.geojson',
+    'data': 'data-prep/dat/for-web-map/ibz.geojson',
     'generateId': true // this will add an id to each feature, this is necessary if we want to use featureState (see below)
   });
 
@@ -190,7 +190,7 @@ map.on('load', () => {
   // Add a data source containing GeoJSON data (business improvement districts).
   map.addSource('bid', {
     'type': 'geojson',
-    'data': 'dat/for-web-map/bid.geojson',
+    'data': 'data-prep/dat/for-web-map/bid.geojson',
     'generateId': true // this will add an id to each feature, this is necessary if we want to use featureState (see below)
   });
 
