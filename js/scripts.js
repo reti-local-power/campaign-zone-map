@@ -1,6 +1,5 @@
 // TO-DO LIST
-// - Look into simplifying the building shapefiles in R using rmapshaper::ms_simplify() (50% seems to maintain most of the shape)
-//    example: https://www.r-bloggers.com/2021/03/simplifying-geospatial-features-in-r-with-sf-and-rmapshaper/
+// - Add clear button to the bottom of the info-panel that resets the panel and removes clicked state from buildings or CZ
 
 // Setting up MapBox
 mapboxgl.accessToken = 'pk.eyJ1IjoiaGVucnkta2FuZW5naXNlciIsImEiOiJjbHVsdTU1Z20waG84MnFwbzQybmozMjdrIn0.tqmZ-jfP2M6xcOz09ckRPA';
