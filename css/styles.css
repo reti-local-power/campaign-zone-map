@@ -63,9 +63,9 @@
 /* Left side column with FAQ text and narrative. */
 #my-sidepanel {
   /* Code from https://www.w3schools.com/howto/howto_js_collapse_sidepanel.asp */
-  height: 45%;        /* Specify a height */
-  width: 30%;         /* 30% width - change this with JavaScript */
   position: absolute;    /* Stay in place */
+  height: 88.5%;        /* Specify a height */
+  width: 30%;         /* 30% width - change this with JavaScript */
   z-index: 2;         /* Stay on top */
   /* top: 175;           Align on the page below the header */
   /* bottom: 250; */
@@ -81,17 +81,19 @@
 /* style for info panel that will hold information about clicked items */
 #info-panel {
   position: absolute;
-  float: left;
-  background-color: #ffffff;
-  top: 57%;
+  /* float: left; */
+  top: 70%;
+  left: 0;
+  right: 0;
   padding: 10px;
-  height: 35%;
-  left: 15px; 
+  height: 22.5%;
+  margin: auto;
   width: 27.5%;
+  background-color: #ffffff;
   box-shadow: 0 1px 2px rgb(0 0 0 / 10%);
   border: 1px solid #000000;
   border-radius: 5px;
-  z-index: 0;
+  z-index: 2;
   font-size: 14px;
 }
 
