@@ -80,6 +80,7 @@
 
 /* style for info panel that will hold information about clicked items */
 #info-panel {
+  opacity: 0; /* Set to be transparent on load and turn it on when clicking on a building or campaign zone*/
   position: absolute;
   /* float: left; */
   top: 70%;
@@ -93,6 +94,24 @@
   box-shadow: 0 1px 2px rgb(0 0 0 / 10%);
   border: 1px solid #000000;
   border-radius: 5px;
+  z-index: 2;
+  font-size: 14px;
+}
+
+#info-panel-instruction {
+  position: absolute;
+  /* float: left; */
+  top: 81%;
+  display: inline-block;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  /* height: 22.5%; */
+  margin: auto;
+  width: 27.5%;
+  color: white;
+  background-color: hsla(0, 0%, 18%, 0.75);
+  border-radius: 10px;
   z-index: 2;
   font-size: 14px;
 }

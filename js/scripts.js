@@ -334,6 +334,9 @@ map.on('load', () => {
         { clicked: true }
       )
 
+      // hide info-panel-instructions
+      $('#info-panel-instruction').css('opacity', 0);
+
       // get feature information from the items in the array e.features
       var campzone = e.features[0].properties.campzone
       var n = e.features[0].properties.n
@@ -355,6 +358,7 @@ map.on('load', () => {
         `
       )
 
+      $('#info-panel').css('opacity', '1');
       $('#info-panel').css('background-color', '#c4aae6');
       $('#info-panel').css('border-color', '#54278f');
       $('#info-panel').css('border-width', '3');
@@ -397,6 +401,10 @@ map.on('load', () => {
         { clicked: true }
       )
 
+      // hide info-panel-instructions
+      $('#info-panel-instruction').css('opacity', 0);
+
+
       // get feature information from the items in the array e.features
       var address = e.features[0].properties.address
       var score = parseInt(e.features[0].properties.index)
@@ -420,6 +428,7 @@ map.on('load', () => {
         `
       )
 
+      $('#info-panel').css('opacity', '1');
       $('#info-panel').css('background-color', '#c8dcf0');
       $('#info-panel').css('border-color', '#f0410c');
       $('#info-panel').css('border-width', '2');
