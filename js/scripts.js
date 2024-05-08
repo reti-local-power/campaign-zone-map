@@ -1,5 +1,7 @@
 // TO-DO LIST
 // - Add clear button to the bottom of the info-panel that resets the panel and removes clicked state from buildings or CZ
+// - Add hover state black or white border around buildings when at the right zoom level
+// - Add Brooklyn borough border to situate things (need to add this to the legend too)
 
 // Setting up MapBox
 mapboxgl.accessToken = 'pk.eyJ1IjoiaGVucnkta2FuZW5naXNlciIsImEiOiJjbHVsdTU1Z20waG84MnFwbzQybmozMjdrIn0.tqmZ-jfP2M6xcOz09ckRPA';
