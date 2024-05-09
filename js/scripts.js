@@ -344,7 +344,7 @@ map.on('load', () => {
       var score = parseInt(e.features[0].properties.avg_suitability)
 
       // insert the information into the sidebar using jQuery
-      $('#info-panel').html(
+      $('#info-panel-text').html(
         `<h3><b>Campaign Zone:<i> ${campzone} </i></b></h3>
         <ul>
           <li><b>Number of buildings:</b> ${n} </li>
@@ -413,7 +413,7 @@ map.on('load', () => {
       var elcprd = parseInt(e.features[0].properties.ElcPrdMwh)
 
       // insert the information into the sidebar using jQuery
-      $('#info-panel').html(
+      $('#info-panel-text').html(
         `<h3><b>Building:<i> ${address} </i></b></h3>
         <ul>
           <li><b>Suitability score:</b> ${score} out of 14 </li>
