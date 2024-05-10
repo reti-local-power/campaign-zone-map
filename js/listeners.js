@@ -91,24 +91,18 @@ function closeNav() {
 // Script to hide info-panel if the user no longer wants it open
 function closeinfo() {
   $('#info-panel').css('z-index', '-1');
+  
+  map.setFeatureState(
+    { source: 'cz', id: clickedPolygonId },
+    { clicked: false }
+  );
+
+  map.setFeatureState(
+    { source: 'bldg', id: clickedPolygonId2 },
+    { clicked: false }
+  );
+  
 }
-
-// $('#info-button').on('click', function () {
-//   // NOT WORKING YET, NEED TO TINKER
-//   // turn cz layer back to regular state
-//   // clickedPolygonId = e.features[0].id;
-
-//   map.setLayoutProperty('cz-fill', 'clicked', 'false');
-
-
-//   // turn bldg layer back to regular state
-//   // clickedPolygonId2 = e.features[0].id;
-
-//   map.setFeatureState(
-//     { source: 'cz', id: hoveredPolygonId },
-//     { hover: false }
-//   );
-// }
 
 
 

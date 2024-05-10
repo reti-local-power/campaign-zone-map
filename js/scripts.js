@@ -1,10 +1,11 @@
 // TO-DO LIST
 // - Add clear button to the bottom of the info-panel that resets the panel and removes clicked state from buildings or CZ
 // - Add hover state black or white border around buildings when at the right zoom level
-// - Add Brooklyn borough border to situate things (need to add this to the legend too)
-//    OR Add Brooklyn buffer mask that sits on top of everything outside the borough and deemphasizes it
+// - Add Brooklyn buffer mask that sits on top of everything outside the borough and deemphasizes it (opacity 0.2, grey, etc.)
 // - Turn info panel into a table of information (just horizontal lines, no vertical lines)
 //       Table styling: https://www.w3schools.com/html/html_table_styling.asp
+// - Add numbers.js and use it to format numbers in the info-panel below
+// - Add hover icons next to campaign zone and site suitability score that provide more detail about what those terms mean
 
 // Setting up MapBox
 mapboxgl.accessToken = 'pk.eyJ1IjoiaGVucnkta2FuZW5naXNlciIsImEiOiJjbHVsdTU1Z20waG84MnFwbzQybmozMjdrIn0.tqmZ-jfP2M6xcOz09ckRPA';
@@ -25,6 +26,11 @@ map.addControl(nav, 'top-right');
 
 // create zoom var where campaign zone fills disappear and the user can interact with buildings
 var zoomswitch = 14;
+
+// create polygon ID vars for cz and bldg (used later to toggle fill opacity and border color)
+let clickedPolygonId = null
+let clickedPolygonId2 = null
+
 
 // add geojson layer for building information to the map
 map.on('load', () => {
@@ -306,7 +312,6 @@ map.on('load', () => {
   //// Set up click to add information to the info-panel about campaign zones and buildings
   // if the user clicks the 'cz-fill' layer, extract properties from the clicked feature, using jQuery to write them to another part of the page.
   // NOTE: if statement makes this only happen when the zoom is smaller than the threshold level where the cz-fill disappears
-  let clickedPolygonId = null
 
   map.on('click', 'cz-fill', (e) => {
     var curzoom = map.getZoom(); // define curzoom as the current zoom when the click occurs
@@ -373,8 +378,6 @@ map.on('load', () => {
 
   // if the user clicks the 'bldg-fill' layer, extract properties from the clicked feature, using jQuery to write them to another part of the page.
   // NOTE: if statement makes this only happen when the zoom is larger than the threshold level where the cz-fill disappears
-
-  let clickedPolygonId2 = null
 
   map.on('click', 'bldg-fill', (e) => {
     var curzoom = map.getZoom(); // define curzoom as the current zoom when the click occurs
