@@ -1,6 +1,4 @@
 // TO-DO LIST
-// - Add clear button to the bottom of the info-panel that resets the panel and removes clicked state from buildings or CZ
-// - Add hover state black or white border around buildings when at the right zoom level
 // - Add Brooklyn buffer mask that sits on top of everything outside the borough and deemphasizes it (opacity 0.2, grey, etc.)
 // - Turn info panel into a table of information (just horizontal lines, no vertical lines)
 //       Table styling: https://www.w3schools.com/html/html_table_styling.asp
@@ -95,6 +93,23 @@ map.on('load', () => {
 
       ],
       'fill-opacity': 1
+    }
+  }, 'waterway-label');
+
+  // Add a new layer for hovering over building information (line)
+  map.addLayer({
+    'id': 'bldg-line-hover',
+    'type': 'line',
+    'source': 'bldg', // reference the data source read in above
+    'layout': {},
+    'paint': {
+      'line-color': '#292929',
+      'line-width': [
+        'case',
+        ['boolean', ['feature-state', 'hover'], false],
+        1.5,  // opacity when hover is true
+        0 // opacity when hover is false
+      ]
     }
   }, 'waterway-label');
 
@@ -288,25 +303,54 @@ map.on('load', () => {
     }
   });
 
-  // On zoom above value for cz fill to disappear Change mouse to pointer when on individual buildings (no hover state)
+  // Create id to keep track of which bldg the mouse is hovering over
+  let hoveredPolygonIdbldg = null;
 
+  // On zoom above value for cz fill to disappear Change mouse to pointer when on individual buildings (no hover state)
+  //  and add black border to bldg to encourage clicking
   map.on('mousemove', 'bldg-fill', (e) => {
+
     // get the current zoom
     var curzoom = map.getZoom();
 
     // don't do anything if there are no features from this layer under the mouse pointer OR if zoom is too small
     if (e.features.length > 0 & curzoom >= zoomswitch) {
-
+      // if hoveredPolygonId already has an id in it, set the featureState for that id to hover: false
+      if (hoveredPolygonIdbldg !== null) {
+        map.setFeatureState(
+          { source: 'bldg', id: hoveredPolygonIdbldg },
+          { hover: false }
+        );
+      }
       // make the cursor a pointer to let the user know it is clickable
       map.getCanvas().style.cursor = 'pointer'
+
+      // set hoveredPolygonId to the id of the feature currently being hovered
+      hoveredPolygonIdbldg = e.features[0].id;
+
+      // set the featureState of this feature to hover:true
+      map.setFeatureState(
+        { source: 'bldg', id: hoveredPolygonIdbldg },
+        { hover: true }
+      );
     }
   });
 
   // resets the feature state to the default (nothing is hovered) when the mouse leaves the 'bldg-fill' layer
   map.on('mouseleave', 'bldg-fill', () => {
 
+    // set the featureState of the previous hovered feature to hover:false
+    if (hoveredPolygonIdbldg !== null) {
+      map.setFeatureState(
+        { source: 'bldg', id: hoveredPolygonIdbldg },
+        { hover: false }
+      );
+    }
+    // clear hoveredPolygonId
+    hoveredPolygonIdbldg = null;
     // set the cursor back to default
     map.getCanvas().style.cursor = ''
+
   });
 
   //// Set up click to add information to the info-panel about campaign zones and buildings
