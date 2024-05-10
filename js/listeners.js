@@ -90,8 +90,7 @@ function closeNav() {
 
 // Script to hide info-panel if the user no longer wants it open
 function closeinfo() {
-  $('#info-panel').css('opacity', '0');
-
+  $('#info-panel').css('z-index', '-1');
 
   // NOT WORKING YET, NEED TO TINKER
   // turn cz layer back to regular state

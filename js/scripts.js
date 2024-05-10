@@ -3,6 +3,8 @@
 // - Add hover state black or white border around buildings when at the right zoom level
 // - Add Brooklyn borough border to situate things (need to add this to the legend too)
 //    OR Add Brooklyn buffer mask that sits on top of everything outside the borough and deemphasizes it
+// - Turn info panel into a table of information (just horizontal lines, no vertical lines)
+//       Table styling: https://www.w3schools.com/html/html_table_styling.asp
 
 // Setting up MapBox
 mapboxgl.accessToken = 'pk.eyJ1IjoiaGVucnkta2FuZW5naXNlciIsImEiOiJjbHVsdTU1Z20waG84MnFwbzQybmozMjdrIn0.tqmZ-jfP2M6xcOz09ckRPA';
@@ -335,7 +337,7 @@ map.on('load', () => {
       )
 
       // hide info-panel-instructions
-      $('#info-panel-instruction').css('opacity', 0);
+      $('#info-panel-instruction').css('z-index', -1);
 
       // get feature information from the items in the array e.features
       var campzone = e.features[0].properties.campzone
@@ -359,6 +361,8 @@ map.on('load', () => {
       )
 
       $('#info-panel').css('opacity', '1');
+      $('#info-panel').css('z-index', '1');
+      $('#info-panel').css('transform', 'translate(0,0)');
       $('#info-panel').css('background-color', '#c4aae6');
       $('#info-panel').css('border-color', '#54278f');
       $('#info-panel').css('border-width', '3');
@@ -402,7 +406,7 @@ map.on('load', () => {
       )
 
       // hide info-panel-instructions
-      $('#info-panel-instruction').css('opacity', 0);
+      $('#info-panel-instruction').css('z-index', -1);
 
 
       // get feature information from the items in the array e.features
@@ -429,6 +433,8 @@ map.on('load', () => {
       )
 
       $('#info-panel').css('opacity', '1');
+      $('#info-panel').css('z-index', '1');
+      $('#info-panel').css('transform', 'translate(0,0)');
       $('#info-panel').css('background-color', '#c8dcf0');
       $('#info-panel').css('border-color', '#f0410c');
       $('#info-panel').css('border-width', '2');
