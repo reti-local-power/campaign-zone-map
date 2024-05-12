@@ -1,5 +1,4 @@
 // TO-DO LIST
-// - Add numbers.js and use it to format numbers in the info-panel below
 // - Add hover icons next to campaign zone and site suitability score that provide more detail about what those terms mean
 
 // Setting up MapBox
@@ -406,7 +405,7 @@ map.on('load', () => {
       // get feature information from the items in the array e.features
       var campzone = e.features[0].properties.campzone
       var n = e.features[0].properties.n
-      var elcprd = parseInt(e.features[0].properties.avg_energy_m_wh)
+      var elcprd = numeral(parseInt(e.features[0].properties.avg_energy_m_wh)).format('0,0')
       var score = parseInt(e.features[0].properties.avg_suitability)
 
       // create HTML table describing the selected campaign zone
@@ -495,7 +494,7 @@ map.on('load', () => {
       var score = parseInt(e.features[0].properties.index)
       var owner = e.features[0].properties.ownername
       var campzone = e.features[0].properties.campzone
-      var elcprd = parseInt(e.features[0].properties.ElcPrdMwh)
+      var elcprd = numeral(parseInt(e.features[0].properties.ElcPrdMwh)).format('0,0')
 
       // create HTML table describing the selected building
       const tableHTML = `
