@@ -1,7 +1,4 @@
 // TO-DO LIST
-// - Add Brooklyn buffer mask that sits on top of everything outside the borough and deemphasizes it (opacity 0.2, grey, etc.)
-// - Turn info panel into a table of information (just horizontal lines, no vertical lines)
-//       Table styling: https://www.w3schools.com/html/html_table_styling.asp
 // - Add numbers.js and use it to format numbers in the info-panel below
 // - Add hover icons next to campaign zone and site suitability score that provide more detail about what those terms mean
 // - Update google sheets links to RETI folder version
@@ -40,6 +37,24 @@ map.on('load', () => {
   // )
 
   //// Add geojson layers to the map ------------------------------------------
+  // Add a data source containing GeoJSON data (BK hole layer).
+  map.addSource('bk-hole', {
+    'type': 'geojson',
+    'data': 'data-prep/dat/for-web-map/bkblur.geojson'
+  });
+
+    // Add a new layer to visualize campaign zone areas (fill)
+    map.addLayer({
+      'id': 'bk-hole-fill',
+      'type': 'fill',
+      'source': 'bk-hole', // reference the data source read in above
+      'layout': {},
+      'paint': {
+        'fill-color': '#ccc',
+        'fill-opacity': 0.2
+      }
+    }, 'waterway-label');
+
   // Add a data source containing GeoJSON data (subscriber DAC maps).
   map.addSource('subscriber', {
     'type': 'geojson',
