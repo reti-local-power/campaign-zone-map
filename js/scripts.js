@@ -411,7 +411,7 @@ map.on('load', () => {
 
       // create HTML table describing the selected campaign zone
       const tableHTML = `
-        <div class="h3">
+        <div>
           <b>Campaign Zone:<i> ${campzone} </i></b>
         </div>
         <p>
@@ -421,7 +421,7 @@ map.on('load', () => {
         target="_blank">More info about campaign zones</a>
         </div>
 
-        <p>
+        
         <div style="border-radius: 10px; padding: 4px;">
             <table style="border-collapse: collapse; width: 100%">
                 <tr>

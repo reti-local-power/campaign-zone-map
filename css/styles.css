@@ -9,6 +9,7 @@
 
 h3 {
   margin-top: 5px;
+  font-size: larger;
 }
 
 .parent {
@@ -87,10 +88,11 @@ h3 {
   position: absolute;
   /* float: left; */
   top: 70%;
+  bottom: 30px;
   left: 0;
   right: 0;
   padding: 10px;
-  height: 22.5%;
+  /* height: 22.5%; */
   margin: auto;
   width: 27.5%;
   background-color: #ffffff;
