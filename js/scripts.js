@@ -428,21 +428,6 @@ map.on('load', () => {
       // Update the info-panel with the table
       document.getElementById('info-panel-text').innerHTML = tableHTML;
 
-      // insert the information into the sidebar using jQuery
-      // $('#info-panel-text').html(
-      //   `<h3><b>Campaign Zone:<i> ${campzone} </i></b></h3>
-      //   <ul>
-      //     <li><b>Number of buildings:</b> ${n} </li>
-      //     <li><b>Average solar energy potential:</b> ${elcprd} MWh/year </li>
-      //     <li><b>Average suitability score:</b> ${score} </li>
-      //     <li><a
-      //     href="https://docs.google.com/spreadsheets/d/1h-6Lx9N9IONiM7AdUayUQ-GIFTxjEbyI/edit?usp=sharing&ouid=104432637836919768734&rtpof=true&sd=true"
-      //     target="_blank">More info about campaign zones</a></li>
-      //   </ul>
-      //   <br>
-      //   `
-      // )
-
       $('#info-panel').css('opacity', '1');
       $('#info-panel').css('z-index', '1');
       $('#info-panel').css('transform', 'translate(0,0)');
