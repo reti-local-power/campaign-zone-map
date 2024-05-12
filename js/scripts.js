@@ -1,5 +1,4 @@
 // TO-DO LIST
-// - Add hover icons next to campaign zone and site suitability score that provide more detail about what those terms mean
 // - Add street view to buildings info-panel using Camille's code as an example: https://github.com/cpreeldumas/final-project/blob/main/js/scripts.js#L279
 
 // Setting up MapBox
@@ -415,13 +414,7 @@ map.on('load', () => {
           <b>Campaign Zone:<i> ${campzone} </i></b>
         </div>
         <p>
-        <div style="font-size: smaller;">
-          <a
-        href="https://docs.google.com/spreadsheets/d/1JwntXLFNVrvXdMESQuTqCkSIFXAVVzUY/edit?usp=sharing&ouid=113455286937839782442&rtpof=true&sd=true"
-        target="_blank">More info about campaign zones</a>
-        </div>
-
-        
+                
         <div style="border-radius: 10px; padding: 4px;">
             <table style="border-collapse: collapse; width: 100%">
                 <tr>
@@ -437,6 +430,12 @@ map.on('load', () => {
                     <td style="width: 40%; border-bottom: 1px solid #292929; padding: 2px; font-size: smaller;">${score} out of 14</td>
                 </tr>
             </table>
+        </div>
+
+        <div style="font-size: smaller;">
+          <a
+        href="https://docs.google.com/spreadsheets/d/1JwntXLFNVrvXdMESQuTqCkSIFXAVVzUY/edit?usp=sharing&ouid=113455286937839782442&rtpof=true&sd=true"
+        target="_blank">More info about campaign zones</a>
         </div>
         `;
 
@@ -499,17 +498,11 @@ map.on('load', () => {
 
       // create HTML table describing the selected building
       const tableHTML = `
-        <div class="h3">
+        <div>
           <b>Building:<i> ${address} </i></b>
         </div>
         <p>
-        <div style="font-size: smaller;">
-          <a
-          href="https://docs.google.com/spreadsheets/d/1PnQd_jyNKi8JWaVVPpDGq26zVgq8gKfV/edit?usp=sharing&ouid=113455286937839782442&rtpof=true&sd=true"
-          target="_blank">More info about suitable community solar buildings</a>
-        </div>
 
-        <p>
         <div style="border-radius: 10px; padding: 4px;">
             <table style="border-collapse: collapse; width: 100%">
               <tr>
@@ -530,6 +523,12 @@ map.on('load', () => {
               </tr>
             </table>
         </div>
+
+        <div style="font-size: smaller;">
+        <a
+        href="https://docs.google.com/spreadsheets/d/1PnQd_jyNKi8JWaVVPpDGq26zVgq8gKfV/edit?usp=sharing&ouid=113455286937839782442&rtpof=true&sd=true"
+        target="_blank">More info about suitable community solar buildings</a>
+      </div>
         `;
 
       // Update the info-panel with the table
