@@ -1,7 +1,6 @@
 // TO-DO LIST
 // - Add numbers.js and use it to format numbers in the info-panel below
 // - Add hover icons next to campaign zone and site suitability score that provide more detail about what those terms mean
-// - Update google sheets links to RETI folder version
 
 // Setting up MapBox
 mapboxgl.accessToken = 'pk.eyJ1IjoiaGVucnkta2FuZW5naXNlciIsImEiOiJjbHVsdTU1Z20waG84MnFwbzQybmozMjdrIn0.tqmZ-jfP2M6xcOz09ckRPA';
