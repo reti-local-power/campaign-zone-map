@@ -395,39 +395,41 @@ map.on('load', () => {
       var elcprd = parseInt(e.features[0].properties.avg_energy_m_wh)
       var score = parseInt(e.features[0].properties.avg_suitability)
 
+      // create HTML table describing the selected campaign zone
       const tableHTML = `
-          <div class="h3">
+        <div class="h3">
           <b>Campaign Zone:<i> ${campzone} </i></b>
-          </div>
-          <p>
-          <div style="font-size: smaller;">
+        </div>
+        <p>
+        <div style="font-size: smaller;">
           <a
         href="https://docs.google.com/spreadsheets/d/1JwntXLFNVrvXdMESQuTqCkSIFXAVVzUY/edit?usp=sharing&ouid=113455286937839782442&rtpof=true&sd=true"
         target="_blank">More info about campaign zones</a>
-          </div>
+        </div>
 
-          <p>
-            <div style="border-radius: 10px; padding: 4px;">
-                <table style="border-collapse: collapse; width: 100%">
-                    <tr>
-                        <td style="width: 60%; border-bottom: 1px solid #292929; padding: 2px; font-size: smaller;"><b>Number of buildings:</b></td>
-                        <td style="width: 40%; border-bottom: 1px solid #292929; padding: 2px; font-size: smaller;">${n}</td>
-                    </tr>
-                    <tr>
-                        <td style="width: 60%; border-bottom: 1px solid #292929; padding: 2px; font-size: smaller;"><b>Average solar energy potential:</b></td>
-                        <td style="width: 40%; border-bottom: 1px solid #292929; padding: 2px; font-size: smaller;">${elcprd} MWh/year</td>
-                    </tr>
-                    <tr>
-                        <td style="width: 60%; border-bottom: 1px solid #292929; padding: 2px; font-size: smaller;"><b>Average suitability score:</b></td>
-                        <td style="width: 40%; border-bottom: 1px solid #292929; padding: 2px; font-size: smaller;">${score} out of 14</td>
-                    </tr>
-                </table>
-            </div>
+        <p>
+        <div style="border-radius: 10px; padding: 4px;">
+            <table style="border-collapse: collapse; width: 100%">
+                <tr>
+                    <td style="width: 60%; border-bottom: 1px solid #292929; padding: 2px; font-size: smaller;"><b>Number of buildings:</b></td>
+                    <td style="width: 40%; border-bottom: 1px solid #292929; padding: 2px; font-size: smaller;">${n}</td>
+                </tr>
+                <tr>
+                    <td style="width: 60%; border-bottom: 1px solid #292929; padding: 2px; font-size: smaller;"><b>Average solar energy potential:</b></td>
+                    <td style="width: 40%; border-bottom: 1px solid #292929; padding: 2px; font-size: smaller;">${elcprd} MWh/year</td>
+                </tr>
+                <tr>
+                    <td style="width: 60%; border-bottom: 1px solid #292929; padding: 2px; font-size: smaller;"><b>Average suitability score:</b></td>
+                    <td style="width: 40%; border-bottom: 1px solid #292929; padding: 2px; font-size: smaller;">${score} out of 14</td>
+                </tr>
+            </table>
+        </div>
         `;
 
       // Update the info-panel with the table
       document.getElementById('info-panel-text').innerHTML = tableHTML;
 
+      // Style info-panel to match the highlighted campaign zone
       $('#info-panel').css('opacity', '1');
       $('#info-panel').css('z-index', '1');
       $('#info-panel').css('transform', 'translate(0,0)');
@@ -481,22 +483,45 @@ map.on('load', () => {
       var campzone = e.features[0].properties.campzone
       var elcprd = parseInt(e.features[0].properties.ElcPrdMwh)
 
-      // insert the information into the sidebar using jQuery
-      $('#info-panel-text').html(
-        `<h3><b>Building:<i> ${address} </i></b></h3>
-        <ul>
-          <li><b>Suitability score:</b> ${score} out of 14 </li>
-          <li><b>Owned by:</b> ${owner} </li>
-          <li><b>Annual solar energy potential:</b> ${elcprd} MWh/year </li>
-          <li><b>Campaign zone:</b> ${campzone} </li>
-          <li><a
-          href="https://docs.google.com/spreadsheets/d/1wD67WVOKtmZulJ7w5CywJQeDXi5Z23Xx/edit?usp=drive_link&ouid=104432637836919768734&rtpof=true&sd=true"
-          target="_blank">More info about suitable community solar buildings</a></li>
-        </ul>
-        <br>
-        `
-      )
+      // create HTML table describing the selected building
+      const tableHTML = `
+        <div class="h3">
+          <b>Building:<i> ${address} </i></b>
+        </div>
+        <p>
+        <div style="font-size: smaller;">
+          <a
+          href="https://docs.google.com/spreadsheets/d/1PnQd_jyNKi8JWaVVPpDGq26zVgq8gKfV/edit?usp=sharing&ouid=113455286937839782442&rtpof=true&sd=true"
+          target="_blank">More info about suitable community solar buildings</a>
+        </div>
 
+        <p>
+        <div style="border-radius: 10px; padding: 4px;">
+            <table style="border-collapse: collapse; width: 100%">
+              <tr>
+                  <td style="width: 50%; border-bottom: 1px solid #292929; padding: 2px; font-size: smaller;"><b>Suitability score:</b></td>
+                  <td style="width: 50%; border-bottom: 1px solid #292929; padding: 2px; font-size: smaller;">${score} out of 14</td>
+              </tr>
+              <tr>
+                  <td style="width: 50%; border-bottom: 1px solid #292929; padding: 2px; font-size: smaller;"><b>Owned by:</b></td>
+                  <td style="width: 50%; border-bottom: 1px solid #292929; padding: 2px; font-size: smaller;">${owner}</td>
+              </tr>
+              <tr>
+                  <td style="width: 50%; border-bottom: 1px solid #292929; padding: 2px; font-size: smaller;"><b>Annual solar energy potential:</b></td>
+                  <td style="width: 50%; border-bottom: 1px solid #292929; padding: 2px; font-size: smaller;">${elcprd} MWh/year</td>
+              </tr>
+              <tr>
+                  <td style="width: 50%; border-bottom: 1px solid #292929; padding: 2px; font-size: smaller;"><b>Campaign zone:</b></td>
+                  <td style="width: 50%; border-bottom: 1px solid #292929; padding: 2px; font-size: smaller;">${campzone}</td>
+              </tr>
+            </table>
+        </div>
+        `;
+
+      // Update the info-panel with the table
+      document.getElementById('info-panel-text').innerHTML = tableHTML;
+
+      // Style info-panel to match the highlighted building
       $('#info-panel').css('opacity', '1');
       $('#info-panel').css('z-index', '1');
       $('#info-panel').css('transform', 'translate(0,0)');
