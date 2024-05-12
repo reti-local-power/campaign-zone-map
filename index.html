@@ -38,7 +38,13 @@
     <!-- Button to reopen the side panel container (this always appears) -->
     <!-- NOTE: this must sit outside the sidepanel div so it stays open -->
     <button type="button" class="reopen-container-button" onclick="openNav()">
-        >
+        <!-- Use Bootstrap chevron icon (https://icons.getbootstrap.com/icons/chevron-right/) -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
+        </svg>
+        <!-- > -->
     </button>
 
     <!-- Permanent panel that sits on top of the map and is where clickable information goes -->
@@ -96,13 +102,17 @@
             <span class="legend-key"
                 style="background-color: hsla(266, 57%, 36%, 0.4); border-color: #54278f; border-style: dashed"></span>
             <span>Campaign Zones</span>
-            <span class="fa-sharp fa-solid fa-circle-info" data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" data-bs-content="Campaign Zones are clusters of highly suitable sites for rooftop community solar. They were constructed as part of this research project and are based on building suitability scores."></span>
+            <span class="fa-sharp fa-solid fa-circle-info" data-bs-container="body" data-bs-toggle="popover"
+                data-bs-trigger="hover focus" data-bs-placement="top"
+                data-bs-content="Campaign Zones are clusters of highly suitable sites for rooftop community solar. They were constructed as part of this research project and are based on building suitability scores."></span>
         </div>
         <p></p>
         <div>
             <span class="legend-subtitle"></span>
             <span><i>Building suitability score</i></span>
-            <span class="fa-sharp fa-solid fa-circle-info" data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" data-bs-content="Buildings are scored on their sutability for hosting community solar. Buildings were scored based on their solar energy potential, physical characteristics, ownership arrangement, land use/zoning, and other factors determined to be important by RETI Center. The maximum score is 14."></span>
+            <span class="fa-sharp fa-solid fa-circle-info" data-bs-container="body" data-bs-toggle="popover"
+                data-bs-trigger="hover focus" data-bs-placement="top"
+                data-bs-content="Buildings are scored on their sutability for hosting community solar. Buildings were scored based on their solar energy potential, physical characteristics, ownership arrangement, land use/zoning, and other factors determined to be important by RETI Center. The maximum score is 14."></span>
         </div>
         <div>
             <span class="legend-key" style="background-color: #f7fbff;"></span>
@@ -131,7 +141,13 @@
 
         <!-- Button to close the sidepanel -->
         <button type="button" class="container-button" onclick="closeNav()">
-            ×
+            <!-- Use Bootstrap chevron icon (https://icons.getbootstrap.com/icons/chevron-left/) -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-chevron-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+            </svg>
+            <!-- × -->
         </button>
 
         <!-- Invitation to action -->
