@@ -57,11 +57,22 @@ bldg2 <- bldg %>%
   select(-starts_with("f_"), #remove flag vars (only need the final index score)
          -ends_with("_name"), -ends_with("_add"), #remove hpd owner contact info
          -zonedist1, resfarrat) %>%
-  st_transform(st_crs(4326))
+  st_transform(st_crs(4326))%>%
+  distinct(bin, .keep_all = T)
 
-# test out the simplifying algorithm
+# need to add centroid lat and lon for each building
+bldg_centroid <- bldg2 %>%
+  st_centroid() %>%
+  st_transform(st_crs(4326)) %>%
+  mutate(centroid_lon = st_coordinates(.)[,1],
+         centroid_lat = st_coordinates(.)[,2]) %>%
+  st_drop_geometry() %>%
+  select(bin, centroid_lon, centroid_lat) 
+
+# use simplifying algorithm to keep the building file size at a reasonable level
 bldg3 <- bldg2 %>%
-  ms_simplify(keep = 0.5, keep_shapes = FALSE)
+  ms_simplify(keep = 0.5, keep_shapes = FALSE) %>%
+  full_join(bldg_centroid, by = "bin")
 
 ## compare shapes, they should look mostly the same
 # tm_shape(bldg2) + 
@@ -69,6 +80,7 @@ bldg3 <- bldg2 %>%
 #   tm_shape(bldg3) + 
 #   tm_fill('lightblue') + 
 #   tm_borders('blue')
+
 
 cz2 <- cz %>%
   mutate(campzone = case_when(
