@@ -516,7 +516,7 @@ map.on('load', () => {
         <div>
           <b>Building:<i> ${address} </i></b>
           <p>
-          <button type="button" id="streetview-button" onclick=streetview() style="font-size: smaller;">See street view</button>
+          <button type="button" id="streetview-button" onclick=streetview()>See street view</button>
         </div>
         <p>
 

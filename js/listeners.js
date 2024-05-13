@@ -108,13 +108,14 @@ function closeinfo() {
   
 }
 
+// Script to expand bldg info panel to include the streetview i-frame
+//  This is done by doubling the width of the info-panel div, halving the table width, and making the streetview non-transparent
 function streetview() {
   $('#info-panel').css('width', '55%');
   $('#bldg-table').css('width', '50%');
   $('#info-panel-streetview').css('opacity', '1');
-
-  // Update the info-panel with the table
-  document.getElementById('info-panel-streetview').innerHTML = roadViewHTML;
+  $('#info-panel-streetview').css('z-index', '1');
+  
 
 }
 

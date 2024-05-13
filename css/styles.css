@@ -84,7 +84,7 @@ h3 {
 
 /* style for info panel that will hold information about clicked items */
 #info-panel {
-  opacity: 0; /* Set to be transparent on load and turn it on when clicking on a building or campaign zone*/
+  z-index: -1; /* Set to be transparent on load and turn it on when clicking on a building or campaign zone*/
   position: absolute;
   /* float: left; */
   top: 65%;
@@ -99,7 +99,6 @@ h3 {
   box-shadow: 0 1px 2px rgb(0 0 0 / 10%);
   border: 1px solid #000000;
   border-radius: 5px;
-  z-index: 2;
   font-size: 14px;
 }
 
@@ -121,11 +120,20 @@ h3 {
   font-size: 14px;
 }
 
+#streetview-button {
+  background-color: #2979b9;
+  color: white;
+  font-size: smaller;
+  /* text-align: center; */
+  border-radius: 12px;
+}
+
 #info-panel-streetview {
   position:absolute;
   top:5px;
   right:40px;
   opacity: 0;
+  z-index: -1;
 }
 
 /* style for button that will collapse the info-panel */
@@ -233,7 +241,7 @@ h3 {
   padding: 10px;
   bottom: 20 px;
   right: 15px; 
-  width: 200px;
+  width: 250px;
   box-shadow: 0 1px 2px rgb(0 0 0 / 10%);
   z-index: 1;
   line-height: 18px;
@@ -271,7 +279,8 @@ h3 {
   position: absolute;
   float: right;
   z-index: 1;
-  top: 32%;
+  top: 33%;
+  /* bottom: 65% */
   right: 15px; 
   border-radius: 3px;
   width: 250px;
