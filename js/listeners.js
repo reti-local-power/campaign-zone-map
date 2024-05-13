@@ -108,5 +108,15 @@ function closeinfo() {
   
 }
 
+function streetview() {
+  $('#info-panel').css('width', '55%');
+  $('#bldg-table').css('width', '50%');
+  $('#info-panel-streetview').css('opacity', '1');
+
+  // Update the info-panel with the table
+  document.getElementById('info-panel-streetview').innerHTML = roadViewHTML;
+
+}
+
 
 

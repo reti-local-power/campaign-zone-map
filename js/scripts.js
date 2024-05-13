@@ -41,17 +41,17 @@ map.on('load', () => {
     'data': 'data-prep/dat/for-web-map/bkblur.geojson'
   });
 
-    // Add a new layer to visualize campaign zone areas (fill)
-    map.addLayer({
-      'id': 'bk-hole-fill',
-      'type': 'fill',
-      'source': 'bk-hole', // reference the data source read in above
-      'layout': {},
-      'paint': {
-        'fill-color': '#ccc',
-        'fill-opacity': 0.2
-      }
-    }, 'waterway-label');
+  // Add a new layer to visualize campaign zone areas (fill)
+  map.addLayer({
+    'id': 'bk-hole-fill',
+    'type': 'fill',
+    'source': 'bk-hole', // reference the data source read in above
+    'layout': {},
+    'paint': {
+      'fill-color': '#ccc',
+      'fill-opacity': 0.2
+    }
+  }, 'waterway-label');
 
   // Add a data source containing GeoJSON data (subscriber DAC maps).
   map.addSource('subscriber', {
@@ -445,6 +445,7 @@ map.on('load', () => {
       // Style info-panel to match the highlighted campaign zone
       $('#info-panel').css('opacity', '1');
       $('#info-panel').css('z-index', '1');
+      $('#info-panel').css('width', '27.5%');
       $('#info-panel').css('transform', 'translate(0,0)');
       $('#info-panel').css('background-color', '#c4aae6');
       $('#info-panel').css('border-color', '#54278f');
@@ -496,14 +497,30 @@ map.on('load', () => {
       var campzone = e.features[0].properties.campzone
       var elcprd = numeral(parseInt(e.features[0].properties.ElcPrdMwh)).format('0,0')
 
+      // Extract longitude and latitude from the clicked feature
+      const lng = e.features[0].properties.centroid_lon;
+      const lat = e.features[0].properties.centroid_lat;
+
+      // Construct the road view URL with the extracted coordinates
+      const roadViewURL = `https://roadview.planninglabs.nyc/view/${lng}/${lat}`;
+
+      // Construct the HTML for the road view element
+      const roadViewHTML = `
+        <div id="info-panel-streetview" class="road-view">
+            <iframe src="${roadViewURL}" width="100%" height="200px"></iframe>
+        </div>
+        `;
+
       // create HTML table describing the selected building
       const tableHTML = `
         <div>
           <b>Building:<i> ${address} </i></b>
+          <p>
+          <button type="button" id="streetview-button" onclick=streetview() style="font-size: smaller;">See street view</button>
         </div>
         <p>
 
-        <div style="border-radius: 10px; padding: 4px;">
+        <div id="bldg-table" style="border-radius: 10px; padding: 4px;">
             <table style="border-collapse: collapse; width: 100%">
               <tr>
                   <td style="width: 50%; border-bottom: 1px solid #292929; padding: 2px; font-size: smaller;"><b>Suitability score:</b></td>
@@ -524,11 +541,15 @@ map.on('load', () => {
             </table>
         </div>
 
+        
         <div style="font-size: smaller;">
         <a
         href="https://docs.google.com/spreadsheets/d/1PnQd_jyNKi8JWaVVPpDGq26zVgq8gKfV/edit?usp=sharing&ouid=113455286937839782442&rtpof=true&sd=true"
         target="_blank">More info about suitable community solar buildings</a>
-      </div>
+        </div>
+        
+        ${roadViewHTML} <!-- Add roadViewHTML here -->
+        
         `;
 
       // Update the info-panel with the table
@@ -537,6 +558,7 @@ map.on('load', () => {
       // Style info-panel to match the highlighted building
       $('#info-panel').css('opacity', '1');
       $('#info-panel').css('z-index', '1');
+      $('#info-panel').css('width', '27.5%');
       $('#info-panel').css('transform', 'translate(0,0)');
       $('#info-panel').css('background-color', '#c8dcf0');
       $('#info-panel').css('border-color', '#f0410c');

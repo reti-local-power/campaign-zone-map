@@ -87,7 +87,7 @@ h3 {
   opacity: 0; /* Set to be transparent on load and turn it on when clicking on a building or campaign zone*/
   position: absolute;
   /* float: left; */
-  top: 70%;
+  top: 65%;
   bottom: 30px;
   left: 0;
   right: 0;
@@ -119,6 +119,13 @@ h3 {
   border-radius: 10px;
   z-index: 2;
   font-size: 14px;
+}
+
+#info-panel-streetview {
+  position:absolute;
+  top:5px;
+  right:40px;
+  opacity: 0;
 }
 
 /* style for button that will collapse the info-panel */
