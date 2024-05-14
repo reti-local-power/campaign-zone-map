@@ -406,7 +406,7 @@ map.on('load', () => {
       var campzone = e.features[0].properties.campzone
       var n = e.features[0].properties.n
       var elcprd = numeral(parseInt(e.features[0].properties.avg_energy_m_wh)).format('0,0')
-      var score = numeral(parseInt(e.features[0].properties.avg_suitability)).format('0.0[0]')
+      var score = numeral(e.features[0].properties.avg_suitability).format('0.0[0]')
 
       // create HTML table describing the selected campaign zone
       const tableHTML = `
