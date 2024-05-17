@@ -25,7 +25,9 @@ library(janitor)
 library(clipr)
 library(sf)
 library(tidygeocoder)
+library(tmap)
 
+tmap_mode("view")
 
 # 1. Read in data -------------------------------------------------------------
 
@@ -119,6 +121,9 @@ hpd_contacts_url <- URLencode("https://data.cityofnewyork.us/resource/feu5-w2e2.
 hpd_contacts <- read_csv(hpd_contacts_url)
 
 
+# + NYCHA bldg footprint data
+nycha <- st_read("dat/nycha/nychabbl.shp")
+
 
 # 2. Flag sufficiently large building footprints ------------------------------
 ## Note that this is duplicating a step done in the first script to save space
@@ -150,6 +155,7 @@ bf2 %>%
 
 nyserda_sf <- nyserda %>%
   mutate(addressfull = paste0(street_address, " ", city, ", NY")) %>%
+  filter(!is.na(latitude) & !is.na(longitude)) %>%
   st_as_sf(coords = c("longitude", "latitude"), crs = 4326) %>%
   select(nyserda_pn = project_number, project_status, street_address, is_commsolar = community_distributed_generation, geometry) %>%
   st_transform(st_crs(2263))
@@ -488,6 +494,34 @@ bf_index %>%
   theme_minimal()
 
 
+# 5. Create clustering score (incorporate proximity to NYCHA bbl) -------------
+nycha_buffer <- nycha %>%
+  st_transform(st_crs(2263)) %>%
+  st_buffer(5280)
+
+nycha_union <- st_union(nycha_buffer) %>%
+  st_sf() %>%
+  #this will become the clustering score value, adjust as needed
+  mutate(near_reti = 1) 
+
+# view spatial manipulation
+# tm_shape(nycha_union) + 
+#   tm_fill("red") + 
+#   tm_shape(nycha_buffer) + 
+#   tm_polygons("blue")
+
+# create flag if bf_index site is within nycha_union
+bf_cluster <- bf_index %>%
+  st_join(nycha_union) %>%
+  rowwise() %>%
+  mutate(cluster = index + near_reti)
+
+# tm_shape(bf_cluster) + 
+#   tm_fill("near_reti_site")
+
+# the cluster variable is what should be used in QGIS clustering method
+
+
 # 5. Create descriptive vars from PLUTO & HPD ---------------------------------
 
 # clean up hpd contact information for registered buildings
@@ -604,12 +638,12 @@ bf_noflaw10 %>%
 # 6. Save permanent files -----------------------------------------------------
 
 # check: var names must be no more than 10 characters
-names(bf_index) %>%
+names(bf_cluster) %>%
   as.data.frame() %>%
   mutate(nchar = nchar(.)) %>%
   arrange(desc(nchar))
 
-# write index scores as shapefile ----
+# write index and cluster scores as shapefile ----
 st_write(bf_index, "dat/suitability index/boro_suitability_index.shp", delete_dsn = T)
 
 # the next step is for a hot spot analysis to be run in ArcGIS Pro using this layer
