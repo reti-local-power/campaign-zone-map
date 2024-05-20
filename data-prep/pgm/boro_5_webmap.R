@@ -27,6 +27,9 @@ bldg <- st_read("dat/suitability index/boro_analysis.shp")
 # campaign zone files
 cz <- st_read("dat/boro_Heatmap/campaign_zones_RETIsites.geojson")
 
+# RETI projects (currently called NYCHA b/c projects are at NYCHA campuses)
+reti <- st_read("dat/nycha/nychabbl.shp")
+
 cz_data <- read_csv("cz summary statistics.csv") %>%
   filter(!cz_num %in% c("All", "Not in a CZ")) %>%
   mutate(cz_num = as.numeric(cz_num)) %>%
@@ -113,6 +116,9 @@ cz2 <- cz %>%
   st_transform(st_crs(4326)) %>%
   clean_names()
 
+reti2 <- reti %>%
+  st_transform(st_crs(4326))
+
 ibz2 <- ibz %>%
   clean_names() %>%
   filter(boroname == "Brooklyn") %>%
@@ -138,6 +144,9 @@ st_write(bldg3, "dat/for-web-map/bldg.geojson", delete_dsn = T)
 
 # campaign zone information file
 st_write(cz2, "dat/for-web-map/cz.geojson", delete_dsn = T)
+
+# RETI sites 
+st_write(reti2, "dat/for-web-map/reti.geojson", delete_dsn = T)
 
 # ibz file
 st_write(ibz2, "dat/for-web-map/ibz.geojson", delete_dsn = T)
