@@ -280,7 +280,7 @@ map.on('load', () => {
     'id': 'cd-fill',
     'type': 'fill',
     'source': 'cd', // reference the data source read in above
-    'maxzoom': zoomswitch + 1.5, // hide fill once the user zooms in enough (set by var earlier on)
+    'maxzoom': zoomswitch, // hide fill once the user zooms in enough (set by var earlier on)
     'layout': {},
     'paint': {
       'fill-color': '#e4e4e4',
@@ -322,7 +322,7 @@ map.on('load', () => {
     'id': 'council-fill',
     'type': 'fill',
     'source': 'council', // reference the data source read in above
-    'maxzoom': zoomswitch + 1.5, // hide fill once the user zooms in enough (set by var earlier on)
+    'maxzoom': zoomswitch, // hide fill once the user zooms in enough (set by var earlier on)
     'layout': {},
     'paint': {
       'fill-color': '#e4e4e4',
@@ -758,7 +758,115 @@ map.on('load', () => {
     map.getCanvas().style.cursor = '';
   });
 
+  //// Create gentle hover state for Community Districts (CD) to encourage clicks
 
+  let hoveredPolygonId4 = null; // need to create a new ID var for each layer in question
+
+  map.on('mousemove', 'cd-fill', (e) => {
+
+    if (e.features.length > 0) {
+      if (hoveredPolygonId4 !== null) {
+        map.setFeatureState(
+          { source: 'cd', id: hoveredPolygonId4 },
+          { hover: false }
+        );
+      }
+      hoveredPolygonId4 = e.features[0].id;
+      map.setFeatureState(
+        { source: 'cd', id: hoveredPolygonId4 },
+        { hover: true }
+      );
+    }
+  });
+
+  // When the mouse leaves the cd-fill layer, update the feature state of the
+  // previously hovered feature.
+  map.on('mouseleave', 'cd-fill', () => {
+    if (hoveredPolygonId4 !== null) {
+      map.setFeatureState(
+        { source: 'ibz', id: hoveredPolygonId4 },
+        { hover: false }
+      );
+    }
+    hoveredPolygonId4 = null;
+  });
+
+  //// Create pop-up name for CDs and BIDs on mouse click
+  map.on('click', 'cd-fill', (e) => {
+    cdnum = e.features[0].properties.boro_cd
+
+    new mapboxgl.Popup()
+      .setLngLat(e.lngLat)
+      .setHTML('Community District: ' + cdnum)
+      .addTo(map);
+  });
+
+  // Change the cursor to a pointer when
+  // the mouse is over the states layer.
+  map.on('mouseenter', 'cd-fill', () => {
+    map.getCanvas().style.cursor = 'pointer';
+  });
+
+  // Change the cursor back to a pointer
+  // when it leaves the states layer.
+  map.on('mouseleave', 'cd-fill', () => {
+    map.getCanvas().style.cursor = '';
+  });
+
+  //// Create gentle hover state for City Council Districts (council) to encourage clicks
+
+  let hoveredPolygonId5 = null; // need to create a new ID var for each layer in question
+
+  map.on('mousemove', 'council-fill', (e) => {
+
+    if (e.features.length > 0) {
+      if (hoveredPolygonId5 !== null) {
+        map.setFeatureState(
+          { source: 'council', id: hoveredPolygonId5 },
+          { hover: false }
+        );
+      }
+      hoveredPolygonId5 = e.features[0].id;
+      map.setFeatureState(
+        { source: 'council', id: hoveredPolygonId5 },
+        { hover: true }
+      );
+    }
+  });
+
+  // When the mouse leaves the council-fill layer, update the feature state of the
+  // previously hovered feature.
+  map.on('mouseleave', 'council-fill', () => {
+    if (hoveredPolygonId5 !== null) {
+      map.setFeatureState(
+        { source: 'ibz', id: hoveredPolygonId5 },
+        { hover: false }
+      );
+    }
+    hoveredPolygonId5 = null;
+  });
+
+  //// Create pop-up name for councils and BIDs on mouse click
+  map.on('click', 'council-fill', (e) => {
+    distnum = e.features[0].properties.coun_dist;
+
+    new mapboxgl.Popup()
+      .setLngLat(e.lngLat)
+      .setHTML('Council District: ' + distnum)
+      .addTo(map);
+  });
+
+  // Change the cursor to a pointer when
+  // the mouse is over the states layer.
+  map.on('mouseenter', 'council-fill', () => {
+    map.getCanvas().style.cursor = 'pointer';
+  });
+
+  // Change the cursor back to a pointer
+  // when it leaves the states layer.
+  map.on('mouseleave', 'council-fill', () => {
+    map.getCanvas().style.cursor = '';
+  });
 
 
 
