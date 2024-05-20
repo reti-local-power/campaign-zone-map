@@ -208,7 +208,7 @@ cz_sum <- f_freq %>%
   mutate(campzone = case_when(
     cz_num == "1"  ~ "Greenpoint IBZ",
     cz_num == "2"  ~ "North Brooklyn Waterfront",
-    cz_num == "3"  ~ "Downtown BK/Naby Yard/North Brooklyn IBZ",
+    cz_num == "3"  ~ "Downtown BK/Navy Yard/North Brooklyn IBZ",
     cz_num == "4"  ~ "Red Hook/Gowanus",
     cz_num == "5"  ~ "East New York IBZ",
     cz_num == "6"  ~ "East New York - Flatlands IBZ",
@@ -289,14 +289,14 @@ joined2 <- joined %>%
          campzone = case_when(
            cz_num == 1  ~ "Greenpoint IBZ",
            cz_num == 2  ~ "North Brooklyn Waterfront",
-           cz_num == 3  ~ "Downtown BK/Naby Yard/North Brooklyn IBZ",
+           cz_num == 3  ~ "Downtown BK/Navy Yard/North Brooklyn IBZ",
            cz_num == 4  ~ "Red Hook/Gowanus",
            cz_num == 5  ~ "East New York IBZ",
            cz_num == 6  ~ "East New York - Flatlands IBZ",
            cz_num == 7  ~ "Canarsie - Flatlands IBZ",
            cz_num == 8  ~ "Starrett City",
-           cz_num == 9 ~ "Prospect Park South",
-           cz_num == 10  ~ "Sunset Park",
+           cz_num == 9  ~ "Prospect Park South",
+           cz_num == 10 ~ "Sunset Park",
            cz_num == 11 ~ "Sheepshead Bay - Nostrand Houses",
   ))
 
@@ -317,7 +317,7 @@ joined2 %>% st_drop_geometry() %>%
 #  and do the CDs align with the BID names?
 
 joined2 %>% st_drop_geometry() %>%
-  count(cz_top, campzone, cz_num)
+  count(campzone, cz_num)
 
 joined2 %>% 
   st_drop_geometry() %>%

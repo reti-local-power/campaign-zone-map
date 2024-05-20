@@ -97,20 +97,7 @@ bldg3 <- bldg2 %>%
 
 
 cz2 <- cz %>%
-  mutate(campzone = case_when(
-    fid == 1  ~ "Greenpoint IBZ",
-    fid == 2  ~ "North Brooklyn Waterfront",
-    fid == 3  ~ "Downtown BK/Naby Yard/North Brooklyn IBZ",
-    fid == 4  ~ "Red Hook/Gowanus",
-    fid == 5  ~ "East New York IBZ",
-    fid == 6  ~ "East New York - Flatlands IBZ",
-    fid == 7  ~ "Canarsie - Flatlands IBZ",
-    fid == 8  ~ "Starrett City",
-    fid == 9 ~ "Prospect Park South",
-    fid == 10  ~ "Sunset Park",
-    fid == 11 ~ "Sheepshead Bay - Nostrand Houses",
-  )) %>%
-  select(cz_num = fid, campzone, geometry) %>%
+  select(cz_num = fid, geometry) %>%
   left_join(cz_data, by = "cz_num") %>%
   #transform to WSG 84 lat/lon information
   st_transform(st_crs(4326)) %>%
