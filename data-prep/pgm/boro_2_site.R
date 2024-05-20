@@ -514,7 +514,13 @@ nycha_union <- st_union(nycha_buffer) %>%
 bf_cluster <- bf_index %>%
   st_join(nycha_union) %>%
   rowwise() %>%
-  mutate(cluster = index + near_reti)
+  mutate(near_reti = replace_na(near_reti, 0),
+         cluster = index + near_reti)
+
+bf_cluster %>%
+  st_drop_geometry() %>%
+  count(cluster, index, near_reti) %>%
+  print(n=100)
 
 # tm_shape(bf_cluster) + 
 #   tm_fill("near_reti_site")
@@ -644,7 +650,7 @@ names(bf_cluster) %>%
   arrange(desc(nchar))
 
 # write index and cluster scores as shapefile ----
-st_write(bf_index, "dat/suitability index/boro_suitability_index.shp", delete_dsn = T)
+st_write(bf_cluster, "dat/suitability index/boro_suitability_index.shp", delete_dsn = T)
 
 # the next step is for a hot spot analysis to be run in ArcGIS Pro using this layer
 ## the hot spot output is then joined to this layer and saved as 
