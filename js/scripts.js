@@ -197,11 +197,12 @@ map.on('load', () => {
     'id': 'cz-line',
     'type': 'line',
     'source': 'cz', // reference the data source read in above
+    'minzoom': zoomswitch, // replace fill with border line at zoom switch
     'layout': {},
     'paint': {
       'line-color': '#54278f',
-      'line-width': 4,
-      'line-dasharray': [2, 1]
+      'line-width': 2,
+      'line-opacity': 0.8
     }
   }, 'waterway-label');
 
