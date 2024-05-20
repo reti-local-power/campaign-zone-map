@@ -10,6 +10,26 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 // 1. assign actions to clicking one button (onClick())
 // 2. actions should be to change multiple layers' visibility simultaneously (set.LayoutProperty)
 
+$('#reti-button').on('click', function () {
+
+  $(this).toggleClass("active");
+
+  const currentvisibility = map.getLayoutProperty(
+    'reti-line',
+    'visibility'
+  );
+
+  if (currentvisibility === 'none') {
+    map.setLayoutProperty('reti-line', 'visibility', 'visible');
+    map.setLayoutProperty('reti-fill', 'visibility', 'visible');
+  } else {
+    map.setLayoutProperty('reti-line', 'visibility', 'none');
+    map.setLayoutProperty('reti-fill', 'visibility', 'none');
+  }
+
+
+})
+
 $('#bid-button').on('click', function () {
 
   $(this).toggleClass("active");

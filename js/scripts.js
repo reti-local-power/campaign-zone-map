@@ -110,6 +110,26 @@ map.on('load', () => {
     }
   }, 'waterway-label');
 
+ // Add a data source containing GeoJSON data (existing RETI community solar projects).
+ map.addSource('reti', {
+  'type': 'geojson',
+  'data': 'data-prep/dat/for-web-map/reti.geojson',
+  'generateId': true // this will add an id to each feature, this is necessary if we want to use featureState (see below)
+});
+
+  // indicate RETI projects with a line when zoomed in
+  //  this is introduced here so the black hover border for buildings sits over this layer
+  map.addLayer({
+    'id': 'reti-line',
+    'type': 'line',
+    'source': 'reti', // reference the data source read in above
+    'minzoom': zoomswitch, // hide line once the user zooms out enough (set by var earlier on)
+    'layout': {},
+    'paint': {
+      'line-color': '#f57b00',
+    }
+  }, 'waterway-label');
+
   // Add a new layer for hovering over building information (line)
   map.addLayer({
     'id': 'bldg-line-hover',
@@ -184,6 +204,24 @@ map.on('load', () => {
       'line-dasharray': [2, 1]
     }
   }, 'waterway-label');
+
+  // Add a new layer to visualize RETI projects (fill)
+  //  This works at small zooms, and is replaced by a line type layer at larger zooms
+  map.addLayer({
+    'id': 'reti-fill',
+    'type': 'fill',
+    'source': 'reti', // reference the data source read in above
+    'maxzoom': zoomswitch, // hide fill once the user zooms in enough (set by var earlier on)
+    'layout': {},
+    'paint': {
+      'fill-color': '#f57b00',
+    }
+  }, 'waterway-label');
+
+
+  // Set this layer to not be visible initially so it can be turned on using the botton
+  map.setLayoutProperty('reti-fill', 'visibility', 'none');
+  map.setLayoutProperty('reti-line', 'visibility', 'none');
 
   // Add a data source containing GeoJSON data (industrial business zones).
   map.addSource('ibz', {
