@@ -43,17 +43,15 @@ unzip(ibz_temp, exdir = ibz_temp2)
 
 ibz <- st_read(ibz_temp2)
 
-# - Community DIstricts (helpful for final spreadsheet)
+# - Community Districts (helpful for final spreadsheet)
 cd <- st_read("https://data.cityofnewyork.us/resource/jp9i-3b7y.geojson") %>%
   filter(str_sub(boro_cd, 1, 1) == "3") #restrict to just Brooklyn CDs
 
-
-# - CZ centroids for early mapping project (may delete this later)
-cz_points <- st_read("dat/boro_Heatmap/cz_centroids.shp") %>%
-  st_transform(st_crs(4326)) %>%
-  select(cz_num = fid,
-         geometry) %>%
-  mutate(cz_num = as.character(cz_num))
+# - City Council Districts (helpful for final spreadsheet)
+council <- st_read("https://data.cityofnewyork.us/resource/s2hu-y8ab.geojson") %>%
+  #filter to Brooklyn Council Districts
+  filter(as.numeric(coun_dist) > 33 &
+           as.numeric(coun_dist) < 49)
 
 
 # 2. Join data together -------------------------------------------------------
@@ -206,7 +204,22 @@ cz_sum <- f_freq %>%
   pivot_wider(id_cols = c(cz_num, n),
               names_from = name_long, 
               values_from = value) %>%
-  full_join(cz_elcprd, by = "cz_num")
+  full_join(cz_elcprd, by = "cz_num") %>%
+  mutate(campzone = case_when(
+    cz_num == "1"  ~ "Greenpoint IBZ",
+    cz_num == "2"  ~ "North Brooklyn Waterfront",
+    cz_num == "3"  ~ "Downtown BK/Naby Yard/North Brooklyn IBZ",
+    cz_num == "4"  ~ "Red Hook/Gowanus",
+    cz_num == "5"  ~ "East New York IBZ",
+    cz_num == "6"  ~ "East New York - Flatlands IBZ",
+    cz_num == "7"  ~ "Canarsie - Flatlands IBZ",
+    cz_num == "8"  ~ "Starrett City",
+    cz_num == "9"  ~ "Prospect Park South",
+    cz_num == "10" ~ "Sunset Park",
+    cz_num == "11" ~ "Sheepshead Bay - Nostrand Houses",
+    TRUE           ~ cz_num
+  )) %>%
+  select(cz_num, campzone, everything())
 
 
 joined %>%
@@ -239,6 +252,7 @@ joined %>%
 # - IBZ name
 # - BID name
 # - CD number
+# - City Council District
 
 ## Prep variables for being joined ----
 
@@ -249,8 +263,8 @@ ibz_short <- ibz %>%
 
 ### BID
 bid_short <- bid %>%
-  filter(borough == "3") %>% #restrict to just Brooklyn
-  select(bidname = bid,
+  filter(f_all_bi_1 == "Brooklyn") %>% #restrict to just Brooklyn
+  select(bidname = f_all_bi_2,
          geometry) %>%
   st_transform(st_crs(joined))
 
@@ -260,27 +274,35 @@ cd_short <- cd %>%
          geometry) %>%
   st_transform(st_crs(joined))
 
+### Council
+cc_short <- council %>%
+  select(coun_dist, geometry) %>%
+  st_transform(st_crs(joined))
+
 joined2 <- joined %>%
   st_join(ibz_short, join = st_intersects) %>%
   st_join(bid_short, join = st_intersects) %>%
   st_join(cd_short,  join = st_intersects) %>%
+  st_join(cc_short,  join = st_intersects) %>%
   # cz_num is not descriptive, give campaign zones descriptive names
-  mutate(cz_top = ifelse(cz_num %in% c(3, 5, 8, 9), 1, 0), #flag priority cz's
+  mutate(row_num = row_number(), #create row-number for URL purposes
          campzone = case_when(
            cz_num == 1  ~ "Greenpoint IBZ",
            cz_num == 2  ~ "North Brooklyn Waterfront",
-           cz_num == 3  ~ "Flushing Ave/North Brooklyn IBZ",
-           cz_num == 4  ~ "Fort Greene/BK Navy Yard",
-           cz_num == 5  ~ "Red Hook",
-           cz_num == 6  ~ "East New York IBZ",
-           cz_num == 7  ~ "Crown Heights - Utica Ave",
-           cz_num == 8  ~ "East New York - Flatlands IBZ",
-           cz_num == 9  ~ "Canarsie - Flatlands IBZ",
-           cz_num == 10 ~ "Sunset Park",
-           cz_num == 11 ~ "Prospect Park South",
-           cz_num == 12 ~ "Sheepshead Bay - Nostrand Houses",
+           cz_num == 3  ~ "Downtown BK/Naby Yard/North Brooklyn IBZ",
+           cz_num == 4  ~ "Red Hook/Gowanus",
+           cz_num == 5  ~ "East New York IBZ",
+           cz_num == 6  ~ "East New York - Flatlands IBZ",
+           cz_num == 7  ~ "Canarsie - Flatlands IBZ",
+           cz_num == 8  ~ "Starrett City",
+           cz_num == 9 ~ "Prospect Park South",
+           cz_num == 10  ~ "Sunset Park",
+           cz_num == 11 ~ "Sheepshead Bay - Nostrand Houses",
   ))
 
+# check that names and numbers properly reflect the neighborhood/zones covered
+tm_shape(joined2) + 
+  tm_fill("campzone")
 
 ## Check joins
 joined2 %>% st_drop_geometry() %>%
@@ -305,40 +327,7 @@ joined2 %>%
   adorn_totals()
 
 
-# 5. Create dataset that can be read into the interactive web map ------------
-
-# File that summarizes the key informatcdion about each campaign zone
-cz_sum_map <- cz_points %>%
-  full_join(cz_sum, by = "cz_num") %>%
-  filter(!cz_num %in% c("All", "Not in a CZ")) %>%
-  mutate(
-    # create long and lat for ease of use in mapbox
-    lon = st_coordinates(.)[,1],
-    lat = st_coordinates(.)[,2],
-    cz_top = ifelse(cz_num %in% c(3, 5, 8, 9), 1, 0), #flag priority cz'sfg
-    campzone = case_when(
-      cz_num == "1"  ~ "Greenpoint IBZ",
-      cz_num == "2"  ~ "North Brooklyn Waterfront",
-      cz_num == "3"  ~ "Flushing Ave/North Brooklyn IBZ",
-      cz_num == "4"  ~ "Fort Greene/BK Navy Yard",
-      cz_num == "5"  ~ "Red Hook",
-      cz_num == "6"  ~ "East New York IBZ",
-      cz_num == "7"  ~ "Crown Heights - Utica Ave",
-      cz_num == "8"  ~ "East New York - Flatlands IBZ",
-      cz_num == "9"  ~ "Canarsie - Flatlands IBZ",
-      cz_num == "10" ~ "Sunset Park",
-      cz_num == "11" ~ "Prospect Park South",
-      cz_num == "12" ~ "Sheepshead Bay - Nostrand Houses",),
-    avg_suitability_round = round(avg_suitability, digits = 1),
-    avg_energy_MWh_round = paste0(round(avg_energy_MWh), " MWh per year"),
-    total_energyMWh_round = paste0(round(total_energy_MWh), " MWh per year")
-    ) %>%
-  # now, drop geometry to create a table that's easier to work with
-  st_drop_geometry()
-
-
-
-# 6. Save final files --------------------------------------------------------
+# 5. Save final files --------------------------------------------------------
 
 # shorten variable names
 joined3 <- joined2 %>%
@@ -364,9 +353,9 @@ st_write(joined3, "dat/suitability index/boro_analysis.shp", delete_dsn = T)
 # Excel file to be shared with site staff
 joined2 %>% 
   st_drop_geometry() %>%
-  arrange(desc(in_cz), desc(cz_top), campzone, desc(index), bbl) %>%
+  arrange(desc(in_cz), campzone, desc(index), bbl) %>%
   select(address, bin, bbl, suitability_score = index, campzone, 
-         priority_campzone = cz_top, cz_num, zipcode, commdist, ibzname, bidname,
+         cz_num, zipcode, council_dist = coun_dist, commdist, ibzname, bidname,
          electricity_prodMWh = ElcPrd_MWh, tract2020 = bct2020, ownername, 
          starts_with("f_"),
          everything()) %>%
@@ -375,7 +364,5 @@ joined2 %>%
 # Excel file with campaign zone summary stats for me
 write_csv(cz_sum, "cz summary statistics.csv")
 
-# .json file with campaign zone mapping data
-write_csv(cz_sum_map, "js/cz-info.csv")
 
 
