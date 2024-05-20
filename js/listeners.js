@@ -65,6 +65,43 @@ $('#dac-button').on('click', function () {
 })
 
 
+$('#cd-button').on('click', function () {
+
+  $(this).toggleClass("active");
+
+  const currentvisibility = map.getLayoutProperty(
+    'cd-fill',
+    'visibility'
+  );
+
+  if (currentvisibility === 'none') {
+    map.setLayoutProperty('cd-line', 'visibility', 'visible');
+    map.setLayoutProperty('cd-fill', 'visibility', 'visible');
+  } else {
+    map.setLayoutProperty('cd-line', 'visibility', 'none');
+    map.setLayoutProperty('cd-fill', 'visibility', 'none');
+  }
+})
+
+$('#council-button').on('click', function () {
+
+  $(this).toggleClass("active");
+
+  const currentvisibility = map.getLayoutProperty(
+    'council-fill',
+    'visibility'
+  );
+
+  if (currentvisibility === 'none') {
+    map.setLayoutProperty('council-line', 'visibility', 'visible');
+    map.setLayoutProperty('council-fill', 'visibility', 'visible');
+  } else {
+    map.setLayoutProperty('council-line', 'visibility', 'none');
+    map.setLayoutProperty('council-fill', 'visibility', 'none');
+  }
+})
+
+
 // Create collapsible set of buttons within the sidepanel
 var coll = document.getElementsByClassName("collapsible");
 var i;

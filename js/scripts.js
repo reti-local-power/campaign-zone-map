@@ -268,6 +268,90 @@ map.on('load', () => {
   map.setLayoutProperty('bid-fill', 'visibility', 'none');
 
 
+  // Add a data source containing GeoJSON data (Community Districts).
+  map.addSource('cd', {
+    'type': 'geojson',
+    'data': 'data-prep/dat/for-web-map/cd.geojson',
+    'generateId': true // this will add an id to each feature, this is necessary if we want to use featureState (see below)
+  });
+
+  // Add a new layer to visualize bid borders (fill)
+  map.addLayer({
+    'id': 'cd-fill',
+    'type': 'fill',
+    'source': 'cd', // reference the data source read in above
+    'maxzoom': zoomswitch + 1.5, // hide fill once the user zooms in enough (set by var earlier on)
+    'layout': {},
+    'paint': {
+      'fill-color': '#e4e4e4',
+      'fill-opacity': [
+        'case',
+        ['boolean', ['feature-state', 'hover'], false],
+        0.3, // opacity when hover is false
+        0 // opacity when hover is true
+      ]
+    }
+  }, 'waterway-label');
+
+  // Add a new layer to visualize bid borders (line)
+  map.addLayer({
+    'id': 'cd-line',
+    'type': 'line',
+    'source': 'cd', // reference the data source read in above
+    'layout': {},
+    'paint': {
+      'line-color': '#666666',
+      'line-width': 2
+    }
+  }, 'waterway-label');
+
+  // Set this layer to not be visible initially so it can be turned on using the botton
+  map.setLayoutProperty('cd-line', 'visibility', 'none');
+  map.setLayoutProperty('cd-fill', 'visibility', 'none');
+
+
+  // Add a data source containing GeoJSON data (Community Districts).
+  map.addSource('council', {
+    'type': 'geojson',
+    'data': 'data-prep/dat/for-web-map/council.geojson',
+    'generateId': true // this will add an id to each feature, this is necessary if we want to use featureState (see below)
+  });
+
+  // Add a new layer to visualize bid borders (fill)
+  map.addLayer({
+    'id': 'council-fill',
+    'type': 'fill',
+    'source': 'council', // reference the data source read in above
+    'maxzoom': zoomswitch + 1.5, // hide fill once the user zooms in enough (set by var earlier on)
+    'layout': {},
+    'paint': {
+      'fill-color': '#e4e4e4',
+      'fill-opacity': [
+        'case',
+        ['boolean', ['feature-state', 'hover'], false],
+        0.3, // opacity when hover is false
+        0 // opacity when hover is true
+      ]
+    }
+  }, 'waterway-label');
+
+  // Add a new layer to visualize bid borders (line)
+  map.addLayer({
+    'id': 'council-line',
+    'type': 'line',
+    'source': 'council', // reference the data source read in above
+    'layout': {},
+    'paint': {
+      'line-color': '#282828',
+      'line-width': 2
+    }
+  }, 'waterway-label');
+
+  // Set this layer to not be visible initially so it can be turned on using the botton
+  map.setLayoutProperty('council-line', 'visibility', 'none');
+  map.setLayoutProperty('council-fill', 'visibility', 'none');
+
+
   //// Set up hover state for campaign zones ----------------------------------
   // this is a variable to store the id of the feature that is currently being hovered.
   let hoveredPolygonId = null;
