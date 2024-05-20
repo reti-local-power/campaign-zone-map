@@ -286,6 +286,7 @@ h3 {
   width: 250px;
   border: 1px solid #000000; 
   font-family: 'Open Sans', sans-serif;
+  transition: all 1s;
 }
 
 /* Style the call to action within the layer menu */

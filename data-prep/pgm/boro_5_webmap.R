@@ -66,10 +66,13 @@ council <- st_read("https://data.cityofnewyork.us/resource/s2hu-y8ab.geojson") %
 #  owner contact info (*_name and *_add)
 
 bldg2 <- bldg %>%
-  mutate(campzone = replace_na(campzone, "Not in a campaign zone")) %>%
+  mutate(campzone = replace_na(campzone, "Not in a campaign zone"),
+         pub_own = 
+           ifelse(owner_cat %in% c("City-owned",
+                                   "State, federal, or public authority"), 1, 0)) %>%
   select(-starts_with("f_"), #remove flag vars (only need the final index score)
          -ends_with("_name"), -ends_with("_add"), #remove hpd owner contact info
-         -zonedist1, resfarrat) %>%
+         -zonedist1, -resfarrat) %>%
   st_transform(st_crs(4326))%>%
   distinct(bin, .keep_all = T)
 

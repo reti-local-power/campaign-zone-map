@@ -110,6 +110,30 @@ map.on('load', () => {
     }
   }, 'waterway-label');
 
+  // Add a hidden version of this to toggle with the publicly owned button
+  map.addLayer({
+    'id': 'bldg-fill-public',
+    'type': 'fill',
+    'source': 'bldg', // reference the data source read in above
+    'layout': {},
+    'paint': {
+      'fill-color': '#179f3b',
+      'fill-opacity': [
+        'interpolate',
+        ['linear'],
+        ['get', 'pub_own'],
+        // colors mirror the static maps created for the report
+        0,
+        0,
+        1,
+        1
+      ]
+    }
+  }, 'waterway-label');
+
+    // Set this layer to not be visible initially so it can be turned on using the botton
+    map.setLayoutProperty('bldg-fill-public', 'visibility', 'none');
+  
  // Add a data source containing GeoJSON data (existing RETI community solar projects).
  map.addSource('reti', {
   'type': 'geojson',

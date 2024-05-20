@@ -27,8 +27,25 @@ $('#reti-button').on('click', function () {
     map.setLayoutProperty('reti-fill', 'visibility', 'none');
   }
 
+})
+
+$('#pubown-button').on('click', function () {
+
+  $(this).toggleClass("active");
+
+  const currentvisibility = map.getLayoutProperty(
+    'bldg-fill-public',
+    'visibility'
+  );
+
+  if (currentvisibility === 'none') {
+    map.setLayoutProperty('bldg-fill-public', 'visibility', 'visible');
+  } else {
+    map.setLayoutProperty('bldg-fill-public', 'visibility', 'none');
+  }
 
 })
+
 
 $('#bid-button').on('click', function () {
 
