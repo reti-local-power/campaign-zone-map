@@ -56,7 +56,7 @@ cd <- st_read("https://data.cityofnewyork.us/resource/jp9i-3b7y.geojson") %>%
 # City Council Districts
 council <- st_read("https://data.cityofnewyork.us/resource/s2hu-y8ab.geojson") %>%
   #filter to Brooklyn Council Districts
-  filter(as.numeric(coun_dist) > 33 &
+  filter(as.numeric(coun_dist) > 32 &
            as.numeric(coun_dist) < 49)
 
 
