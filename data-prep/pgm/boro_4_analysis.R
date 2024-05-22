@@ -16,6 +16,7 @@ library(clipr)
 library(sf)
 library(tidygeocoder)
 library(rjson)
+library(tmap)
 
 
 # 1. Read in data -------------------------------------------------------------
@@ -64,7 +65,7 @@ compare_df_cols(bf, bf_shp) %>%
 
 # clean up the hotspot outputted variables to keep only the relevant ones
 bf_shp2 <- bf_shp %>%
-  select(bin, cz_num, in_cz)
+  select(bin, near_reti, cz_num, in_cz)
 
 joined <- bf %>%
   mutate(bin = as.character(bin)) %>%
@@ -300,9 +301,9 @@ joined2 <- joined %>%
            cz_num == 11 ~ "Sheepshead Bay - Nostrand Houses",
   ))
 
-# check that names and numbers properly reflect the neighborhood/zones covered
-tm_shape(joined2) + 
-  tm_fill("campzone")
+# # check that names and numbers properly reflect the neighborhood/zones covered
+# tm_shape(joined2) + 
+#   tm_fill("campzone")
 
 ## Check joins
 joined2 %>% st_drop_geometry() %>%
@@ -354,7 +355,7 @@ st_write(joined3, "dat/suitability index/boro_analysis.shp", delete_dsn = T)
 joined2 %>% 
   st_drop_geometry() %>%
   arrange(desc(in_cz), campzone, desc(index), bbl) %>%
-  select(address, bin, bbl, suitability_score = index, campzone, 
+  select(address, bin, bbl, suitability_score = index, near_reti_site = near_reti, campzone, 
          cz_num, zipcode, council_dist = coun_dist, commdist, ibzname, bidname,
          electricity_prodMWh = ElcPrd_MWh, tract2020 = bct2020, ownername, 
          starts_with("f_"),
