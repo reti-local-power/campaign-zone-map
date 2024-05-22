@@ -364,8 +364,6 @@ bf_noflaw6 %>%
   count(dupe, f_mulbldg)
 
 
-#### HK STOPPED HERE - PICK UP AND KEEP RE-RUNNING FROM THIS POINT
-
 ## presence in CEJST disadvantaged census tract ----
 
 #create full census tract and block group id's
@@ -374,7 +372,13 @@ bf_noflaw7 <- bf_noflaw6 %>%
     str_detect(ct2010, "\\.") ~ str_pad(ct2010, 7, "left", "0"),
     TRUE                      ~ str_pad(paste0(ct2010, ".00"), 7, "left", "0")
   ),
-  tract_id = paste0("36047", str_remove(tract_suffix, "\\."))) %>%
+  tract_id = case_when(
+    borough == "BX" ~ paste0("36005", str_remove(tract_suffix, "\\.")),
+    borough == "BK" ~ paste0("36047", str_remove(tract_suffix, "\\.")),
+    borough == "MN" ~ paste0("36061", str_remove(tract_suffix, "\\.")),
+    borough == "QN" ~ paste0("36081", str_remove(tract_suffix, "\\.")),
+    borough == "SI" ~ paste0("36085", str_remove(tract_suffix, "\\.")),
+    )) %>%
   left_join(cejst, by = "tract_id") %>%
   mutate(f_disad = as.numeric(disadvantaged)) #keep flags in numeric format
 
@@ -382,7 +386,7 @@ bf_noflaw7 <- bf_noflaw6 %>%
 ## for random set
 bf_noflaw7 %>% 
   st_drop_geometry() %>% 
-  select(ct2010, tract_suffix, tract_id) %>% 
+  select(borough, ct2010, tract_suffix, tract_id) %>% 
   slice_sample(n = 10)
 
 ## for tracts with a decimal and suffix
@@ -392,12 +396,12 @@ bf_noflaw7 %>%
   select(ct2010, tract_suffix, tract_id) %>% 
   slice_sample(n = 10)
 
-# check merge
+# check merge (should be values for all 5 boroughs)
 bf_noflaw7 %>% 
   st_drop_geometry() %>% 
-  count(disadvantaged, f_disad)
+  count(borough, disadvantaged, f_disad)
 
-# # there are 3 rows without census tract information
+# # there are 11 rows without census tract information
 # bf_noflaw7 %>% filter(is.na(disadvantaged)) %>% select(ct2010, tract_id)
 
 
@@ -425,7 +429,7 @@ bf_noflaw8 %>%
 # This is the most important weight, and has several point values
 
 bf_noflaw9 <- bf_noflaw8 %>%
-  left_join(solrad %>%
+  left_join(nyc_solrad %>%
               st_drop_geometry() %>%
               select(bin, ElcPrd_MWh) %>%
               mutate(in_solrad = 1), 
@@ -471,8 +475,8 @@ bf_noflaw10 %>%
   st_drop_geometry() %>% 
   count(dac_designation, f_nys_dac)
 
-# # there are 3 rows without census tract information
-bf_noflaw10 %>% filter(is.na(f_nys_dac)) %>% select(ct2010, tract_id)
+# # there are 11 rows without census tract information
+# bf_noflaw10 %>% filter(is.na(f_nys_dac)) %>% select(ct2010, tract_id)
 
 
 ## sum of flags ----
@@ -502,27 +506,29 @@ bf_index %>%
 
 
 # 5. Create clustering score (incorporate proximity to NYCHA bbl) -------------
-nycha_buffer <- nycha %>%
+reti_buffer <- reti_projects %>%
   st_transform(st_crs(2263)) %>%
   st_buffer(5280)
 
-nycha_union <- st_union(nycha_buffer) %>%
+reti_union <- st_union(reti_buffer) %>%
   st_sf() %>%
   #this will become the clustering score value, adjust as needed
   mutate(near_reti = 1) 
 
 # view spatial manipulation
-# tm_shape(nycha_union) + 
-#   tm_fill("red") + 
-#   tm_shape(nycha_buffer) + 
+# tm_shape(reti_union) +
+#   tm_fill("red") +
+#   tm_shape(reti_buffer) +
 #   tm_polygons("blue")
 
 # create flag if bf_index site is within nycha_union
 bf_cluster <- bf_index %>%
-  st_join(nycha_union) %>%
+  st_join(reti_union) %>%
   rowwise() %>%
   mutate(near_reti = replace_na(near_reti, 0),
-         cluster = index + near_reti)
+         cluster = index + near_reti,
+         cluster2 = cluster * 2,
+         cluster10 = cluster * 10)
 
 bf_cluster %>%
   st_drop_geometry() %>%
@@ -657,7 +663,7 @@ names(bf_cluster) %>%
   arrange(desc(nchar))
 
 # write index and cluster scores as shapefile ----
-st_write(bf_cluster, "dat/suitability index/boro_suitability_index.shp", delete_dsn = T)
+st_write(bf_cluster, "dat/suitability index/nyc_suitability_index.shp", delete_dsn = T)
 
 # the next step is for a hot spot analysis to be run in ArcGIS Pro using this layer
 ## the hot spot output is then joined to this layer and saved as 
@@ -673,7 +679,7 @@ bf_csv <- bf_noflaw10 %>%
   left_join(st_drop_geometry(bf_index), by = "bin")
 
 # export data behind index scores as csv ----
-write_csv(bf_csv, "dat/boro_bldg_fp_index_and_elecprod.csv")
+write_csv(bf_csv, "dat/nyc_bldg_fp_index_and_elecprod.csv")
 
 
 
