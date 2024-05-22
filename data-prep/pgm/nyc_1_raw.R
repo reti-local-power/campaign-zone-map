@@ -68,7 +68,7 @@ bf2 <- bf %>%
 
 # 3. Save permanent file ------------------------------------------------------
 
-st_write(bf2, dsn = "dat/bldg fp bk/bf.shp", delete_dsn = T)
+st_write(bf2, dsn = "dat/bldg fp bk/nyc_bf.shp", delete_dsn = T)
 
 st_write(reti_projects3, dsn = "dat/reti_projects/reti_solar_projects_bf.geojson", delete_dsn = T)
 
