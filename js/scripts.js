@@ -2,7 +2,9 @@
 // - Add street view to buildings info-panel using Camille's code as an example: https://github.com/cpreeldumas/final-project/blob/main/js/scripts.js#L279
 
 // Setting up MapBox
-mapboxgl.accessToken = 'pk.eyJ1IjoiaGVucnkta2FuZW5naXNlciIsImEiOiJjbHVsdTU1Z20waG84MnFwbzQybmozMjdrIn0.tqmZ-jfP2M6xcOz09ckRPA';
+ACCESS_TOKEN = 'pk.eyJ1IjoiaGVucnkta2FuZW5naXNlciIsImEiOiJjbHVsdTU1Z20waG84MnFwbzQybmozMjdrIn0.tqmZ-jfP2M6xcOz09ckRPA';
+
+mapboxgl.accessToken = ACCESS_TOKEN;
 
 var mapOptions = {
   container: 'my-map-container', // container ID
@@ -17,6 +19,20 @@ const map = new mapboxgl.Map(mapOptions);
 // add a navitation control
 const nav = new mapboxgl.NavigationControl();
 map.addControl(nav, 'top-right');
+
+// add search bar to search addresses in NYC
+const searchJS = document.getElementById('search-js');
+searchJS.onload = function () {
+    const searchBox = new MapboxSearchBox();
+    searchBox.accessToken = ACCESS_TOKEN;
+    searchBox.options = {
+        types: 'address,poi',
+        proximity: [-73.95841, 40.65259] // using a point in the center of Brooklyn
+    };
+    searchBox.marker = true;
+    searchBox.mapboxgl = mapboxgl;
+    map.addControl(searchBox, 'top-left');
+};
 
 // create zoom var where campaign zone fills disappear and the user can interact with buildings
 var zoomswitch = 14;

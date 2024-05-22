@@ -68,11 +68,11 @@ h3 {
 #my-sidepanel {
   /* Code from https://www.w3schools.com/howto/howto_js_collapse_sidepanel.asp */
   position: absolute;    /* Stay in place */
-  height: 88.5%;        /* Specify a height */
+  height: 75%;        /* Specify a height */
   width: 30%;         /* 30% width - change this with JavaScript */
   z-index: 2;         /* Stay on top */
-  /* top: 175;           Align on the page below the header */
-  /* bottom: 250; */
+  top: 115px;           /* Align on the page below the header*/
+  /* bottom: 40px; */
   left: 0;            /* Align flush to the left side of the page */
   background-color: #e6e6e6; /* grey*/
   border:1px solid #4b4b4b;
@@ -165,7 +165,8 @@ h3 {
   position: absolute; 
   font-size: larger;
   z-index: 1;
-  /* top: 250px; */
+  top: 120px;
+  /* bottom: 40px; */
   /* margin-top: 12.1%; */
   left: 5px; 
   background-color: #ccc;
