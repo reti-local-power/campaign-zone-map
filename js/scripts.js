@@ -7,7 +7,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiaGVucnkta2FuZW5naXNlciIsImEiOiJjbHVsdTU1Z20wa
 var mapOptions = {
   container: 'my-map-container', // container ID
   style: 'mapbox://styles/mapbox/light-v11', // light basemap
-  center: [-73.89988, 40.66606], // starting position [lng, lat]
+  center: [-74.00711, 40.67589], // starting position [lng, lat]
   zoom: 13, // starting zoom,
 }
 
