@@ -62,7 +62,9 @@ pluto <- read_csv("pluto_24v1.csv",
 
 # + Solar Radiation Data 
 nyc_solrad <- read_csv("dat/Solar Power Potential/nyc_bldg_fp_elcprd.csv",
-                       col_types = list(bin = col_character()))
+                       col_types = list(bin = col_character())) %>%
+  arrange(desc(ElcPrd_MWh)) %>%
+  distinct(bin, .keep_all = T)
 
 # + IBZ
 ibz_temp <- tempfile()
@@ -152,7 +154,7 @@ bf2 %>%
 
 nyserda_sf <- nyserda %>%
   mutate(addressfull = paste0(street_address, " ", city, ", NY")) %>%
-  filter(!is.na(latitude) & !is.na(longitude)) %>%
+  filter(!is.na(latitude) & !is.na(longitude)) %>% #only keep buildings with point info
   st_as_sf(coords = c("longitude", "latitude"), crs = 4326) %>%
   select(nyserda_pn = project_number, project_status, street_address, is_commsolar = community_distributed_generation, geometry) %>%
   st_transform(st_crs(2263))
@@ -161,7 +163,7 @@ bf3 <- bf2 %>%
   st_join(nyserda_sf, st_intersects) %>%
   mutate(nyserda_solar = ifelse(!is.na(nyserda_pn), 1, 0))
 
-# 27 NYSERDA funded sites are within the demonstration area
+# 980 NYSERDA funded sites are within the demonstration area
 bf3 %>% 
   st_drop_geometry() %>% 
   mutate(is_nyserda = !is.na(nyserda_pn)) %>% 
@@ -180,7 +182,7 @@ bf3_ck <- bf3 %>%
   # check that nyserda geocoded point is within the address that it should be
   left_join(pluto, by = "bbl")
 
-# check address mismatch
+# check address mismatch in a sample of 100 buildings
 bf3_ck %>%
   st_drop_geometry() %>%
   filter(!is.na(nyserda_pn)) %>%
@@ -191,7 +193,7 @@ bf3_ck %>%
 
 ## Zero solar radiation ----
 bf4 <- bf3 %>%
-  left_join(solrad %>% 
+  left_join(nyc_solrad %>% 
               st_drop_geometry() %>% 
               select(bin) %>%
               mutate(anysolar = 1),
@@ -236,13 +238,19 @@ bf_noflaw %>%
 
 ## low building height ----
 bf_noflaw2 <- bf_noflaw %>%
-  mutate(f_lowroof = case_when(
-    is.na(heightroof) ~ 0,
-    heightroof < 30   ~ 2,
-    heightroof < 100  ~ 1,
-    TRUE              ~ 0))
+  mutate(heightroof = as.numeric(heightroof),
+         f_lowroof = case_when(
+           is.na(heightroof) ~ 0,
+           heightroof < 30   ~ 2,
+           heightroof < 100  ~ 1,
+           TRUE              ~ 0)
+         )
 
 # check creation
+bf_noflaw2 %>%
+  st_drop_geometry() %>% 
+  count(f_lowroof)
+
 bf_noflaw2 %>%
   st_drop_geometry() %>%
   group_by(f_lowroof) %>%
@@ -313,7 +321,7 @@ bf_noflaw5 %>%
 make_na <- "<NA>|UNAVAILABLE OWNER|NAME NOT ON FILE"
 
 ## Check for names (commented out for now)
-# bf_noflaw6 %>%
+# bf_noflaw5 %>%
 #   st_drop_geometry() %>%
 #   mutate(ownername = str_replace(ownername, make_na, NA_character_)) %>%
 #   count(ownername) %>%
@@ -355,6 +363,8 @@ bf_noflaw6 %>%
   st_drop_geometry() %>%
   count(dupe, f_mulbldg)
 
+
+#### HK STOPPED HERE - PICK UP AND KEEP RE-RUNNING FROM THIS POINT
 
 ## presence in CEJST disadvantaged census tract ----
 
