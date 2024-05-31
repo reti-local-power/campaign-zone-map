@@ -25,6 +25,7 @@ library(sf)
 library(tmap)
 
 tmap_mode("view")
+tmap_options(check.and.fix = TRUE)
 
 
 # 1. Read in data -------------------------------------------------------------
@@ -479,9 +480,35 @@ bf_noflaw10 %>%
 # bf_noflaw10 %>% filter(is.na(f_nys_dac)) %>% select(ct2010, tract_id)
 
 
+## create clustering bonus points for larger buildings ----
+#    these categories are larger to counteract the impact of the clustering 
+#    algorithm in QGIS and are not included in the site suitability score
+
+# look at trends in building footprint size
+summary(bf_noflaw10$shape_area)
+
+# ggplot(bf_noflaw10, aes(x=shape_area)) + 
+#   geom_histogram(bins=100) + 
+#   xlim(0,30000)
+
+bf_noflaw11 <- bf_noflaw10 %>%
+  mutate(area_cat = case_when(
+    shape_area <= 10000 ~ 0,
+    shape_area <= 15000 ~ 2,
+    shape_area <= 25000 ~ 4,
+    shape_area >  25000 ~ 6
+  ))
+
+# look at distribution, does it seem to capture a similar proportion of buildings?
+bf_noflaw11 %>%
+  st_drop_geometry() %>%
+  count(area_cat) %>%
+  mutate(pct = n/sum(n))
+
+
 ## sum of flags ----
-bf_index <- bf_noflaw10 %>%
-  select(bbl, bin, starts_with("f_"), elcprd_MWh = ElcPrd_MWh) %>%
+bf_index <- bf_noflaw11 %>%
+  select(bbl, bin, starts_with("f_"), area_cat, elcprd_MWh = ElcPrd_MWh) %>%
   rowwise() %>%
   mutate(index = sum(c_across(starts_with("f_")), na.rm = T),
          bbl = as.character(bbl))
@@ -526,17 +553,21 @@ bf_cluster <- bf_index %>%
   st_join(reti_union) %>%
   rowwise() %>%
   mutate(near_reti = replace_na(near_reti, 0),
-         cluster = index + near_reti,
-         cluster2 = cluster * 2,
-         cluster10 = cluster * 10)
+         near_reti2 = near_reti * 2, #create 2-point flag to check later
+         cluster = index + near_reti + area_cat, # add bldg area categories in
+         cluster2 = index + near_reti + area_cat # add bldg area categories in
+         )
 
 bf_cluster %>%
   st_drop_geometry() %>%
   count(cluster, index, near_reti) %>%
   print(n=100)
 
+# tm_shape(bf_cluster) +
+#   tm_fill("near_reti")
+
 # tm_shape(bf_cluster) + 
-#   tm_fill("near_reti_site")
+#   tm_fill("area_cat")
 
 # the cluster variable is what should be used in QGIS clustering method
 
@@ -609,7 +640,7 @@ S <- bf_noflaw9 %>%
   pull(bldgclass)
 
 # join hpd data and pluto building type data
-bf_noflaw10 <- bf_noflaw9 %>%
+bf_noflaw12 <- bf_noflaw11 %>%
   left_join(hpd_contacts_restructured, by = "bin") %>%
   mutate(owner_cat = case_when(
     ownertype == "C" ~ "City-owned",
@@ -630,7 +661,7 @@ bf_noflaw10 <- bf_noflaw9 %>%
   residential = ifelse(r_bldgtype != "not residential", 1, 0))
 
 # check hpd contact information join
-bf_noflaw10 %>%
+bf_noflaw12 %>%
   st_drop_geometry() %>%
   select(registrationid, ends_with("_add"), ends_with("_name")) %>%
   sapply(function(x) sum(is.na(x)))
@@ -638,7 +669,7 @@ bf_noflaw10 %>%
 # missing for most records, but the join seems to have worked for some of them
 
 # check building type var creation
-bf_noflaw10 %>%
+bf_noflaw12 %>%
   st_drop_geometry() %>%
   group_by(r_bldgtype) %>%
   summarise(n_bldgs = n(),                              # num tax lots
@@ -647,7 +678,7 @@ bf_noflaw10 %>%
             max_units = max(unitsres, na.rm = TRUE),    # max units_res
             med_units = median(unitsres, na.rm = TRUE)) # median units_res
 
-bf_noflaw10 %>%
+bf_noflaw12 %>%
   st_drop_geometry() %>%
   mutate(anyres = ifelse(!is.na(unitsres) & unitsres > 0, 1, 0)) %>%
   group_by(residential, r_bldgtype) %>%
@@ -670,11 +701,11 @@ st_write(bf_cluster, "dat/suitability index/nyc_suitability_index.shp", delete_d
 ## suitability_index_hotspot.shp
 
 # export underlying data as .csv
-bf_csv <- bf_noflaw10 %>%
+bf_csv <- bf_noflaw12 %>%
   st_drop_geometry() %>%
   select(bin, address,
          # include variables underlying the flag values
-         heightroof, zonedist1, ratio_residfar, histdist, ElcPrd_MWh, ownername, zipcode,
+         heightroof, shape_area, zonedist1, ratio_residfar, histdist, ElcPrd_MWh, ownername, zipcode,
          bct2020, ends_with("_name"), ends_with("_add"), owner_cat, r_bldgtype, residential) %>%
   left_join(st_drop_geometry(bf_index), by = "bin")
 
