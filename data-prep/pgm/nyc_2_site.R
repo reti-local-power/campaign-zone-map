@@ -554,6 +554,7 @@ bf_cluster <- bf_index %>%
   rowwise() %>%
   mutate(near_reti = replace_na(near_reti, 0),
          near_reti2 = near_reti * 2, #create 2-point flag to check later
+         clst_exp = exp(index + near_reti + area_cat), # scores as exponential
          cluster = index + near_reti + area_cat, # add bldg area categories in
          cluster2 = index + near_reti + area_cat # add bldg area categories in
          ) %>%
