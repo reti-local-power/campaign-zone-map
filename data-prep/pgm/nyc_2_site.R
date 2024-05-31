@@ -556,7 +556,8 @@ bf_cluster <- bf_index %>%
          near_reti2 = near_reti * 2, #create 2-point flag to check later
          cluster = index + near_reti + area_cat, # add bldg area categories in
          cluster2 = index + near_reti + area_cat # add bldg area categories in
-         )
+         ) %>%
+  st_make_valid() # repair invalid geometry
 
 bf_cluster %>%
   st_drop_geometry() %>%
@@ -570,6 +571,9 @@ bf_cluster %>%
 #   tm_fill("area_cat")
 
 # the cluster variable is what should be used in QGIS clustering method
+
+# check that all building geometry is now valid (s/b all TRUE)
+table(st_is_valid(bf_cluster))
 
 
 # 5. Create descriptive vars from PLUTO & HPD ---------------------------------
