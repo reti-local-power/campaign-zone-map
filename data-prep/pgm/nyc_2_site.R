@@ -555,15 +555,22 @@ bf_cluster <- bf_index %>%
   mutate(near_reti = replace_na(near_reti, 0),
          near_reti2 = near_reti * 2, #create 2-point flag to check later
          clst_exp = exp(index + near_reti + area_cat), # scores as exponential
+         clst_exp2 = exp(index + near_reti2 + area_cat), # scores as exponential
          cluster = index + near_reti + area_cat, # add bldg area categories in
-         cluster2 = index + near_reti + area_cat # add bldg area categories in
+         cluster2 = index + near_reti2 + area_cat # add bldg area categories in
          ) %>%
   st_make_valid() # repair invalid geometry
 
 bf_cluster %>%
   st_drop_geometry() %>%
-  count(cluster, index, near_reti) %>%
+  count(near_reti2, area_cat, index, clst_exp2) %>%
+  arrange(desc(near_reti2)) %>%
   print(n=100)
+
+# bf_cluster %>%
+#   st_drop_geometry() %>%
+#   count(cluster, index, near_reti) %>%
+#   print(n=100)
 
 # tm_shape(bf_cluster) +
 #   tm_fill("near_reti")
