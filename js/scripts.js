@@ -51,17 +51,17 @@ map.on('load', () => {
   // )
 
   //// Add geojson layers to the map ------------------------------------------
-  // Add a data source containing GeoJSON data (BK hole layer).
-  map.addSource('bk-hole', {
+  // Add a data source containing GeoJSON data (NYC hole layer).
+  map.addSource('nyc-hole', {
     'type': 'geojson',
-    'data': 'data-prep/dat/for-web-map/bkblur.geojson'
+    'data': 'data-prep/dat/for-web-map/nycblur.geojson'
   });
 
   // Add a new layer to visualize campaign zone areas (fill)
   map.addLayer({
-    'id': 'bk-hole-fill',
+    'id': 'nyc-hole-fill',
     'type': 'fill',
-    'source': 'bk-hole', // reference the data source read in above
+    'source': 'nyc-hole', // reference the data source read in above
     'layout': {},
     'paint': {
       'fill-color': '#ccc',
@@ -72,7 +72,7 @@ map.on('load', () => {
   // Add a data source containing GeoJSON data (subscriber DAC maps).
   map.addSource('subscriber', {
     'type': 'geojson',
-    'data': 'data-prep/dat/for-web-map/subscriber.geojson'
+    'data': 'data-prep/dat/for-web-map/subscriber_nyc.geojson'
   });
 
   // Add a new layer to visualize campaign zone areas (fill)
@@ -93,7 +93,7 @@ map.on('load', () => {
   // Add a data source containing GeoJSON data (building info).
   map.addSource('bldg', {
     'type': 'geojson',
-    'data': 'data-prep/dat/for-web-map/bldg.geojson',
+    'data': 'data-prep/dat/for-web-map/nyc_bldg.geojson',
     'generateId': true // this will add an id to each feature, this is necessary if we want to use featureState (see below)
   });
 
@@ -154,7 +154,7 @@ map.on('load', () => {
  // Add a data source containing GeoJSON data (existing RETI community solar projects).
  map.addSource('reti', {
   'type': 'geojson',
-  'data': 'data-prep/dat/for-web-map/reti.geojson',
+  'data': 'data-prep/dat/for-web-map/nyc_reti.geojson',
   'generateId': true // this will add an id to each feature, this is necessary if we want to use featureState (see below)
 });
 
@@ -208,7 +208,7 @@ map.on('load', () => {
   // Add a data source containing GeoJSON data (campaign zone).
   map.addSource('cz', {
     'type': 'geojson',
-    'data': 'data-prep/dat/for-web-map/cz.geojson',
+    'data': 'data-prep/dat/for-web-map/nyc_cz.geojson',
     'generateId': true // this will add an id to each feature, this is necessary if we want to use featureState (see below)
   });
 
@@ -268,7 +268,7 @@ map.on('load', () => {
   // Add a data source containing GeoJSON data (industrial business zones).
   map.addSource('ibz', {
     'type': 'geojson',
-    'data': 'data-prep/dat/for-web-map/ibz.geojson',
+    'data': 'data-prep/dat/for-web-map/nyc_ibz.geojson',
     'generateId': true // this will add an id to each feature, this is necessary if we want to use featureState (see below)
   });
 
@@ -309,7 +309,7 @@ map.on('load', () => {
   // Add a data source containing GeoJSON data (business improvement districts).
   map.addSource('bid', {
     'type': 'geojson',
-    'data': 'data-prep/dat/for-web-map/bid.geojson',
+    'data': 'data-prep/dat/for-web-map/nyc_bid.geojson',
     'generateId': true // this will add an id to each feature, this is necessary if we want to use featureState (see below)
   });
 
@@ -351,7 +351,7 @@ map.on('load', () => {
   // Add a data source containing GeoJSON data (Community Districts).
   map.addSource('cd', {
     'type': 'geojson',
-    'data': 'data-prep/dat/for-web-map/cd.geojson',
+    'data': 'data-prep/dat/for-web-map/nyc_cd.geojson',
     'generateId': true // this will add an id to each feature, this is necessary if we want to use featureState (see below)
   });
 
@@ -393,7 +393,7 @@ map.on('load', () => {
   // Add a data source containing GeoJSON data (Community Districts).
   map.addSource('council', {
     'type': 'geojson',
-    'data': 'data-prep/dat/for-web-map/council.geojson',
+    'data': 'data-prep/dat/for-web-map/nyc_council.geojson',
     'generateId': true // this will add an id to each feature, this is necessary if we want to use featureState (see below)
   });
 
@@ -571,6 +571,7 @@ map.on('load', () => {
       var n = e.features[0].properties.n
       var elcprd = numeral(parseInt(e.features[0].properties.avg_energy_m_wh)).format('0,0')
       var score = numeral(e.features[0].properties.avg_suitability).format('0.0[0]')
+      var size = numeral(e.features[0].properties.area).format('0.0[0]')
 
       // create HTML table describing the selected campaign zone
       const tableHTML = `
@@ -592,6 +593,10 @@ map.on('load', () => {
                 <tr>
                     <td style="width: 60%; border-bottom: 1px solid #292929; padding: 2px; font-size: smaller;"><b>Average suitability score:</b></td>
                     <td style="width: 40%; border-bottom: 1px solid #292929; padding: 2px; font-size: smaller;">${score} out of 14</td>
+                </tr>
+                <tr>
+                    <td style="width: 60%; border-bottom: 1px solid #292929; padding: 2px; font-size: smaller;"><b>Area:</b></td>
+                    <td style="width: 40%; border-bottom: 1px solid #292929; padding: 2px; font-size: smaller;">${size} square miles</td>
                 </tr>
             </table>
         </div>
