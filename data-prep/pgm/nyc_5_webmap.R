@@ -106,7 +106,6 @@ reti2 <- reti %>%
 
 ibz2 <- ibz %>%
   clean_names() %>%
-  filter(boroname == "Brooklyn") %>%
   mutate(ibz_name = paste0(name, " IBZ")) %>%
   select(ibz_name, geometry) %>%
   #transform to WSG 84 lat/lon information
@@ -117,10 +116,23 @@ ibz2 <- ibz %>%
 #   tm_fill("grey30")
 
 bid2 <- bid %>%
-  filter(f_all_bi_1 == "Brooklyn") %>%
   select(bid_name = f_all_bi_2, geometry)
 # note that this layer is already in the right CRS so no need to transform
 
+# community districts need to simplify their geometry, the file is really large
+cd2 <- cd %>%
+  ms_simplify(keep = 0.1, keep_shapes = FALSE)
+
+# tm_shape(cd2) + 
+#   tm_borders()
+
+
+# council districts need to simplify their geometry, the file is too large
+council2 <- council %>%
+  ms_simplify(keep = 0.05, keep_shapes = FALSE)
+ 
+# tm_shape(council2) + 
+#   tm_borders()
 
 # 3. Save in geojson format for web mapping -----------------------------------
 
@@ -140,11 +152,11 @@ st_write(ibz2, "dat/for-web-map/nyc_ibz.geojson", delete_dsn = T)
 st_write(bid2, "dat/for-web-map/nyc_bid.geojson", delete_dsn = T)
 
 # cd file
-cd %>% 
+cd2 %>% 
   select(-starts_with("shape_")) %>%
   st_write("dat/for-web-map/nyc_cd.geojson", delete_dsn = T)
 
 # council file
-council %>%
+council2 %>%
   select(-starts_with("shape_")) %>%
   st_write("dat/for-web-map/nyc_council.geojson", delete_dsn = T)
