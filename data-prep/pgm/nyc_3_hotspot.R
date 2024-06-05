@@ -1,12 +1,10 @@
-### City-wide Analysis
+### Citywide Analysis
 
 ### 3. Hotspot Analysis
 
-# The PURPOSE of this .R script is to conduct a hotspot analysis using the 
-# Getis Ord Gi method and the sfdep package.
-# This replaces the QGIS hotspot method used for the borough analysis, as
-# that method overemphasized proximity and undercounted large buildings with
-# higher suitability scores
+# The PURPOSE of this .R script is to interpret the hotspot analysis done in 
+# QGIS, creating a flag variable on individual buildings in the suitability 
+# index file.
 
 # The output data from this file is read into the fourth and final program
 # for descriptive statistical analysis and final formatting
@@ -28,9 +26,9 @@ tmap_options(check.and.fix = TRUE)
 
 # 1. Read in files ------------------------------------------------------------
 
-index <- st_read("dat/suitability index/boro_suitability_index.shp")
+index <- st_read("dat/suitability index/nyc_suitability_index.shp")
 
-hotspots <- st_read("dat/boro_Heatmap/campaign_zones_RETIsites.geojson")
+hotspots <- st_read("dat/nyc_Heatmap/campaign_zones_nyc_exp.geojson")
 
 
 # 2. Create hotspot flag var --------------------------------------------------
@@ -73,6 +71,6 @@ names(index_hp) %>%
   arrange(desc(nchar))
 
 # buildings flagged by hotspots (now using campaign zones)
-st_write(index_hp, "dat/suitability index/boro_suitability_index_hotspot.shp", delete_dsn = T)
+st_write(index_hp, "dat/suitability index/nyc_suitability_index_hotspot.shp", delete_dsn = T)
 
 
