@@ -103,6 +103,7 @@ tm_shape(bldg2 %>% filter(zipcode == randomzip)) +
 cz2 <- cz %>%
   select(cz_num = fid, geometry) %>%
   left_join(cz_data, by = "cz_num") %>%
+  mutate(area = set_units(st_area(.), "mi^2")) %>%
   #transform to WSG 84 lat/lon information
   st_transform(st_crs(4326)) %>%
   clean_names()
