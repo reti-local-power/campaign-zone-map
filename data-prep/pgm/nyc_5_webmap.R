@@ -83,15 +83,21 @@ bldg_centroid <- bldg2 %>%
 
 # use simplifying algorithm to keep the building file size at a reasonable level
 bldg3 <- bldg2 %>%
-  ms_simplify(keep = 0.5, keep_shapes = FALSE) %>%
+  ms_simplify(keep = 0.3, keep_shapes = FALSE) %>%
   full_join(bldg_centroid, by = "bin")
 
 ## compare shapes, they should look mostly the same
-# tm_shape(bldg2) + 
-#   tm_borders('red') + 
-#   tm_shape(bldg3) + 
-#   tm_fill('lightblue') + 
-#   tm_borders('blue')
+randomzip <- bldg3 %>% 
+  st_drop_geometry() %>%
+  filter(!is.na(zipcode)) %>%
+  slice_sample(n = 1) %>% 
+  pull(zipcode)
+
+tm_shape(bldg2 %>% filter(zipcode == randomzip)) +
+  tm_borders('red') +
+  tm_shape(bldg3 %>% filter(zipcode == randomzip)) +
+  tm_fill('lightblue') +
+  tm_borders('blue')
 
 
 cz2 <- cz %>%
