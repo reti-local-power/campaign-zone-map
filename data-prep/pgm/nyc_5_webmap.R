@@ -28,7 +28,7 @@ bldg <- st_read("dat/suitability index/nyc_analysis.shp")
 cz <- st_read("dat/nyc_Heatmap/campaign_zones_nyc_exp.geojson")
 
 # RETI projects (currently called NYCHA b/c projects are at NYCHA campuses)
-reti <- st_read("dat/reti/reti_solar_projects_bf.geojson")
+reti <- st_read("dat/reti_projects/reti_solar_projects_bf.geojson")
 
 cz_data <- read_csv("nyc cz summary statistics.csv") %>%
   filter(!cz_num %in% c("All", "Not in a CZ")) %>%
@@ -126,26 +126,26 @@ bid2 <- bid %>%
 # 3. Save in geojson format for web mapping -----------------------------------
 
 # building information file
-st_write(bldg3, "dat/for-web-map/bldg.geojson", delete_dsn = T)
+st_write(bldg3, "dat/for-web-map/nyc_bldg.geojson", delete_dsn = T)
 
 # campaign zone information file
-st_write(cz2, "dat/for-web-map/cz.geojson", delete_dsn = T)
+st_write(cz2, "dat/for-web-map/nyc_cz.geojson", delete_dsn = T)
 
 # RETI sites 
-st_write(reti2, "dat/for-web-map/reti.geojson", delete_dsn = T)
+st_write(reti2, "dat/for-web-map/nyc_reti.geojson", delete_dsn = T)
 
 # ibz file
-st_write(ibz2, "dat/for-web-map/ibz.geojson", delete_dsn = T)
+st_write(ibz2, "dat/for-web-map/nyc_ibz.geojson", delete_dsn = T)
 
 # bid file
-st_write(bid2, "dat/for-web-map/bid.geojson", delete_dsn = T)
+st_write(bid2, "dat/for-web-map/nyc_bid.geojson", delete_dsn = T)
 
 # cd file
 cd %>% 
   select(-starts_with("shape_")) %>%
-  st_write("dat/for-web-map/cd.geojson", delete_dsn = T)
+  st_write("dat/for-web-map/nyc_cd.geojson", delete_dsn = T)
 
 # council file
 council %>%
   select(-starts_with("shape_")) %>%
-  st_write("dat/for-web-map/council.geojson", delete_dsn = T)
+  st_write("dat/for-web-map/nyc_council.geojson", delete_dsn = T)
