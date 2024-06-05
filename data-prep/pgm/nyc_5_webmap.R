@@ -48,7 +48,6 @@ ibz <- st_read(ibz_temp2)
 # bid
 bid <- st_read("https://data.cityofnewyork.us/resource/7jdm-inj8.geojson")
 
-
 # Community Districts
 cd <- st_read("https://data.cityofnewyork.us/resource/jp9i-3b7y.geojson") 
 
