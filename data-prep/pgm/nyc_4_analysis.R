@@ -283,45 +283,7 @@ joined2 <- joined %>%
   st_join(ibz_short, join = st_intersects) %>%
   st_join(bid_short, join = st_intersects) %>%
   st_join(cd_short,  join = st_intersects) %>%
-  st_join(cc_short,  join = st_intersects) %>%
-  # cz_num is not descriptive, give campaign zones descriptive names
-  mutate(row_num = row_number(), #create row-number for URL purposes
-         campzone = case_when(
-           cz_num == 1 ~ "Eastchester",
-           cz_num == 2 ~ "Bay Plaza - Co-op City",
-           cz_num == 3 ~ "Inwood",
-           cz_num == 4 ~ "Claremont Park East",
-           cz_num == 5 ~ "Crotona Park East",
-           cz_num == 6 ~ "Highbridge - Macombs Dam",
-           cz_num == 7 ~ "Soundview",
-           cz_num == 8 ~ "Westchester Creek",
-           cz_num == 9 ~ "Mott Haven",
-           cz_num == 10 ~ "Harlem",
-           cz_num == 11 ~ "Port Morris - Hunts Point",
-           cz_num == 12 ~ "Rikers Island",
-           cz_num == 13 ~ "College Point",
-           cz_num == 14 ~ "Colleg Point - Whitestone",
-           cz_num == 15 ~ "College Point South",
-           cz_num == 16 ~ "Astoria",
-           cz_num == 17 ~ "East Elmhurst",
-           cz_num == 18 ~ "Flushing",
-           cz_num == 19 ~ "Ridgewood",
-           cz_num == 20 ~ "Jamaica/St. Albans",
-           cz_num == 21 ~ "Navy Yard - North Brooklyn IBZ - Sunnywide",
-           cz_num == 23 ~ "Red Hook - Governor's Island",
-           cz_num == 24 ~ "Ocean Hill - Brownsville",
-           cz_num == 25 ~ "JFK 1",
-           cz_num == 26 ~ "JFK 2",
-           cz_num == 27 ~ "JFK 3",
-           cz_num == 28 ~ "East New York - Flatlands IBZ",
-           cz_num == 29 ~ "Canarsie - Flatlands IBZ",
-           cz_num == 30 ~ "JFK 4",
-           cz_num == 31 ~ "Gowanus - Sunset Park",
-           cz_num == 32 ~ "Port Richmond - West Brighton",
-           cz_num == 33 ~ "Mariners Harbor - Portside",
-           cz_num == 34 ~ "Bath Beach",
-           cz_num == 35 ~ "Gravesend",
-  ))
+  st_join(cc_short,  join = st_intersects) 
 
 # # check that names and numbers properly reflect the neighborhood/zones covered
 # tm_shape(joined2) +
