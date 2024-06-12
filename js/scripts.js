@@ -603,7 +603,7 @@ map.on('load', () => {
 
         <div style="font-size: smaller;">
           <a
-        href="https://docs.google.com/spreadsheets/d/1y22m3agXjRcUbxfUBImUrFwhE-AeWXXA/edit?usp=sharing&ouid=113455286937839782442&rtpof=true&sd=true"
+        href="https://docs.google.com/spreadsheets/d/10eHE-DPKJn3G7IbyTc0sa6y7S_avgrdD-oMSn5gYPnA/edit?usp=sharing"
         target="_blank">More info about campaign zones</a>
         </div>
         `;
@@ -713,7 +713,7 @@ map.on('load', () => {
         
         <div style="font-size: smaller;">
         <a
-        href="https://docs.google.com/spreadsheets/d/1sKxq-GygRArKFFbTleWZxuNo5V-MnsqK/edit?usp=sharing&ouid=113455286937839782442&rtpof=true&sd=true"
+        href="https://docs.google.com/spreadsheets/d/1UUEwdrUTvvKef8wtb4JhdahjQBTqjTpw/edit?usp=sharing&ouid=113455286937839782442&rtpof=true&sd=true"
         target="_blank">More info about suitable community solar buildings</a>
         </div>
         
