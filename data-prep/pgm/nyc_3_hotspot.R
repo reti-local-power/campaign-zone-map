@@ -40,26 +40,61 @@ st_crs(index) == st_crs(hotspots)
 hotspots2 <- hotspots %>%
   rename(cz_num = fid)
 
-tm_shape(hotspots) + 
-  tm_fill() + 
-  tm_shape(hotspots2) + 
+# map the hotspots to identify names for each one
+tm_shape(hotspots2) + 
   tm_polygons()
 
+# create campzone, a string naming each campaign zone
 index_hp <- index %>%
   st_join(hotspots2, join = st_intersects) %>%
-  mutate(in_cz = replace_na(DN, 0))
+  mutate(in_cz = replace_na(DN, 0),
+         campzone = case_when(
+           cz_num == 1 ~ "Eastchester",
+           cz_num == 2 ~ "Bay Plaza - Co-op City",
+           cz_num == 3 ~ "Inwood",
+           cz_num == 4 ~ "Claremont Park East",
+           cz_num == 5 ~ "Crotona Park East",
+           cz_num == 6 ~ "Highbridge - Macombs Dam",
+           cz_num == 7 ~ "Soundview",
+           cz_num == 8 ~ "Westchester Creek",
+           cz_num == 9 ~ "Mott Haven",
+           cz_num == 10 ~ "Harlem",
+           cz_num == 11 ~ "Port Morris - Hunts Point",
+           cz_num == 12 ~ "Rikers Island",
+           cz_num == 13 ~ "College Point",
+           cz_num == 14 ~ "Colleg Point - Whitestone",
+           cz_num == 15 ~ "College Point South",
+           cz_num == 16 ~ "Astoria",
+           cz_num == 17 ~ "East Elmhurst",
+           cz_num == 18 ~ "Flushing",
+           cz_num == 19 ~ "Ridgewood",
+           cz_num == 20 ~ "Jamaica/St. Albans",
+           cz_num == 21 ~ "Navy Yard - North Brooklyn IBZ - Sunnywide",
+           cz_num == 23 ~ "Red Hook - Governor's Island",
+           cz_num == 24 ~ "Ocean Hill - Brownsville",
+           cz_num == 25 ~ "JFK 1",
+           cz_num == 26 ~ "JFK 2",
+           cz_num == 27 ~ "JFK 3",
+           cz_num == 28 ~ "East New York - Flatlands IBZ",
+           cz_num == 29 ~ "Canarsie - Flatlands IBZ",
+           cz_num == 30 ~ "JFK 4",
+           cz_num == 31 ~ "Gowanus - Sunset Park",
+           cz_num == 32 ~ "Port Richmond - West Brighton",
+           cz_num == 33 ~ "Mariners Harbor - Portside",
+           cz_num == 34 ~ "Bath Beach",
+           cz_num == 35 ~ "Gravesend",)
+  )
 
 # check frequency of new variable (should be 1 only when cz_num is not NA)
 index_hp %>%
   st_drop_geometry() %>%
-  count(cz_num, in_cz)
+  count(cz_num, campzone, in_cz)
 
+# map the campzone variable, the name in the legend should match up roughly with the neighborhood name
+tmap_options(max.categories = 40)
 
-# # quick map look - are the hotspots flagging areas identified by the blobs?
-# 
-# pal <- c(brewer.pal(10, "Set3"), brewer.pal(3, "Set1"))
-# tm_shape(index_hp) + 
-#   tm_fill("cz_num", palette = pal, style = "cat") 
+tm_shape(index_hp) + 
+  tm_fill("campzone")
 
 
 # 3. Save permanent file ------------------------------------------------------

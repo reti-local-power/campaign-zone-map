@@ -1,4 +1,4 @@
-cz_num,campzone,n,Low roof building,In IBZ/low-rise manufacturing zone,Low-rise residential zone,In historic district,Owner owns other nearby buildings,In federal disadvantaged community,LL97 covered building,High solar radiation pootential,In state disadvantaged community,avg_suitability,avg_energy_MWh,total_energy_MWh
+cz_num,cz_name_all,n,Low roof building,In IBZ/low-rise manufacturing zone,Low-rise residential zone,In historic district,Owner owns other nearby buildings,In federal disadvantaged community,LL97 covered building,High solar radiation pootential,In state disadvantaged community,avg_suitability,avg_energy_MWh,total_energy_MWh
 1,Eastchester,20,0.725,0.2,0.6,NA,0.5,0.8,0.65,0.275,1,7.45,267.200047242035,5344.0009448407
 10,Harlem,56,0.375,0.10714285714285714,NA,NA,0.4375,0.7142857142857143,0.8392857142857143,0.23214285714285715,0.8571428571428571,5.910714285714286,208.48342416660714,11675.07175333
 11,Port Morris - Hunts Point,265,0.8283018867924529,0.9509433962264151,0.03773584905660377,NA,0.19622641509433963,1,0.3433962264150943,0.33962264150943394,1,7.083018867924529,416.18685947490115,110289.5177608488

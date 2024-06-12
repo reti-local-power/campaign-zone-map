@@ -66,7 +66,7 @@ compare_df_cols(bf, bf_shp) %>%
 
 # clean up the hotspot outputted variables to keep only the relevant ones
 bf_shp2 <- bf_shp %>%
-  select(bin, near_reti, cz_num, in_cz)
+  select(bin, near_reti, cz_num, campzone, in_cz)
 
 joined <- bf %>%
   mutate(bin = as.character(bin)) %>%
@@ -172,7 +172,7 @@ f_freq_all <- joined %>%
 
 f_freq_cz <- joined %>%
   st_drop_geometry() %>%
-  group_by(cz_num = as.character(cz_num)) %>%
+  group_by(cz_num = as.character(cz_num), campzone) %>%
   select(starts_with("f_")) %>%
   summarise(across(starts_with("f_"), ~mean(.x, na.rm = T)/max(.x, na.rm = T)), n = n()) %>%
   pivot_longer(cols = starts_with("f_")) %>%
@@ -188,19 +188,24 @@ f_freq <- bind_rows(f_freq_cz, f_freq_all) %>%
     name == "f_mulbldg" ~ "Owner owns other nearby buildings",
     name == "f_hd" ~ "In historic district",
     name == "f_disad" ~ "In federal disadvantaged community",
-    name == "f_nys_dac" ~ "In state disadvantaged community"
-  )) 
+    name == "f_nys_dac" ~ "In state disadvantaged community"),
+        cz_name_all = case_when(
+    cz_num == "All" ~ "All",
+    cz_num == "Not in a CZ" ~ "Not in a CZ",
+    TRUE ~ campzone
+        )
+  ) 
 
 f_freq %>%
   ggplot(aes(y = name_long, x = value, fill = name_long)) + 
   geom_col(position = 'dodge') +
-  facet_wrap(vars(cz_num)) + 
+  facet_wrap(vars(cz_name_all)) + 
   labs(
     title = "Frequency of flag variables in each campaign zone",
     y = NULL,
     x = "Percent of buildings flagged for each variable"
   ) +
-  # scale_fill_brewer(type = "qual") +
+  scale_x_continuous(labels = scales::percent) + 
   theme_minimal() + 
   theme(legend.position = "none")
   
@@ -209,95 +214,12 @@ ggsave("dat/figures/nyc/flag comparison campaign zones.png", width = 13, height 
 
 # 4. Give campaign zones a descriptive name -----------------------------------
 
-#map of campaign zones with number in hover box to help set this up
-hotspots %>%
-  filter(fid == 22) %>%
-tm_shape() + 
-  tm_borders() + 
-  tm_fill("fid") 
-
-# "1" ~ "Eastchester",
-# "2" ~ "Bay Plaza - Co-op City",
-# "3" ~ "Inwood",
-# "4" ~ "Claremont Park East",
-# "5" ~ "Crotona Park East",
-# "6" ~ "Highbridge - Macombs Dam",
-# "7" ~ "Soundview",
-# "8" ~ "Westchester Creek",
-# "9" ~ "Mott Haven",
-# "10" ~ "Harlem",
-# "11" ~ "Port Morris - Hunts Point",
-# "12" ~ "Rikers Island",
-# "13" ~ "College Point",
-# "14" ~ "Colleg Point - Whitestone",
-# "15" ~ "College Point South",
-# "16" ~ "Astoria",
-# "17" ~ "East Elmhurst",
-# "18" ~ "Flushing",
-# "19" ~ "Ridgewood",
-# "20" ~ "Jamaica/St. Albans",
-# "21" ~ "Navy Yard - North Brooklyn IBZ - Sunnywide",
-# "23" ~ "Red Hook - Governor's Island",
-# "24" ~ "Ocean Hill - Brownsville",
-# "25" ~ "JFK 1",
-# "26" ~ "JFK 2",
-# "27" ~ "JFK 3",
-# "28" ~ "East New York - Flatlands IBZ",
-# "29" ~ "Canarsie - Flatlands IBZ",
-# "30" ~ "JFK 4",
-# "31" ~ "Gowanus - Sunset Park",
-# "32" ~ "Port Richmond - West Brighton",
-# "33" ~ "Mariners Harbor - Portside",
-# "34" ~ "Bath Beach",
-# "35" ~ "Gravesend",
-
 # create a summary stat table for reviewing campaign zones
-
-
-
 cz_sum <- f_freq %>%
-  pivot_wider(id_cols = c(cz_num, n),
+  pivot_wider(id_cols = c(cz_num, cz_name_all, n),
               names_from = name_long, 
               values_from = value) %>%
-  full_join(cz_elcprd, by = "cz_num") %>%
-  mutate(campzone = case_when(
-    cz_num == "1" ~ "Eastchester",
-    cz_num == "2" ~ "Bay Plaza - Co-op City",
-    cz_num == "3" ~ "Inwood",
-    cz_num == "4" ~ "Claremont Park East",
-    cz_num == "5" ~ "Crotona Park East",
-    cz_num == "6" ~ "Highbridge - Macombs Dam",
-    cz_num == "7" ~ "Soundview",
-    cz_num == "8" ~ "Westchester Creek",
-    cz_num == "9" ~ "Mott Haven",
-    cz_num == "10" ~ "Harlem",
-    cz_num == "11" ~ "Port Morris - Hunts Point",
-    cz_num == "12" ~ "Rikers Island",
-    cz_num == "13" ~ "College Point",
-    cz_num == "14" ~ "Colleg Point - Whitestone",
-    cz_num == "15" ~ "College Point South",
-    cz_num == "16" ~ "Astoria",
-    cz_num == "17" ~ "East Elmhurst",
-    cz_num == "18" ~ "Flushing",
-    cz_num == "19" ~ "Ridgewood",
-    cz_num == "20" ~ "Jamaica/St. Albans",
-    cz_num == "21" ~ "Navy Yard - North Brooklyn IBZ - Sunnywide",
-    cz_num == "23" ~ "Red Hook - Governor's Island",
-    cz_num == "24" ~ "Ocean Hill - Brownsville",
-    cz_num == "25" ~ "JFK 1",
-    cz_num == "26" ~ "JFK 2",
-    cz_num == "27" ~ "JFK 3",
-    cz_num == "28" ~ "East New York - Flatlands IBZ",
-    cz_num == "29" ~ "Canarsie - Flatlands IBZ",
-    cz_num == "30" ~ "JFK 4",
-    cz_num == "31" ~ "Gowanus - Sunset Park",
-    cz_num == "32" ~ "Port Richmond - West Brighton",
-    cz_num == "33" ~ "Mariners Harbor - Portside",
-    cz_num == "34" ~ "Bath Beach",
-    cz_num == "35" ~ "Gravesend",
-    TRUE           ~ cz_num
-  )) %>%
-  select(cz_num, campzone, everything())
+  full_join(cz_elcprd, by = "cz_num")
 
 
 joined %>%
