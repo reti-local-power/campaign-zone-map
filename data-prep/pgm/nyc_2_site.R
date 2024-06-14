@@ -555,9 +555,7 @@ bf_cluster <- bf_index %>%
   mutate(near_reti = replace_na(near_reti, 0),
          near_reti2 = near_reti * 2, #create 2-point flag to check later
          clst_exp = exp(index + near_reti + area_cat), # scores as exponential
-         clst_exp2 = exp(index + near_reti2 + area_cat), # scores as exponential
-         cluster = index + near_reti + area_cat, # add bldg area categories in
-         cluster2 = index + near_reti2 + area_cat # add bldg area categories in
+         clst_exp2 = exp(index + near_reti2 + area_cat), # scores as exponential (not used)
          ) %>%
   st_make_valid() # repair invalid geometry
 
@@ -584,7 +582,7 @@ bf_cluster %>%
 table(st_is_valid(bf_cluster))
 
 
-# 5. Create descriptive vars from PLUTO & HPD ---------------------------------
+# 6. Create descriptive vars from PLUTO & HPD ---------------------------------
 
 # clean up hpd contact information for registered buildings
 ## start by subsetting the data based on BINs in the bldg footprint data
@@ -697,7 +695,7 @@ bf_noflaw12 %>%
   summarise(n = n(),
             nres = sum(anyres))
 
-# 6. Save permanent files -----------------------------------------------------
+# 7. Save permanent files -----------------------------------------------------
 
 # check: var names must be no more than 10 characters
 names(bf_cluster) %>%
