@@ -22,4 +22,4 @@ nycha_bbl_all <- read_csv("https://raw.githubusercontent.com/JustFixNYC/nycha-sc
 
 # 2. Save permanent file ------------------------------------------------------
 
-write_csv("")
+write_csv(nycha_bbl_all, "dat/reti_projects/nycha_bbl_all.csv")
